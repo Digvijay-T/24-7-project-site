@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>24/7 PROJECT — Integrationen & Anwendungsfälle</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0D0D0F;--s1:#141416;--s2:#1C1C1F;--s3:#242427;
+  --b1:rgba(255,255,255,0.06);--b2:rgba(255,255,255,0.10);--b3:rgba(255,255,255,0.16);
+  --white:#F5F5F6;--muted:#8A8A96;--dim:#5A5A66;
+  --green:#3ECF8E;--gd:rgba(62,207,142,0.10);
+  --orange:#F97316;--od:rgba(249,115,22,0.10);
+  --red:#EF4444;--amber:#F59E0B;
+  --blue:#60A5FA;--bd:rgba(96,165,250,0.10);
+  --purple:#C084FC;--pd:rgba(192,132,252,0.10);
+  --mono:'JetBrains Mono',monospace;--sans:'DM Sans',sans-serif;--r:10px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:var(--bg);color:var(--white);font-family:var(--sans);min-height:100vh;overflow-x:hidden}
+::selection{background:var(--green);color:#000}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--s3);border-radius:2px}
+
+.shell{max-width:1100px;margin:0 auto;padding:0 20px 70px}
+
+/* TOPBAR — identical to Pascal's */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 0 22px;border-bottom:1px solid var(--b1);margin-bottom:16px;gap:12px;flex-wrap:wrap}
+.tb-left{display:flex;align-items:center;gap:10px}
+.brand-icon{width:28px;height:28px;background:var(--green);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.brand-icon span{font-family:var(--mono);font-size:8px;font-weight:700;color:#000}
+.brand-name{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:1.5px}
+.tb-right{display:flex;align-items:center;gap:10px}
+.page-subtitle{font-size:11px;color:var(--muted);line-height:1.4}
+.lang-btn{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:1px;padding:4px 10px;border:1px solid var(--green);background:var(--green);color:#000;cursor:pointer;border-radius:4px;transition:all .2s}
+.lang-btn:hover{background:transparent;color:var(--green)}
+
+/* CARD */
+.card{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);margin-bottom:10px}
+.ch{padding:14px 18px;border-bottom:1px solid var(--b1);display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.ct{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--dim)}
+
+/* TABS */
+.tabs{display:flex;border-bottom:1px solid var(--b1);margin-bottom:10px;overflow-x:auto}
+.tab-btn{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:12px 18px;background:transparent;border:none;color:var(--dim);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .2s;white-space:nowrap;flex-shrink:0}
+.tab-btn.active{color:var(--green);border-bottom-color:var(--green)}
+.tab-btn:hover:not(.active){color:var(--muted)}
+.tab-panel{display:none}.tab-panel.active{display:block}
+
+/* USE CASE NAV — same as Pascal's */
+.persona-row{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px;align-items:center}
+.persona-label{font-family:var(--mono);font-size:8px;color:var(--dim);letter-spacing:1px;text-transform:uppercase;padding-top:6px;flex-shrink:0;margin-right:4px}
+.persona-btn{font-family:var(--mono);font-size:10px;font-weight:700;padding:5px 13px;border-radius:5px;border:1px solid var(--b2);background:transparent;color:var(--muted);cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:5px;white-space:nowrap}
+.persona-btn:hover{border-color:var(--b3);color:var(--white)}
+.persona-btn.active-lg{color:#3ECF8E;background:rgba(62,207,142,0.08);border-color:rgba(62,207,142,0.3)}
+.persona-btn.active-hi{color:#60A5FA;background:rgba(96,165,250,0.08);border-color:rgba(96,165,250,0.3)}
+.persona-btn.active-se{color:#C084FC;background:rgba(192,132,252,0.08);border-color:rgba(192,132,252,0.3)}
+.dot-lg{width:6px;height:6px;border-radius:50%;background:#3ECF8E;flex-shrink:0}
+.dot-hi{width:6px;height:6px;border-radius:50%;background:#60A5FA;flex-shrink:0}
+.dot-se{width:6px;height:6px;border-radius:50%;background:#C084FC;flex-shrink:0}
+
+/* TIER MATRIX */
+.matrix-wrap{overflow-x:auto}
+.matrix{width:100%;border-collapse:collapse;min-width:640px}
+.matrix th{padding:0;text-align:left;vertical-align:bottom}
+.matrix td{padding:0;vertical-align:middle}
+.th-empty{width:240px;padding:14px 16px;font-family:var(--mono);font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim)}
+.th-tier{padding:14px 16px;text-align:center;border-left:1px solid var(--b1)}
+.th-tier-name{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:3px}
+.th-tier-price{font-family:var(--mono);font-size:18px;font-weight:700;line-height:1;margin-bottom:2px}
+.th-tier-sub{font-size:10px;color:var(--muted)}
+.th-tier-setup{font-family:var(--mono);font-size:9px;color:var(--amber);margin-top:3px}
+.cat-row td{padding:10px 16px 6px;font-family:var(--mono);font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);background:rgba(255,255,255,0.015);border-top:1px solid var(--b1)}
+.feat-row td{border-bottom:1px solid rgba(255,255,255,0.025)}
+.feat-row:last-child td{border-bottom:none}
+.feat-name{padding:9px 16px;font-size:12px;color:var(--muted);width:240px}
+.feat-name strong{color:var(--white);display:block;font-size:12px;font-weight:500;margin-bottom:1px}
+.feat-name span{font-size:10px;color:var(--dim)}
+.feat-cell{padding:9px 16px;text-align:center;border-left:1px solid var(--b1)}
+.check{width:18px;height:18px;border-radius:5px;display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:700}
+.ck-s{background:var(--gd);color:var(--green);border:1px solid rgba(62,207,142,0.2)}
+.ck-p{background:var(--bd);color:var(--blue);border:1px solid rgba(96,165,250,0.2)}
+.ck-e{background:var(--od);color:var(--orange);border:1px solid rgba(249,115,22,0.2)}
+.ck-no{background:rgba(255,255,255,0.03);color:var(--dim);border:1px solid var(--b1)}
+.new-tag{font-family:var(--mono);font-size:7px;font-weight:700;padding:1px 5px;border-radius:3px;margin-left:5px;vertical-align:middle}
+.new-p{background:var(--bd);color:var(--blue)}
+.new-e{background:var(--od);color:var(--orange)}
+
+/* KPI PANELS */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px}
+.kpi-card{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);padding:14px 16px}
+.kpi-val{font-family:var(--mono);font-size:22px;font-weight:700;line-height:1;margin-bottom:5px}
+.kpi-lbl{font-family:var(--mono);font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);margin-bottom:6px}
+.kpi-bar{height:3px;background:var(--s3);border-radius:2px;overflow:hidden}
+.kpi-fill{height:100%;border-radius:2px}
+
+.funnel-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.funnel-card{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);overflow:hidden}
+.funnel-hdr{padding:12px 16px;border-bottom:1px solid var(--b1)}
+.funnel-title{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:2px}
+.funnel-sub{font-size:11px;color:var(--muted)}
+.funnel-body{padding:14px 16px}
+.funnel-step{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;position:relative}
+.funnel-step:not(:last-child)::before{content:'';position:absolute;left:10px;top:22px;width:2px;height:calc(100% + 2px);background:var(--b1)}
+.step-num{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:9px;font-weight:700;flex-shrink:0;border:1px solid}
+.step-text{flex:1}
+.step-name{font-family:var(--mono);font-size:10px;font-weight:700;margin-bottom:2px}
+.step-sub{font-size:11px;color:var(--muted);line-height:1.4}
+.cost-table{width:100%;border-collapse:collapse;margin-bottom:10px}
+.cost-table th{padding:8px 14px;text-align:left;font-family:var(--mono);font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);border-bottom:1px solid var(--b1)}
+.cost-table td{padding:9px 14px;font-size:12px;border-bottom:1px solid rgba(255,255,255,0.03)}
+.cost-table tr:last-child td{border-bottom:none}
+.cost-table td:not(:first-child){font-family:var(--mono);font-size:11px;text-align:right}
+.cost-mono{font-family:var(--mono);font-size:11px}
+.cost-highlight{color:var(--green);font-weight:700}
+.cost-dim{color:var(--dim)}
+.cost-total td{border-top:1px solid var(--b2)!important;font-weight:700}
+
+/* ROI CARD */
+.roi-band{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+.roi-card{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);padding:16px;position:relative;overflow:hidden}
+.roi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.roi-card.starter-card::before{background:var(--green)}
+.roi-card.pro-card::before{background:var(--blue)}
+.roi-card.ent-card::before{background:var(--orange)}
+.roi-tier{font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;font-weight:700}
+.roi-price{font-family:var(--mono);font-size:20px;font-weight:700;line-height:1;margin-bottom:2px}
+.roi-price-sub{font-size:10px;color:var(--muted);margin-bottom:12px}
+.roi-stat{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:11px;color:var(--muted)}
+.roi-stat:last-child{border-bottom:none}
+.roi-stat-val{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--white)}
+.roi-highlight{color:var(--green)!important}
+
+/* BACK LINK */
+.back-link{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;color:var(--dim);text-decoration:none;letter-spacing:1px;transition:color .2s;margin-bottom:8px}
+.back-link:hover{color:var(--green)}
+
+@media(max-width:768px){
+  .kpi-grid{grid-template-columns:repeat(2,1fr)}
+  .funnel-grid,.roi-band{grid-template-columns:1fr}
+  .th-empty{width:140px}
+  .feat-name{width:140px}
+  .feat-name span{display:none}
+}
+@media(max-width:480px){
+  .kpi-grid{grid-template-columns:repeat(2,1fr)}
+  .th-tier-price{font-size:14px}
+}
+
+.fi-anim{opacity:0;animation:fadeIn .4s ease forwards}
+.fi-anim:nth-child(1){animation-delay:.03s}.fi-anim:nth-child(2){animation-delay:.08s}
+.fi-anim:nth-child(3){animation-delay:.13s}.fi-anim:nth-child(4){animation-delay:.18s}
+.fi-anim:nth-child(5){animation-delay:.23s}
+@keyframes fadeIn{to{opacity:1}}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<div class="topbar">
+  <div class="tb-left">
+    <div class="brand-icon"><span>24/7</span></div>
+    <span class="brand-name">24/7 PROJECT</span>
+  </div>
+  <div class="tb-right">
+    <span class="page-subtitle" id="subtitle">Integrationen & Anwendungsfälle</span>
+    <button class="lang-btn" onclick="toggleLang()" id="lang-btn">EN</button>
+  </div>
+</div>
+
+<a href="demo_interactive_nodes.html" class="back-link">← Workflow-Pipeline</a>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchTab('matrix',this)" id="tab-matrix" data-i18n="tab_matrix">Integrationsmatrix</button>
+  <button class="tab-btn" onclick="switchTab('usecases',this)" id="tab-usecases" data-i18n="tab_usecases">Anwendungsfälle & KPIs</button>
+  <button class="tab-btn" onclick="switchTab('costs',this)" id="tab-costs" data-i18n="tab_costs">Kosten & ROI</button>
+</div>
+
+<!-- ══ TAB 1: MATRIX ══════════════════════════════════════════════════ -->
+<div class="tab-panel active" id="panel-matrix">
+<div class="card fi-anim">
+<div class="ch"><span class="ct" data-i18n="matrix_title">INTEGRATIONSMATRIX</span><span style="font-family:var(--mono);font-size:9px;color:var(--dim)" data-i18n="matrix_sub">Starter · Professional · Enterprise</span></div>
+<div class="matrix-wrap">
+<table class="matrix">
+<thead>
+<tr>
+  <th class="th-empty" data-i18n="mat_feature">Feature</th>
+  <th class="th-tier" style="border-top:2px solid var(--green)">
+    <div class="th-tier-name" style="color:var(--green)">Starter</div>
+    <div class="th-tier-price">€699<span style="font-size:11px;color:var(--muted)">/Mo</span></div>
+    <div class="th-tier-sub" data-i18n="mat_starter_sub">250 Anrufe · 750 Min</div>
+  </th>
+  <th class="th-tier" style="border-top:2px solid var(--blue)">
+    <div class="th-tier-name" style="color:var(--blue)">Professional</div>
+    <div class="th-tier-price">€4.499<span style="font-size:11px;color:var(--muted)">/Mo</span></div>
+    <div class="th-tier-sub" data-i18n="mat_pro_sub">2.000 Anrufe · 6.000 Min</div>
+    <div class="th-tier-setup" data-i18n="mat_pro_setup">+ €2.500 Setup</div>
+  </th>
+  <th class="th-tier" style="border-top:2px solid var(--orange)">
+    <div class="th-tier-name" style="color:var(--orange)">Enterprise</div>
+    <div class="th-tier-price">€24.999<span style="font-size:11px;color:var(--muted)">/Mo</span></div>
+    <div class="th-tier-sub" data-i18n="mat_ent_sub">5.000+ Anrufe · 15.000+ Min</div>
+    <div class="th-tier-setup" data-i18n="mat_ent_setup">+ €5.000 Setup</div>
+  </th>
+</tr>
+</thead>
+<tbody id="matrix-body">
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<!-- ══ TAB 2: USE CASES ═══════════════════════════════════════════════ -->
+<div class="tab-panel" id="panel-usecases">
+<div class="persona-row">
+  <span class="persona-label" data-i18n="uc_label">Anwendungsfall:</span>
+  <button class="persona-btn active-lg" onclick="setUC('leadgen',this)"><span class="dot-lg"></span><span data-i18n="uc_leadgen">Lead Gen & Closing</span></button>
+  <button class="persona-btn" onclick="setUC('hiring',this)"><span class="dot-hi"></span><span data-i18n="uc_hiring">Hiring Agency</span></button>
+  <button class="persona-btn" onclick="setUC('secretary',this)"><span class="dot-se"></span><span data-i18n="uc_secretary">KI-Rezeptionist</span></button>
+</div>
+<div id="uc-content"></div>
+</div>
+
+<!-- ══ TAB 3: COSTS ═══════════════════════════════════════════════════ -->
+<div class="tab-panel" id="panel-costs">
+<div class="roi-band fi-anim">
+  <div class="roi-card starter-card">
+    <div class="roi-tier" style="color:var(--green)">Starter</div>
+    <div class="roi-price">€699<span style="font-size:13px;font-weight:400;color:var(--muted)">/Mo</span></div>
+    <div class="roi-price-sub" data-i18n="cost_no_setup">Keine Einrichtungsgebühr</div>
+    <div class="roi-stat"><span data-i18n="cost_plattform">Plattformgebühr (Digistore)</span><span class="roi-stat-val">5 %</span></div>
+    <div class="roi-stat"><span data-i18n="cost_retell">Retell ~$0,055/min</span><span class="roi-stat-val">$41,25</span></div>
+    <div class="roi-stat"><span data-i18n="cost_tts">ElevenLabs ~$0,015/min</span><span class="roi-stat-val">$11,25</span></div>
+    <div class="roi-stat"><span data-i18n="cost_llm">Gemini ~$0,027/min</span><span class="roi-stat-val">$20,25</span></div>
+    <div class="roi-stat"><span data-i18n="cost_hosting">Hosting + DB</span><span class="roi-stat-val">~€28</span></div>
+    <div class="roi-stat"><span data-i18n="cost_margin">Bruttomarge</span><span class="roi-stat-val roi-highlight">~71 %</span></div>
+  </div>
+  <div class="roi-card pro-card">
+    <div class="roi-tier" style="color:var(--blue)">Professional</div>
+    <div class="roi-price">€4.499<span style="font-size:13px;font-weight:400;color:var(--muted)">/Mo</span></div>
+    <div class="roi-price-sub" data-i18n="cost_setup_pro">+ €2.500 Setup (einmalig)</div>
+    <div class="roi-stat"><span data-i18n="cost_plattform">Plattformgebühr</span><span class="roi-stat-val">5 %</span></div>
+    <div class="roi-stat"><span data-i18n="cost_retell_pro">Retell 6.000 min</span><span class="roi-stat-val">$330</span></div>
+    <div class="roi-stat"><span data-i18n="cost_tts_pro">ElevenLabs 6.000 min</span><span class="roi-stat-val">$90</span></div>
+    <div class="roi-stat"><span data-i18n="cost_llm_pro">Gemini 6.000 min</span><span class="roi-stat-val">$162</span></div>
+    <div class="roi-stat"><span data-i18n="cost_crm">Make.com + SMS</span><span class="roi-stat-val">~€45</span></div>
+    <div class="roi-stat"><span data-i18n="cost_margin">Bruttomarge</span><span class="roi-stat-val roi-highlight">~82 %</span></div>
+  </div>
+  <div class="roi-card ent-card">
+    <div class="roi-tier" style="color:var(--orange)">Enterprise</div>
+    <div class="roi-price">€24.999<span style="font-size:13px;font-weight:400;color:var(--muted)">/Mo</span></div>
+    <div class="roi-price-sub" data-i18n="cost_setup_ent">+ €5.000 Setup (einmalig)</div>
+    <div class="roi-stat"><span data-i18n="cost_plattform">Plattformgebühr</span><span class="roi-stat-val">5 %</span></div>
+    <div class="roi-stat"><span data-i18n="cost_retell_ent">Retell 15.000 min</span><span class="roi-stat-val">$825</span></div>
+    <div class="roi-stat"><span data-i18n="cost_tts_ent">ElevenLabs 15.000 min</span><span class="roi-stat-val">$225</span></div>
+    <div class="roi-stat"><span data-i18n="cost_ads">Meta Ads Management</span><span class="roi-stat-val">~€2.000</span></div>
+    <div class="roi-stat"><span data-i18n="cost_pm">Dediz. Projektmanager</span><span class="roi-stat-val">~€1.500</span></div>
+    <div class="roi-stat"><span data-i18n="cost_margin">Bruttomarge</span><span class="roi-stat-val roi-highlight">~78 %</span></div>
+  </div>
+</div>
+
+<div class="card fi-anim">
+<div class="ch"><span class="ct" data-i18n="cost_breakdown_title">KOSTENAUFSCHLÜSSELUNG — MINUTENKOSTEN</span></div>
+<table class="cost-table">
+  <thead><tr>
+    <th data-i18n="cost_component">Komponente</th>
+    <th data-i18n="cost_per_min">€ / Minute</th>
+    <th data-i18n="cost_basis">Basis</th>
+    <th data-i18n="cost_notes">Hinweis</th>
+  </tr></thead>
+  <tbody>
+    <tr><td class="cost-mono">Retell Voice Engine</td><td class="cost-highlight">$0,055</td><td class="cost-dim">~€0,051</td><td style="font-size:10px;color:var(--dim)">20 gleichzeitige Anrufe inklusive</td></tr>
+    <tr><td class="cost-mono">ElevenLabs TTS</td><td class="cost-highlight">$0,015</td><td class="cost-dim">~€0,014</td><td style="font-size:10px;color:var(--dim)">Carola/Max/Lena Stimmen</td></tr>
+    <tr><td class="cost-mono">Gemini 2.0 Flash</td><td class="cost-highlight">$0,027</td><td class="cost-dim">~€0,025</td><td style="font-size:10px;color:var(--dim)">LLM-Entscheidungsmotor</td></tr>
+    <tr class="cost-total"><td class="cost-mono" data-i18n="cost_total_min">Gesamt / Minute</td><td class="cost-highlight" colspan="2">~$0,097 / ~€0,090</td><td style="font-size:10px;color:var(--dim)" data-i18n="cost_ex_platform">exkl. Plattformgebühr</td></tr>
+    <tr><td class="cost-mono" data-i18n="cost_overage_1k">Overage 1.000 Min</td><td colspan="2" style="font-family:var(--mono);font-size:11px;color:var(--white);text-align:right">€300 <span class="cost-dim">(€0,30/min)</span></td><td style="font-size:10px;color:var(--dim)">Marge: ~67 % auf Overage</td></tr>
+    <tr><td class="cost-mono" data-i18n="cost_overage_5k">Overage 5.000 Min</td><td colspan="2" style="font-family:var(--mono);font-size:11px;color:var(--white);text-align:right">€1.100 <span class="cost-dim">(€0,22/min)</span></td><td style="font-size:10px;color:var(--dim)">Marge: ~59 % auf Overage</td></tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div><!-- /shell -->
+
+<script>
+// ── i18n ─────────────────────────────────────────────────────────────
+const LANG={
+  de:{
+    tab_matrix:'Integrationsmatrix',tab_usecases:'Anwendungsfälle & KPIs',tab_costs:'Kosten & ROI',
+    subtitle:'Integrationen & Anwendungsfälle',
+    matrix_title:'INTEGRATIONSMATRIX',matrix_sub:'Starter · Professional · Enterprise',
+    mat_feature:'Feature',mat_starter_sub:'250 Anrufe · 750 Min',mat_pro_sub:'2.000 Anrufe · 6.000 Min',
+    mat_ent_sub:'5.000+ Anrufe · 15.000+ Min',mat_pro_setup:'+ €2.500 Setup',mat_ent_setup:'+ €5.000 Setup',
+    uc_label:'Anwendungsfall:',uc_leadgen:'Lead Gen & Closing',uc_hiring:'Hiring Agency',uc_secretary:'KI-Rezeptionist',
+    cost_no_setup:'Keine Einrichtungsgebühr',cost_setup_pro:'+ €2.500 Setup (einmalig)',cost_setup_ent:'+ €5.000 Setup (einmalig)',
+    cost_plattform:'Plattformgebühr (Digistore)',cost_retell:'Retell ~$0,055/min',cost_tts:'ElevenLabs ~$0,015/min',
+    cost_llm:'Gemini ~$0,027/min',cost_hosting:'Hosting + DB',cost_margin:'Bruttomarge',
+    cost_retell_pro:'Retell 6.000 min',cost_tts_pro:'ElevenLabs 6.000 min',cost_llm_pro:'Gemini 6.000 min',cost_crm:'Make.com + SMS',
+    cost_retell_ent:'Retell 15.000 min',cost_tts_ent:'ElevenLabs 15.000 min',cost_ads:'Meta Ads Management',cost_pm:'Dediz. Projektmanager',
+    cost_breakdown_title:'KOSTENAUFSCHLÜSSELUNG — MINUTENKOSTEN',cost_component:'Komponente',cost_per_min:'€ / Minute',
+    cost_basis:'Basis',cost_notes:'Hinweis',cost_total_min:'Gesamt / Minute',cost_ex_platform:'exkl. Plattformgebühr',
+    cost_overage_1k:'Overage 1.000 Min',cost_overage_5k:'Overage 5.000 Min',
+    kpi_calls:'Anrufe / Monat',kpi_cost:'Kosten / Lead',kpi_qual:'Qualifizierungsrate',kpi_close:'Abschlussrate',
+    kpi_show:'Show Rate',kpi_screened:'Gescreent / Tag',kpi_saved:'Recruiter-Zeit gespart',
+    kpi_shortlist:'Zeit bis Shortlist',kpi_answered:'Anrufe beantwortet',kpi_handle:'Ø Gesprächsdauer',
+    kpi_booking:'Buchungsrate',kpi_interruptions:'Unterbrechungen',
+    funnel_title_leadgen:'Funnel-Schritte',funnel_title_ai:'KI-Automatisierung',funnel_title_human:'Mensch',
+    step_upload:'Lead-Liste hochladen',step_upload_sub:'CSV-Import oder Dashboard',
+    step_call:'Retell ruft < 60s an',step_call_sub:'BANT-Qualifizierung, native DE/EN',
+    step_score:'LLM bewertet 0–100',step_score_sub:'hot / warm / cold, Transkript, Summary',
+    step_book:'Termin gebucht (Pro)',step_book_sub:'Cal.com · CRM-Update · Slack-Ping',
+    step_drip:'E-Mail-Drip & Erinnerungen',step_drip_sub:'T-24h · T-1h · No-show Re-engagement',
+    step_close:'Mensch schließt ab',step_close_sub:'Nur qualifizierte Leads mit KI-Analyse',
+    step_source:'Bewerbung eingehend',step_source_sub:'Meta/LinkedIn/Jobbörse',
+    step_parse:'CV-Parsing',step_parse_sub:'n8n → ATS/Airtable · Auto-Antwort',
+    step_screen:'Screening-Anruf 5–8 Min',step_screen_sub:'Verfügbarkeit · Gehalt · Qualifikation',
+    step_grade:'A/B/C-Einstufung',step_grade_sub:'A: Top 10% · B: Backup · C: Absage',
+    step_handoff:'Übergabe an Recruiter',step_handoff_sub:'Tagesbericht · Top → Kalender',
+    step_interview:'Tiefes Interview',step_interview_sub:'Recruiter spricht nur A-Kandidaten',
+    step_inbound:'Eingehender Anruf',step_inbound_sub:'< 2 Klingelzeichen · Caller-ID',
+    step_triage:'Intent-Triage',step_triage_sub:'Termin / FAQ / Notfall',
+    step_action:'Direkte Aktion',step_action_sub:'Buchung · FAQ-Beantwortung · Lead capturen',
+    step_escalate:'Eskalation',step_escalate_sub:'Notfall → Slack/WhatsApp · VIP → Live',
+    step_confirm:'Bestätigung & Erinnerung',step_confirm_sub:'SMS · T-24h Reminder',
+    step_digest:'Täglicher Digest',step_digest_sub:'08:00 · alle Anrufe + Buchungen',
+  },
+  en:{
+    tab_matrix:'Integration Matrix',tab_usecases:'Use Cases & KPIs',tab_costs:'Costs & ROI',
+    subtitle:'Integrations & Use Cases',
+    matrix_title:'INTEGRATION MATRIX',matrix_sub:'Starter · Professional · Enterprise',
+    mat_feature:'Feature',mat_starter_sub:'250 calls · 750 min',mat_pro_sub:'2,000 calls · 6,000 min',
+    mat_ent_sub:'5,000+ calls · 15,000+ min',mat_pro_setup:'+ €2,500 setup',mat_ent_setup:'+ €5,000 setup',
+    uc_label:'Use case:',uc_leadgen:'Lead Gen & Closing',uc_hiring:'Hiring Agency',uc_secretary:'AI Secretary',
+    cost_no_setup:'No setup fee',cost_setup_pro:'+ €2,500 setup (one-time)',cost_setup_ent:'+ €5,000 setup (one-time)',
+    cost_plattform:'Platform fee (Digistore)',cost_retell:'Retell ~$0.055/min',cost_tts:'ElevenLabs ~$0.015/min',
+    cost_llm:'Gemini ~$0.027/min',cost_hosting:'Hosting + DB',cost_margin:'Gross margin',
+    cost_retell_pro:'Retell 6,000 min',cost_tts_pro:'ElevenLabs 6,000 min',cost_llm_pro:'Gemini 6,000 min',cost_crm:'Make.com + SMS',
+    cost_retell_ent:'Retell 15,000 min',cost_tts_ent:'ElevenLabs 15,000 min',cost_ads:'Meta Ads management',cost_pm:'Dedicated project manager',
+    cost_breakdown_title:'COST BREAKDOWN — PER-MINUTE COSTS',cost_component:'Component',cost_per_min:'€ / Minute',
+    cost_basis:'Base',cost_notes:'Note',cost_total_min:'Total / Minute',cost_ex_platform:'excl. platform fee',
+    cost_overage_1k:'Overage 1,000 min',cost_overage_5k:'Overage 5,000 min',
+    kpi_calls:'Calls / month',kpi_cost:'Cost / lead',kpi_qual:'Qualification rate',kpi_close:'Close rate',
+    kpi_show:'Show rate',kpi_screened:'Screened / day',kpi_saved:'Recruiter time saved',
+    kpi_shortlist:'Time to shortlist',kpi_answered:'Calls answered',kpi_handle:'Avg handle time',
+    kpi_booking:'Booking rate',kpi_interruptions:'Interruptions',
+    funnel_title_leadgen:'Funnel Steps',funnel_title_ai:'AI Automation',funnel_title_human:'Human',
+    step_upload:'Upload lead list',step_upload_sub:'CSV import or dashboard',
+    step_call:'Retell calls < 60s',step_call_sub:'BANT qualification, native DE/EN',
+    step_score:'LLM scores 0–100',step_score_sub:'hot / warm / cold, transcript, summary',
+    step_book:'Appointment booked (Pro)',step_book_sub:'Cal.com · CRM update · Slack ping',
+    step_drip:'Email drip & reminders',step_drip_sub:'T-24h · T-1h · No-show re-engagement',
+    step_close:'Human closes',step_close_sub:'Only qualified leads with AI analysis',
+    step_source:'Application received',step_source_sub:'Meta/LinkedIn/job board',
+    step_parse:'CV parsing',step_parse_sub:'n8n → ATS/Airtable · auto-reply',
+    step_screen:'Screening call 5–8 min',step_screen_sub:'Availability · salary · qualification',
+    step_grade:'A/B/C grading',step_grade_sub:'A: top 10% · B: backup · C: decline',
+    step_handoff:'Recruiter handoff',step_handoff_sub:'Daily digest · Top → calendar',
+    step_interview:'Deep interview',step_interview_sub:'Recruiter only meets A-candidates',
+    step_inbound:'Inbound call',step_inbound_sub:'< 2 rings · Caller-ID lookup',
+    step_triage:'Intent triage',step_triage_sub:'Appointment / FAQ / Emergency',
+    step_action:'Direct action',step_action_sub:'Booking · FAQ · Lead capture',
+    step_escalate:'Escalation',step_escalate_sub:'Emergency → Slack/WhatsApp · VIP → live',
+    step_confirm:'Confirmation & reminder',step_confirm_sub:'SMS · T-24h reminder',
+    step_digest:'Daily digest',step_digest_sub:'08:00 · all calls + bookings',
+  }
+};
+
+// ── Matrix data ───────────────────────────────────────────────────────
+const MATRIX_ROWS=[
+  {cat:{de:'KERN-INFRASTRUKTUR',en:'CORE INFRASTRUCTURE'},items:[
+    {de:'Retell AI Voice Agent',en:'Retell AI Voice Agent',sub:{de:'Native DE/EN, Sprachwechsel mid-call',en:'Native DE/EN, mid-call language switch'},s:true,p:true,e:true},
+    {de:'n8n Orchestrierung',en:'n8n Orchestration',sub:{de:'12 Produktions-Workflows',en:'12 production workflows'},s:true,p:true,e:true},
+    {de:'Supabase Datenbank',en:'Supabase Database',sub:{de:'Clients, Leads, Logs, Sessions',en:'Clients, leads, logs, sessions'},s:true,p:true,e:true},
+    {de:'Hetzner VPS (EU)',en:'Hetzner VPS (EU)',sub:{de:'Self-hosted, DSGVO-konform',en:'Self-hosted, GDPR-compliant'},s:true,p:true,e:true},
+  ]},
+  {cat:{de:'LEAD-QUELLEN',en:'LEAD SOURCES'},items:[
+    {de:'CSV-Upload & Manuelle Eingabe',en:'CSV Upload & Manual Entry',sub:{de:'Dashboard-integriert',en:'Dashboard-integrated'},s:true,p:true,e:true},
+    {de:'Eingehende Anrufe (Inbound)',en:'Inbound Calling',sub:{de:'24/7 Rezeptionist',en:'24/7 receptionist'},s:false,p:true,e:true,newTag:'p'},
+    {de:'Meta Ads Management',en:'Meta Ads Management',sub:{de:'Warme Leads → direkt in Anruffluss',en:'Warm leads → direct to call pipeline'},s:false,p:false,e:true,newTag:'e'},
+    {de:'LinkedIn Bot Outreach',en:'LinkedIn Bot Outreach',sub:{de:'~3.000 Nachrichten/Monat',en:'~3,000 messages/month'},s:false,p:false,e:true,newTag:'e'},
+  ]},
+  {cat:{de:'ZAHLUNGSABWICKLUNG',en:'PAYMENT PROCESSING'},items:[
+    {de:'Digistore24',en:'Digistore24',sub:{de:'Abo + Overage-Pakete, 5% Gebühr',en:'Sub + overage packages, 5% fee'},s:true,p:true,e:true},
+    {de:'Stripe (Adapter)',en:'Stripe (Adapter)',sub:{de:'Parallele Integration, Fallback',en:'Parallel integration, fallback'},s:false,p:true,e:true,newTag:'p'},
+  ]},
+  {cat:{de:'KI-ENGINE',en:'AI ENGINE'},items:[
+    {de:'Retell Voice Orchestrator',en:'Retell Voice Orchestrator',sub:{de:'20 gleichzeitige Anrufe inklusive',en:'20 concurrent calls included'},s:true,p:true,e:true},
+    {de:'ElevenLabs TTS',en:'ElevenLabs TTS',sub:{de:'Carola / Max / Lena Stimme',en:'Carola / Max / Lena voice'},s:true,p:true,e:true},
+    {de:'Gemini 2.0 Flash LLM',en:'Gemini 2.0 Flash LLM',sub:{de:'Entscheidungsmotor, ~$0,027/min',en:'Decision engine, ~$0.027/min'},s:true,p:true,e:true},
+  ]},
+  {cat:{de:'ANALYSE & INTELLIGENCE',en:'ANALYSIS & INTELLIGENCE'},items:[
+    {de:'Anrufaufzeichnung',en:'Call Recording',sub:{de:'Alle Gespräche gespeichert',en:'All calls stored'},s:true,p:true,e:true},
+    {de:'Volltexttranskription',en:'Full Transcript',sub:{de:'Durchsuchbar, mit Zeitstempeln',en:'Searchable, timestamped'},s:true,p:true,e:true},
+    {de:'KI-Zusammenfassung',en:'AI Summary',sub:{de:'Kernpunkte pro Anruf',en:'Key takeaways per call'},s:true,p:true,e:true},
+    {de:'LLM Lead-Scoring 0–100',en:'LLM Lead Score 0–100',sub:{de:'hot/warm/cold Tags',en:'hot/warm/cold tags'},s:false,p:true,e:true,newTag:'p'},
+    {de:'Sentiment-Analyse',en:'Sentiment Analysis',sub:{de:'Positiv / Neutral / Negativ',en:'Positive / Neutral / Negative'},s:false,p:true,e:true,newTag:'p'},
+    {de:'Hot-Prospect-Tracking',en:'Hot Prospect Tracking',sub:{de:'Score 80+ sofort markiert',en:'Score 80+ flagged immediately'},s:false,p:true,e:true,newTag:'p'},
+    {de:'Individuelle Scoring-Modelle',en:'Custom Scoring Models',sub:{de:'Pro Branche konfigurierbar',en:'Configurable per industry'},s:false,p:false,e:true,newTag:'e'},
+  ]},
+  {cat:{de:'AKTIONEN & INTEGRATIONEN',en:'ACTIONS & INTEGRATIONS'},items:[
+    {de:'E-Mail Drip (5 Schritte)',en:'Email Drip (5 steps)',sub:{de:'Tag 1/3/5/7/14, DE-Vorlagen',en:'Day 1/3/5/7/14, DE templates'},s:true,p:true,e:true},
+    {de:'CRM-Automatisierungen',en:'CRM Automations',sub:{de:'HubSpot/Pipedrive/Airtable (10 Flows)',en:'HubSpot/Pipedrive/Airtable (10 flows)'},s:false,p:true,e:true,newTag:'p'},
+    {de:'Kalender-Buchung',en:'Calendar Booking',sub:{de:'Cal.com/Google Calendar/Outlook',en:'Cal.com/Google Calendar/Outlook'},s:false,p:true,e:true,newTag:'p'},
+    {de:'SMS-Nachverfolgung',en:'SMS Follow-up',sub:{de:'Bestätigung + Erinnerungen',en:'Confirmation + reminders'},s:false,p:true,e:true,newTag:'p'},
+    {de:'Slack-Benachrichtigungen',en:'Slack Notifications',sub:{de:'Hot Lead, Termin, Nutzungsschwelle',en:'Hot lead, booking, usage threshold'},s:false,p:true,e:true,newTag:'p'},
+    {de:'Webhook-Anbindung',en:'Webhook Connectivity',sub:{de:'Custom Endpoints',en:'Custom endpoints'},s:false,p:true,e:true,newTag:'p'},
+    {de:'WhatsApp',en:'WhatsApp',sub:{de:'Opt-in + VIP-Eskalation',en:'Opt-in + VIP escalation'},s:false,p:false,e:true,newTag:'e'},
+    {de:'Unbegrenzte Automatisierungen',en:'Unlimited Automations',sub:{de:'Custom Flows nach Bedarf',en:'Custom flows on demand'},s:false,p:false,e:true,newTag:'e'},
+  ]},
+  {cat:{de:'SUPPORT & MANAGED SERVICE',en:'SUPPORT & MANAGED SERVICE'},items:[
+    {de:'Template-Setup, live in 24h',en:'Template setup, live in 24h',sub:{de:'Starter: sofort einsatzbereit',en:'Starter: immediately operational'},s:true,p:true,e:true},
+    {de:'Dedizierter Onboarding-Call',en:'Dedicated Onboarding Call',sub:{de:'3h Konfiguration',en:'3h configuration'},s:false,p:true,e:true,newTag:'p'},
+    {de:'2-Stunden Support-SLA',en:'2-Hour Support SLA',sub:{de:'Reaktionszeit garantiert',en:'Response time guaranteed'},s:false,p:true,e:true,newTag:'p'},
+    {de:'Dedizierter Projektmanager',en:'Dedicated Project Manager',sub:{de:'4h/Woche, wöchentliche Reports',en:'4h/week, weekly reports'},s:false,p:false,e:true,newTag:'e'},
+    {de:'1-Stunden Support-SLA',en:'1-Hour Support SLA',sub:{de:'Enterprise: höchste Priorität',en:'Enterprise: highest priority'},s:false,p:false,e:true,newTag:'e'},
+  ]},
+];
+
+// ── Use Case data ────────────────────────────────────────────────────
+const UC_DATA={
+  leadgen:{
+    color:'#3ECF8E',
+    kpis:[
+      {key:'kpi_calls',val:'250–2.000',pct:40},
+      {key:'kpi_cost',val:'€3–8',pct:15},
+      {key:'kpi_qual',val:'25–40 %',pct:40},
+      {key:'kpi_show',val:'55–70 %',pct:65},
+    ],
+    steps:[
+      {k:'step_upload',sk:'step_upload_sub',tier:'s'},
+      {k:'step_call',sk:'step_call_sub',tier:'s'},
+      {k:'step_score',sk:'step_score_sub',tier:'s'},
+      {k:'step_book',sk:'step_book_sub',tier:'p'},
+      {k:'step_drip',sk:'step_drip_sub',tier:'s'},
+      {k:'step_close',sk:'step_close_sub',tier:'s'},
+    ]
+  },
+  hiring:{
+    color:'#60A5FA',
+    kpis:[
+      {key:'kpi_cost',val:'€1–4',pct:8},
+      {key:'kpi_screened',val:'200+',pct:80},
+      {key:'kpi_saved',val:'70 %',pct:70},
+      {key:'kpi_shortlist',val:'< 24h',pct:90},
+    ],
+    steps:[
+      {k:'step_source',sk:'step_source_sub',tier:'s'},
+      {k:'step_parse',sk:'step_parse_sub',tier:'s'},
+      {k:'step_screen',sk:'step_screen_sub',tier:'s'},
+      {k:'step_grade',sk:'step_grade_sub',tier:'p'},
+      {k:'step_handoff',sk:'step_handoff_sub',tier:'s'},
+      {k:'step_interview',sk:'step_interview_sub',tier:'s'},
+    ]
+  },
+  secretary:{
+    color:'#C084FC',
+    kpis:[
+      {key:'kpi_answered',val:'100 %',pct:100},
+      {key:'kpi_handle',val:'90s',pct:30},
+      {key:'kpi_booking',val:'35–55 %',pct:50},
+      {key:'kpi_interruptions',val:'− 80 %',pct:80},
+    ],
+    steps:[
+      {k:'step_inbound',sk:'step_inbound_sub',tier:'s'},
+      {k:'step_triage',sk:'step_triage_sub',tier:'s'},
+      {k:'step_action',sk:'step_action_sub',tier:'s'},
+      {k:'step_escalate',sk:'step_escalate_sub',tier:'p'},
+      {k:'step_confirm',sk:'step_confirm_sub',tier:'p'},
+      {k:'step_digest',sk:'step_digest_sub',tier:'s'},
+    ]
+  }
+};
+
+let lang='de', currentUC='leadgen';
+
+function t(k){return LANG[lang][k]||k}
+
+function toggleLang(){
+  lang=lang==='de'?'en':'de';
+  document.getElementById('lang-btn').textContent=lang==='de'?'EN':'DE';
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const k=el.getAttribute('data-i18n');
+    if(LANG[lang][k])el.textContent=LANG[lang][k];
+  });
+  document.getElementById('subtitle').textContent=t('subtitle');
+  renderMatrix();
+  renderUC();
+}
+window.toggleLang=toggleLang;
+
+function switchTab(id,btn){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+}
+window.switchTab=switchTab;
+
+function setUC(uc,btn){
+  currentUC=uc;
+  document.querySelectorAll('.persona-btn').forEach(b=>b.className='persona-btn');
+  btn.classList.add(uc==='leadgen'?'active-lg':uc==='hiring'?'active-hi':'active-se');
+  renderUC();
+}
+window.setUC=setUC;
+
+function check(has,tier){
+  if(!has) return '<span class="check ck-no">—</span>';
+  const cls=tier==='s'?'ck-s':tier==='p'?'ck-p':'ck-e';
+  return `<span class="check ${cls}">✓</span>`;
+}
+
+function renderMatrix(){
+  const tbody=document.getElementById('matrix-body');
+  tbody.innerHTML=MATRIX_ROWS.map(cat=>{
+    const catRow=`<tr class="cat-row"><td colspan="4">${cat.cat[lang]}</td></tr>`;
+    const rows=cat.items.map(item=>{
+      const nameTxt=item[lang]||item.de;
+      const subTxt=item.sub?item.sub[lang]||item.sub.de:'';
+      const newTagHTML=item.newTag?`<span class="new-tag new-${item.newTag}">${item.newTag==='p'?'PRO':'ENT'}</span>`:'';
+      const sc=item.s?'s':item.p?'p':'e';
+      return `<tr class="feat-row">
+        <td class="feat-name"><strong>${nameTxt}${newTagHTML}</strong><span>${subTxt}</span></td>
+        <td class="feat-cell">${check(item.s,'s')}</td>
+        <td class="feat-cell">${check(item.p,'p')}</td>
+        <td class="feat-cell">${check(item.e,'e')}</td>
+      </tr>`;
+    }).join('');
+    return catRow+rows;
+  }).join('');
+}
+
+function renderUC(){
+  const d=UC_DATA[currentUC];
+  const tierColors={s:'var(--green)',p:'var(--blue)',e:'var(--orange)'};
+  const kpisHTML=d.kpis.map(k=>`
+    <div class="kpi-card fi-anim">
+      <div class="kpi-lbl">${t(k.key)}</div>
+      <div class="kpi-val" style="color:${d.color}">${k.val}</div>
+      <div class="kpi-bar"><div class="kpi-fill" style="width:${k.pct}%;background:${d.color};opacity:0.7"></div></div>
+    </div>`).join('');
+  const stepsHTML=d.steps.map(s=>`
+    <div class="funnel-step">
+      <div class="step-num" style="border-color:${tierColors[s.tier]||d.color};color:${tierColors[s.tier]||d.color};background:${tierColors[s.tier]||d.color}18">
+        ${d.steps.indexOf(s)+1}
+      </div>
+      <div class="step-text">
+        <div class="step-name">${t(s.k)}</div>
+        <div class="step-sub">${t(s.sk)}</div>
+      </div>
+    </div>`).join('');
+  document.getElementById('uc-content').innerHTML=`
+    <div class="kpi-grid">${kpisHTML}</div>
+    <div class="funnel-grid">
+      <div class="funnel-card fi-anim">
+        <div class="funnel-hdr">
+          <div class="funnel-title" style="color:${d.color}">${t('funnel_title_leadgen')}</div>
+          <div class="funnel-sub">${t('uc_'+currentUC)}</div>
+        </div>
+        <div class="funnel-body">${stepsHTML}</div>
+      </div>
+      <div class="funnel-card fi-anim">
+        <div class="funnel-hdr">
+          <div class="funnel-title" style="color:${d.color}">KI vs. MENSCH</div>
+          <div class="funnel-sub">${t('funnel_title_ai')} vs. ${t('funnel_title_human')}</div>
+        </div>
+        <div class="funnel-body">
+          ${currentUC==='leadgen'?`
+            <div class="funnel-step"><div class="step-num" style="border-color:${d.color};color:${d.color};background:${d.color}18">KI</div><div class="step-text"><div class="step-name">${lang==='de'?'KI übernimmt (100%)':'AI handles (100%)'}</div><div class="step-sub">${lang==='de'?'Lead-Erfassung, Anruf, Qualifizierung, Buchung, Drip':'Lead capture, call, qualification, booking, drip'}</div></div></div>
+            <div class="funnel-step"><div class="step-num" style="border-color:var(--dim);color:var(--dim);background:var(--s2)">M</div><div class="step-text"><div class="step-name">${lang==='de'?'Mensch übernimmt':'Human takes over'}</div><div class="step-sub">${lang==='de'?'Nur qualifizierte Leads · Verhandlung · Abschluss':'Only qualified leads · negotiation · close'}</div></div></div>
+            <div class="funnel-step"><div class="step-num" style="border-color:${d.color};color:${d.color};background:${d.color}18">KI</div><div class="step-text"><div class="step-name">${lang==='de'?'KI protokolliert':'AI logs'}</div><div class="step-sub">${lang==='de'?'CRM-Update, Deal-Status, nächste Schritte':'CRM update, deal status, next steps'}</div></div></div>`
+          :currentUC==='hiring'?`
+            <div class="funnel-step"><div class="step-num" style="border-color:${d.color};color:${d.color};background:${d.color}18">KI</div><div class="step-text"><div class="step-name">${lang==='de'?'KI screent (100% der Bewerbungen)':'AI screens (100% of applications)'}</div><div class="step-sub">${lang==='de'?'CV-Parsing · Screening-Anruf · A/B/C-Einstufung · Absagen':'CV parsing · screening call · A/B/C grading · rejections'}</div></div></div>
+            <div class="funnel-step"><div class="step-num" style="border-color:var(--dim);color:var(--dim);background:var(--s2)">M</div><div class="step-text"><div class="step-name">${lang==='de'?'Recruiter nur A-Kandidaten (10%)':'Recruiter meets A-candidates only (10%)'}</div><div class="step-sub">${lang==='de'?'Tiefes Interview · Kundenvorstellung · Placement':'Deep interview · client intro · placement'}</div></div></div>
+            <div class="funnel-step"><div class="step-num" style="border-color:${d.color};color:${d.color};background:${d.color}18">KI</div><div class="step-text"><div class="step-name">${lang==='de'?'KI tagesabschlussbericht':'AI daily digest'}</div><div class="step-sub">${lang==='de'?'Tagesübersicht, ATS-Update, monatliche Bias-Prüfung':'Daily overview, ATS update, monthly bias review'}</div></div></div>`
+          :`
+            <div class="funnel-step"><div class="step-num" style="border-color:${d.color};color:${d.color};background:${d.color}18">KI</div><div class="step-text"><div class="step-name">${lang==='de'?'KI antwortet (100%, 24/7)':'AI answers (100%, 24/7)'}</div><div class="step-sub">${lang==='de'?'Termin buchen · FAQ · Nachricht aufnehmen':'Book appointment · FAQ · take message'}</div></div></div>
+            <div class="funnel-step"><div class="step-num" style="border-color:var(--dim);color:var(--dim);background:var(--s2)">M</div><div class="step-text"><div class="step-name">${lang==='de'?'Arzt/Inhaber: nur Notfälle':'Doctor/owner: emergencies only'}</div><div class="step-sub">${lang==='de'?'Weiterleitung bei akuten Beschwerden oder VIP':'Forwarded for acute complaints or VIP'}</div></div></div>
+            <div class="funnel-step"><div class="step-num" style="border-color:${d.color};color:${d.color};background:${d.color}18">KI</div><div class="step-text"><div class="step-name">${lang==='de'?'KI-Tagesbericht um 08:00':'AI daily report at 08:00'}</div><div class="step-sub">${lang==='de'?'Alle Anrufe, Buchungen, Notfälle':'All calls, bookings, emergencies'}</div></div></div>`}
+        </div>
+      </div>
+    </div>`;
+}
+
+// Init
+renderMatrix();
+renderUC();
+</script>
+</body>
+</html>

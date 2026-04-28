@@ -1,0 +1,1579 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>24/7 PROJECT — Workflow & Integration Pipeline</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0D0D0F;
+            --s1: #141416;
+            --s2: #1C1C1F;
+            --s3: #242427;
+            --b1: rgba(255, 255, 255, 0.06);
+            --b2: rgba(255, 255, 255, 0.10);
+            --b3: rgba(255, 255, 255, 0.16);
+            --white: #F5F5F6;
+            --muted: #8A8A96;
+            --dim: #5A5A66;
+            --green: #3ECF8E;
+            --gd: rgba(62, 207, 142, 0.10);
+            --orange: #F97316;
+            --od: rgba(249, 115, 22, 0.10);
+            --red: #EF4444;
+            --amber: #F59E0B;
+            --blue: #60A5FA;
+            --bd: rgba(96, 165, 250, 0.10);
+            --purple: #C084FC;
+            --pd: rgba(192, 132, 252, 0.10);
+            --mono: 'JetBrains Mono', monospace;
+            --sans: 'DM Sans', sans-serif;
+            --r: 10px;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html,
+        body {
+            background: var(--bg);
+            color: var(--white);
+            font-family: var(--sans);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        ::selection {
+            background: var(--green);
+            color: #000;
+        }
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--s3);
+            border-radius: 2px;
+        }
+
+        .shell {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px 70px;
+        }
+
+        /* TOPBAR */
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 0 22px;
+            border-bottom: 1px solid var(--b1);
+            margin-bottom: 16px;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .tb-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .brand-icon {
+            width: 28px;
+            height: 28px;
+            background: var(--green);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .brand-icon span {
+            font-family: var(--mono);
+            font-size: 8px;
+            font-weight: 700;
+            color: #000;
+        }
+        .brand-name {
+            font-family: var(--mono);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+        }
+        .tb-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .lang-btn {
+            font-family: var(--mono);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding: 4px 10px;
+            border: 1px solid var(--green);
+            background: var(--green);
+            color: #000;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all .2s;
+            white-space: nowrap;
+        }
+        .lang-btn:hover {
+            background: transparent;
+            color: var(--green);
+        }
+        .page-subtitle {
+            font-size: 11px;
+            color: var(--muted);
+            line-height: 1.4;
+        }
+
+        /* USE CASE ROW */
+        .persona-row {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+        .persona-label {
+            font-family: var(--mono);
+            font-size: 8px;
+            color: var(--dim);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding-top: 6px;
+            flex-shrink: 0;
+            margin-right: 4px;
+        }
+        .persona-btn {
+            font-family: var(--mono);
+            font-size: 10px;
+            font-weight: 700;
+            padding: 5px 13px;
+            border-radius: 5px;
+            border: 1px solid var(--b2);
+            background: transparent;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all .15s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            white-space: nowrap;
+        }
+        .persona-btn:hover {
+            border-color: var(--b3);
+            color: var(--white);
+        }
+        .persona-btn.active-lg {
+            color: #3ECF8E;
+            background: rgba(62, 207, 142, 0.08);
+            border-color: rgba(62, 207, 142, 0.3);
+        }
+        .persona-btn.active-hi {
+            color: #60A5FA;
+            background: rgba(96, 165, 250, 0.08);
+            border-color: rgba(96, 165, 250, 0.3);
+        }
+        .persona-btn.active-se {
+            color: #C084FC;
+            background: rgba(192, 132, 252, 0.08);
+            border-color: rgba(192, 132, 252, 0.3);
+        }
+        .dot-lg {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #3ECF8E;
+            flex-shrink: 0;
+        }
+        .dot-hi {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #60A5FA;
+            flex-shrink: 0;
+        }
+        .dot-se {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #C084FC;
+            flex-shrink: 0;
+        }
+
+        /* TIER ROW */
+        .sc-row {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+            margin-bottom: 14px;
+            align-items: center;
+            padding-top: 6px;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .sc-label {
+            font-family: var(--mono);
+            font-size: 8px;
+            color: var(--dim);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding-top: 6px;
+            flex-shrink: 0;
+            margin-right: 4px;
+        }
+        .sc-btn {
+            font-family: var(--mono);
+            font-size: 10px;
+            font-weight: 700;
+            padding: 4px 11px;
+            border-radius: 5px;
+            border: 1px solid var(--b2);
+            background: transparent;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all .15s;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .sc-btn:hover {
+            border-color: var(--b3);
+            color: var(--white);
+        }
+        .sc-btn.active-s {
+            background: var(--gd);
+            color: var(--green);
+            border-color: rgba(62, 207, 142, 0.3);
+        }
+        .sc-btn.active-p {
+            background: var(--bd);
+            color: var(--blue);
+            border-color: rgba(96, 165, 250, 0.3);
+        }
+        .sc-btn.active-e {
+            background: var(--od);
+            color: var(--orange);
+            border-color: rgba(249, 115, 22, 0.3);
+        }
+        .sc-dot-s {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #3ECF8E;
+            flex-shrink: 0;
+        }
+        .sc-dot-p {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #60A5FA;
+            flex-shrink: 0;
+        }
+        .sc-dot-e {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #F97316;
+            flex-shrink: 0;
+        }
+        .tier-badge {
+            font-family: var(--mono);
+            font-size: 7px;
+            letter-spacing: 1px;
+            padding: 1px 5px;
+            border-radius: 3px;
+            margin-left: 3px;
+            vertical-align: middle;
+        }
+        .badge-s {
+            background: var(--gd);
+            color: var(--green);
+        }
+        .badge-p {
+            background: var(--bd);
+            color: var(--blue);
+        }
+        .badge-e {
+            background: var(--od);
+            color: var(--orange);
+        }
+
+        /* SETUP FEE CALLOUT */
+        .setup-fee-callout {
+            font-family: var(--mono);
+            font-size: 8px;
+            color: var(--amber);
+            background: rgba(245, 158, 11, 0.08);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            padding: 3px 8px;
+            border-radius: 3px;
+            margin-left: 6px;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        /* FLOW CARD */
+        .card {
+            background: var(--s1);
+            border: 1px solid var(--b1);
+            border-radius: var(--r);
+            margin-bottom: 10px;
+        }
+        .ch {
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--b1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .ct {
+            font-family: var(--mono);
+            font-size: 9px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--dim);
+        }
+        .flow-body {
+            position: relative;
+            padding: 22px 16px 26px;
+            min-height: 700px;
+            overflow: hidden;
+        }
+        .flow-svg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .flow-grid {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+        .flow-row {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            position: relative;
+            padding-left: 0;
+        }
+        .flow-row-label {
+            position: absolute;
+            left: -4px;
+            top: 50%;
+            transform: translateY(-50%) rotate(-90deg);
+            transform-origin: center center;
+            font-family: var(--mono);
+            font-size: 7px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--dim);
+            white-space: nowrap;
+            pointer-events: none;
+        }
+
+        /* NODES */
+        .node {
+            background: var(--s2);
+            border: 1px solid var(--b1);
+            border-radius: 7px;
+            padding: 11px 13px;
+            cursor: pointer;
+            transition: all .35s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            min-width: 82px;
+            text-align: center;
+            user-select: none;
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+        }
+        .node:hover {
+            border-color: var(--b3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        }
+        .node:active {
+            transform: scale(0.97);
+        }
+        .node-idt {
+            font-family: var(--mono);
+            font-size: 8px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding: 2px 6px;
+            border-radius: 3px;
+            line-height: 1;
+            flex-shrink: 0;
+        }
+        .idt-available {
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--white);
+            border: 1px solid var(--b2);
+        }
+        .idt-locked {
+            background: transparent;
+            color: var(--dim);
+            border: 1px solid var(--b1);
+        }
+        .node-name {
+            font-family: var(--mono);
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: var(--white);
+            line-height: 1.3;
+        }
+        .node-sub {
+            font-size: 8px;
+            color: var(--dim);
+            line-height: 1.2;
+            max-width: 100px;
+        }
+        .node-tier-badge {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            font-family: var(--mono);
+            font-size: 7px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding: 2px 7px;
+            border-radius: 10px;
+            pointer-events: none;
+            transition: all .35s;
+            z-index: 4;
+        }
+        .ntb-starter {
+            background: var(--gd);
+            color: var(--green);
+            border: 1px solid rgba(62, 207, 142, 0.25);
+        }
+        .ntb-pro {
+            background: var(--bd);
+            color: var(--blue);
+            border: 1px solid rgba(96, 165, 250, 0.25);
+        }
+        .ntb-enterprise {
+            background: var(--od);
+            color: var(--orange);
+            border: 1px solid rgba(249, 115, 22, 0.3);
+        }
+
+        /* Node states */
+        .node.locked {
+            opacity: 0.30;
+            filter: grayscale(0.5);
+            pointer-events: none;
+            border-style: dashed;
+        }
+        .node.locked .node-tier-badge {
+            opacity: 1;
+            filter: none;
+        }
+        .node.available {
+            opacity: 1;
+            filter: none;
+            border-style: solid;
+        }
+        .node.available.glow-green {
+            border-color: rgba(62, 207, 142, 0.25);
+            box-shadow: 0 0 16px rgba(62, 207, 142, 0.05);
+        }
+        .node.available.glow-blue {
+            border-color: rgba(96, 165, 250, 0.25);
+            box-shadow: 0 0 16px rgba(96, 165, 250, 0.05);
+        }
+        .node.available.glow-orange {
+            border-color: rgba(249, 115, 22, 0.25);
+            box-shadow: 0 0 16px rgba(249, 115, 22, 0.05);
+        }
+        .node.selected {
+            border-color: var(--green) !important;
+            box-shadow: 0 0 28px rgba(62, 207, 142, 0.18) !important;
+            background: var(--s3);
+            z-index: 5;
+        }
+        @keyframes pulseNode {
+            0%,
+            100% {
+                box-shadow: 0 0 6px rgba(62, 207, 142, 0.03);
+            }
+            50% {
+                box-shadow: 0 0 18px rgba(62, 207, 142, 0.10);
+            }
+        }
+        .node.pulse {
+            animation: pulseNode 2.6s ease-in-out infinite;
+        }
+
+        /* DETAIL PANEL */
+        .detail-panel {
+            background: var(--s1);
+            border: 1px solid var(--b1);
+            border-radius: var(--r);
+            padding: 0 18px;
+            overflow: hidden;
+            transition: all .35s cubic-bezier(0.4, 0, 0.2, 1);
+            max-height: 0;
+            opacity: 0;
+            margin-bottom: 8px;
+        }
+        .detail-panel.open {
+            max-height: 380px;
+            opacity: 1;
+            padding: 14px 18px;
+        }
+        .detail-title {
+            font-family: var(--mono);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: var(--green);
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+        .detail-body {
+            font-size: 12px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+        .detail-body strong {
+            color: var(--white);
+        }
+        .detail-tier-row {
+            display: flex;
+            gap: 6px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        .detail-tier-pill {
+            font-family: var(--mono);
+            font-size: 9px;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 4px;
+            letter-spacing: 0.5px;
+        }
+        .dtp-on {
+            background: var(--gd);
+            color: var(--green);
+            border: 1px solid rgba(62, 207, 142, 0.2);
+        }
+        .dtp-off {
+            background: transparent;
+            color: var(--dim);
+            border: 1px solid var(--b1);
+        }
+
+        /* LEGEND */
+        .legend {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            padding: 8px 0;
+            font-size: 10px;
+            color: var(--muted);
+            font-family: var(--mono);
+            letter-spacing: 0.5px;
+            align-items: center;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 9px;
+        }
+        .legend-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .legend-dash {
+            width: 14px;
+            height: 1.5px;
+            flex-shrink: 0;
+            border-radius: 1px;
+        }
+
+        /* SVG ANIMATIONS */
+        @keyframes flowDash {
+            to {
+                stroke-dashoffset: -22;
+            }
+        }
+
+        /* RESPONSIVE */
+        @media(max-width:768px) {
+            .flow-body {
+                padding: 14px 4px 18px;
+                min-height: 560px;
+            }
+            .flow-grid {
+                gap: 22px;
+            }
+            .flow-row {
+                gap: 5px;
+                padding-left: 0;
+            }
+            .flow-row-label {
+                display: none;
+            }
+            .node {
+                padding: 8px 9px;
+                min-width: 56px;
+                gap: 2px;
+                border-radius: 5px;
+            }
+            .node-idt {
+                font-size: 7px;
+                padding: 1px 4px;
+            }
+            .node-name {
+                font-size: 7px;
+            }
+            .node-sub {
+                font-size: 7px;
+                max-width: 70px;
+            }
+            .node-tier-badge {
+                font-size: 6px;
+                padding: 1px 5px;
+                top: -5px;
+                right: -5px;
+            }
+            .topbar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+            .sc-btn {
+                font-size: 9px;
+                padding: 3px 8px;
+            }
+            .persona-btn {
+                font-size: 9px;
+                padding: 4px 9px;
+            }
+            .setup-fee-callout {
+                font-size: 7px;
+                padding: 2px 5px;
+                margin-left: 3px;
+            }
+        }
+        @media(max-width:480px) {
+            .flow-body {
+                padding: 10px 2px 14px;
+                min-height: 420px;
+            }
+            .flow-grid {
+                gap: 14px;
+            }
+            .node {
+                padding: 6px 7px;
+                min-width: 42px;
+                border-radius: 4px;
+            }
+            .node-idt {
+                font-size: 6px;
+                padding: 1px 3px;
+            }
+            .node-name {
+                font-size: 6px;
+                letter-spacing: 0;
+            }
+            .node-sub {
+                display: none;
+            }
+            .node-tier-badge {
+                font-size: 5px;
+                padding: 1px 4px;
+                top: -4px;
+                right: -4px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="shell">
+        <!-- TOPBAR -->
+        <div class="topbar">
+            <div class="tb-left">
+                <div class="brand-icon"><span>24/7</span></div>
+                <span class="brand-name">24/7 PROJECT</span>
+            </div>
+            <div class="tb-right">
+                <span class="page-subtitle" id="page-subtitle">Workflow & Integration Pipeline</span>
+                <button class="lang-btn" id="lang-btn" onclick="toggleLang()">EN</button>
+            </div>
+        </div>
+
+        <!-- USE CASE SWITCHER -->
+        <div class="persona-row" id="persona-row">
+            <span class="persona-label" data-i18n="uc_label">Anwendungsfall:</span>
+            <button class="persona-btn active-lg" data-uc="leadgen" onclick="setUseCase('leadgen',this)">
+                <span class="dot-lg"></span><span data-i18n="uc_leadgen">Lead Gen & Closing</span>
+            </button>
+            <button class="persona-btn" data-uc="hiring" onclick="setUseCase('hiring',this)">
+                <span class="dot-hi"></span><span data-i18n="uc_hiring">Hiring Agency</span>
+            </button>
+            <button class="persona-btn" data-uc="secretary" onclick="setUseCase('secretary',this)">
+                <span class="dot-se"></span><span data-i18n="uc_secretary">KI-Rezeptionist</span>
+            </button>
+        </div>
+
+        <!-- TIER SWITCHER -->
+        <div class="sc-row">
+            <span class="sc-label" data-i18n="tier_label">Stufe:</span>
+            <button class="sc-btn active-s" data-tier="starter" onclick="setTier('starter',this)">
+                <span class="sc-dot-s"></span>Starter<span class="tier-badge badge-s">&euro;699</span>
+            </button>
+            <button class="sc-btn" data-tier="pro" onclick="setTier('pro',this)">
+                <span class="sc-dot-p"></span>Professional<span class="tier-badge badge-p">&euro;4,5K</span><span class="setup-fee-callout">+&euro;2.500 Setup</span>
+            </button>
+            <button class="sc-btn" data-tier="enterprise" onclick="setTier('enterprise',this)">
+                <span class="sc-dot-e"></span>Enterprise<span class="tier-badge badge-e">&euro;25K</span><span class="setup-fee-callout">+&euro;5.000 Setup</span>
+            </button>
+        </div>
+
+        <!-- FLOW CARD -->
+        <div class="card">
+            <div class="ch">
+                <span class="ct" data-i18n="flow_title">ARCHITEKTUR-PIPELINE</span>
+                <span style="font-family:var(--mono);font-size:9px;color:var(--muted)" id="flow-tier-indicator"></span>
+            </div>
+            <div class="flow-body" id="flow-body">
+                <svg class="flow-svg" id="flow-svg"></svg>
+                <div class="flow-grid" id="flow-grid"></div>
+            </div>
+        </div>
+
+        <!-- DETAIL PANEL -->
+        <div class="detail-panel" id="detail-panel">
+            <div class="detail-title" id="detail-title"></div>
+            <div class="detail-body" id="detail-body"></div>
+            <div class="detail-tier-row" id="detail-tiers"></div>
+        </div>
+
+        <!-- LEGEND -->
+        <div class="legend">
+            <span style="color:var(--dim);text-transform:uppercase;letter-spacing:1px;font-size:8px" data-i18n="legend_title">Legende:</span>
+            <span class="legend-item"><span class="legend-dot" style="background:var(--green)"></span><span data-i18n="legend_starter">Starter &euro;699</span></span>
+            <span class="legend-item"><span class="legend-dot" style="background:var(--blue)"></span><span data-i18n="legend_pro">Professional &euro;4,5K</span></span>
+            <span class="legend-item"><span class="legend-dot" style="background:var(--orange)"></span><span data-i18n="legend_ent">Enterprise &euro;25K</span></span>
+            <span class="legend-item" style="margin-left:6px"><span class="legend-dash" style="background:var(--s3);border:1px dashed var(--dim)"></span><span data-i18n="legend_locked">Gesperrt</span></span>
+            <span class="legend-item"><svg width="14" height="3" style="flex-shrink:0;overflow:visible"><line x1="0" y1="1.5" x2="14" y2="1.5" stroke="#3ECF8E" stroke-width="1.5" stroke-dasharray="7 4" stroke-linecap="round"><animate attributeName="stroke-dashoffset" from="0" to="-22" dur="0.8s" repeatCount="indefinite"/></line></svg><span data-i18n="legend_active">Aktiver Fluss</span></span>
+            <span class="legend-item" style="margin-left:6px"><span style="color:var(--amber);font-size:9px">&#9650;</span><span data-i18n="legend_setup">Setup-Gebühr</span></span>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // ──────────────────────────────────────
+            // LANGUAGE DATA
+            // ──────────────────────────────────────
+            const LANG = {
+                de: {
+                    page_subtitle: 'Workflow & Integrations-Pipeline',
+                    uc_label: 'Anwendungsfall:',
+                    uc_leadgen: 'Lead Gen & Closing',
+                    uc_hiring: 'Hiring Agency',
+                    uc_secretary: 'KI-Rezeptionist',
+                    tier_label: 'Stufe:',
+                    flow_title: 'ARCHITEKTUR-PIPELINE',
+                    legend_title: 'Legende:',
+                    legend_starter: 'Starter €699',
+                    legend_pro: 'Professional €4,5K',
+                    legend_ent: 'Enterprise €25K',
+                    legend_locked: 'Gesperrt',
+                    legend_active: 'Aktiver Fluss',
+                    legend_setup: 'Setup-Gebühr',
+                    row_sources: 'Quellen',
+                    row_payments: 'Zahlungen',
+                    row_n8n: 'n8n Automation',
+                    row_ai_engine: 'KI-Engine',
+                    row_intelligence: 'Analyse',
+                    row_actions: 'Aktionen',
+                    row_human: 'Übergabe',
+                    tier_starter: 'Starter',
+                    tier_pro: 'Professional',
+                    tier_ent: 'Enterprise',
+                    click_node: 'Node anklicken für Details',
+                },
+                en: {
+                    page_subtitle: 'Workflow & Integration Pipeline',
+                    uc_label: 'Use Case:',
+                    uc_leadgen: 'Lead Gen & Closing',
+                    uc_hiring: 'Hiring Agency',
+                    uc_secretary: 'AI Secretary',
+                    tier_label: 'Tier:',
+                    flow_title: 'ARCHITECTURE PIPELINE',
+                    legend_title: 'Legend:',
+                    legend_starter: 'Starter €699',
+                    legend_pro: 'Professional €4.5K',
+                    legend_ent: 'Enterprise €25K',
+                    legend_locked: 'Locked',
+                    legend_active: 'Active flow',
+                    legend_setup: 'Setup Fee',
+                    row_sources: 'Sources',
+                    row_payments: 'Payments',
+                    row_n8n: 'n8n Automation',
+                    row_ai_engine: 'AI Engine',
+                    row_intelligence: 'Intelligence',
+                    row_actions: 'Actions',
+                    row_human: 'Handoff',
+                    tier_starter: 'Starter',
+                    tier_pro: 'Professional',
+                    tier_ent: 'Enterprise',
+                    click_node: 'Click a node for details',
+                }
+            };
+
+            // ──────────────────────────────────────
+            // NODE CONFIGURATION
+            // ──────────────────────────────────────
+            const NODE_CONFIG = {
+                leadgen: {
+                    rows: [
+                        { id: 'sources', nodes: [
+                                { id: 'meta-ads', idt: 'MA', name: { de: 'Meta Ads', en: 'Meta Ads' },
+                                    sub: { de: 'Full-Service Ads', en: 'Full-Service Ads' }, tier: 'pro',
+                                    desc: {
+                                        de: '<strong>Professional+: Full-Service Meta Ads Management.</strong> Wir erstellen, schalten und optimieren deine Facebook/Instagram-Kampagnen. Inklusive Creative-Entwicklung, Zielgruppen-Targeting und monatlichem Reporting. Warm Leads fließen direkt in die KI-Anruf-Pipeline.<br><br><strong>Enterprise:</strong> Dedizierter Ad-Manager (€2.000/Monat) mit täglichem Monitoring, wöchentlichen Strategie-Calls und Creative-Refreshs (€300/Monat). Ad-Spend: €3.000+ Baseline (Real Estate: €2K → 50 Leads → 2 Sales → €10K Revenue = <strong>5x ROI</strong> auf Ad-Spend).',
+                                        en: '<strong>Professional+: Full-Service Meta Ads Management.</strong> We create, run and optimise your Facebook/Instagram campaigns. Includes creative development, audience targeting and monthly reporting. Warm leads flow directly into the AI calling pipeline.<br><br><strong>Enterprise:</strong> Dedicated ad manager (€2,000/mo) with daily monitoring, weekly strategy calls and creative refreshes (€300/mo). Ad spend: €3,000+ baseline (Real Estate: €2K → 50 leads → 2 sales → €10K revenue = <strong>5x ROI</strong> on ad spend).'
+                                    } },
+                                { id: 'linkedin-bot', idt: 'LI', name: { de: 'LinkedIn Bot',
+                                        en: 'LinkedIn Bot' }, sub: { de: 'Outreach-Automation',
+                                        en: 'Outreach auto' }, tier: 'enterprise', desc: {
+                                        de: 'Automatisierte LinkedIn-Ansprache via ScrapIn/PhantomBuster. 3.000+ personalisierte Nachrichten/Monat. Optimal für B2B-Produkte unter €1K, bei denen Meta Ads zu teuer pro Lead sind. €150-300/Monat Tool-Kosten. ~3% Antwortrate → 90 Responses → ~27 qualifizierte Leads/Monat.',
+                                        en: 'Automated LinkedIn outreach via ScrapIn/PhantomBuster. 3,000+ personalised messages/month. Best for B2B products under €1K where Meta ads are too expensive per lead. €150-300/mo tool costs. ~3% response rate → 90 responses → ~27 qualified leads/month.'
+                                    } },
+                                { id: 'csv-upload', idt: 'CSV', name: { de: 'CSV-Upload',
+                                        en: 'CSV Upload' }, sub: { de: 'Massenimport', en: 'Bulk import' },
+                                    tier: 'starter', desc: {
+                                        de: 'Lead-Listen via CSV in das Dashboard hochladen. Automatische Erkennung deutscher Telefonformate (0171→+49171), Semikolon-Trennzeichen und mehrsprachiger Spaltenüberschriften. Verarbeitung über die Batch Call API.',
+                                        en: 'Upload lead lists via CSV into the dashboard. Auto-detects German phone formats (0171→+49171), semicolon delimiters, and multilingual column headers. Processed through the Batch Call API.'
+                                    } },
+                                { id: 'manual-entry', idt: '+', name: { de: 'Manuelle Eingabe',
+                                        en: 'Manual Entry' }, sub: { de: 'Einzeln hinzufügen',
+                                        en: 'One-by-one' }, tier: 'starter', desc: {
+                                        de: 'Einzelne Leads manuell über das Dashboard hinzufügen. Telefonnummer + optionaler Name. Sofortige Warteschlange für die nächste Outbound-Kampagne.',
+                                        en: 'Add individual leads manually through the dashboard. Phone number + optional name. Instant queue for the next outbound campaign cycle.'
+                                    } },
+                                { id: 'inbound-call', idt: 'IN', name: { de: 'Eingehend',
+                                        en: 'Inbound Call' }, sub: { de: '24/7 Empfang',
+                                        en: '24/7 reception' }, tier: 'pro', desc: {
+                                        de: 'Eingehende Anrufe werden rund um die Uhr vom KI-Agenten beantwortet. Anrufer-ID-Erkennung, Kundenabgleich und intelligentes Routing basierend auf der Anruferabsicht.',
+                                        en: 'Inbound phone calls answered 24/7 by the AI agent. Caller ID recognition, customer lookup, and intelligent routing based on caller intent.'
+                                    } }
+                            ] },
+                        { id: 'payments', nodes: [
+                                { id: 'digistore24', idt: 'DG', name: { de: 'Digistore24',
+                                        en: 'Digistore24' }, sub: { de: 'Primäre Abwicklung',
+                                        en: 'Primary processor' }, tier: 'starter', desc: {
+                                        de: 'Digistore24 verarbeitet Abonnements (€699/€4.499/€24.999), Overage-Pakete (€300/€1.100) und den €1-Trial. IPN-Webhooks feuern bei Kauf, Rebill, Refund und Chargeback. <strong>5% Plattformgebühr</strong> auf alle Transaktionen.<br><br>Bekannte Einschränkung: Produkt-Freigaben können sich verzögern. Kein natives Per-Minute-Billing.',
+                                        en: 'Digistore24 processes subscriptions (€699/€4,499/€24,999), overage packages (€300/€1,100) and the €1 trial. IPN webhooks fire on purchase, rebill, refund and chargeback. <strong>5% platform fee</strong> on all transactions.<br><br>Known limitation: Product approvals can delay. No native per-minute billing.'
+                                    } },
+                                { id: 'stripe', idt: 'ST', name: { de: 'Stripe', en: 'Stripe' },
+                                    sub: { de: 'Redundanz & Parallel', en: 'Redundancy & parallel' },
+                                    tier: 'pro', desc: {
+                                        de: '<strong>Parallele Stripe-Integration als Fallback und Ergänzung.</strong> Greift, wenn Digistore24-Produktfreigaben stocken oder wenn Kunden direkt per Kreditkarte zahlen wollen. Ermöglicht auch kundenspezifische Abrechnungsmodelle, die Digistore24 nicht nativ unterstützt (Usage-Based, gestaffelte Raten).<br><br>Professional+: Stripe Checkout für Overage-Pakete. Enterprise: Vollständige Stripe-Subscription-API mit Webhook-gesteuerter Provisionierung.',
+                                        en: '<strong>Parallel Stripe integration as fallback and supplement.</strong> Kicks in when Digistore24 product approvals stall or when clients prefer direct credit card payment. Also enables custom billing models that Digistore24 cannot handle natively (usage-based, tiered rates).<br><br>Professional+: Stripe Checkout for overage packages. Enterprise: Full Stripe Subscription API with webhook-driven provisioning.'
+                                    } }
+                            ] },
+                        { id: 'n8n', nodes: [
+                                { id: 'wf-new-sale', idt: '01', name: { de: 'New Sale',
+                                        en: 'New Sale' }, sub: { de: 'IPN → Provisioning',
+                                        en: 'IPN → Provisioning' }, tier: 'starter', desc: {
+                                        de: '<strong>Workflow 01:</strong> Digistore24 IPN empfangen → Passphrase verifizieren → Produkt-ID auf Tier mappen (€699 Starter / €4.499 Professional / €24.999 Enterprise) → Client in Supabase anlegen oder upgraden → Retell-Agent klonen → Rufnummer kaufen → JWT Magic Link generieren → Willkommens-E-Mail senden. <strong>Vollständig automatisiert in unter 60 Sekunden.</strong>',
+                                        en: '<strong>Workflow 01:</strong> Receive Digistore24 IPN → verify passphrase → map product ID to tier (€699 Starter / €4,499 Professional / €24,999 Enterprise) → create or upgrade client in Supabase → clone Retell agent → purchase phone number → generate JWT magic link → send welcome email. <strong>Fully automated in under 60 seconds.</strong>'
+                                    } },
+                                { id: 'wf-call-ended', idt: '02', name: { de: 'Call Ended',
+                                        en: 'Call Ended' }, sub: { de: 'Logging + Usage',
+                                        en: 'Logging + Usage' }, tier: 'starter', desc: {
+                                        de: '<strong>Workflow 02:</strong> Retell-Webhook empfängt call_ended-Event → Call-Log in Supabase schreiben (Transkript, Summary, Lead-Score, Sentiment, Duration) → Minuten-Nutzung via RPC berechnen → Bei 80%: Warn-E-Mail + warn_sent_at-Flag → Bei 100%: Client suspendieren + Suspend-E-Mail mit Overage-Kauflinks → Lead-Status in der Datenbank aktualisieren.',
+                                        en: '<strong>Workflow 02:</strong> Retell webhook receives call_ended event → write call log to Supabase (transcript, summary, lead score, sentiment, duration) → calculate minute usage via RPC → At 80%: warning email + warn_sent_at flag → At 100%: suspend client + suspend email with overage purchase links → update lead status in database.'
+                                    } },
+                                { id: 'wf-usage-check', idt: '03', name: { de: 'Usage Check',
+                                        en: 'Usage Check' }, sub: { de: 'Pre-Call Gate',
+                                        en: 'Pre-Call Gate' }, tier: 'starter', desc: {
+                                        de: '<strong>Workflow 03:</strong> Wird von Retell vor jedem Outbound-Anruf aufgerufen. Prüft: Client-Status (active/trial?) → Genügend Minuten übrig? → Wenn suspended oder Minuten aufgebraucht: Anruf blockieren. Schützt vor unerwarteten Kosten.',
+                                        en: '<strong>Workflow 03:</strong> Called by Retell before every outbound call. Checks: Client status (active/trial?) → Enough minutes remaining? → If suspended or minutes exhausted: block call. Protects against unexpected costs.'
+                                    } },
+                                { id: 'wf-overage', idt: '04', name: { de: 'Overage Kauf',
+                                        en: 'Overage Purchase' }, sub: { de: 'Minuten-Topup',
+                                        en: 'Minute top-up' }, tier: 'starter', desc: {
+                                        de: '<strong>Workflow 04:</strong> Digistore24 IPN für Overage-Produkte (675784: 1.000 Min / 675789: 5.000 Min) → Client identifizieren → overage_minutes erhöhen → Bei suspended-Status: automatisch auf active reaktivieren. Sofortige Wiederaufnahme des Anrufbetriebs.',
+                                        en: '<strong>Workflow 04:</strong> Digistore24 IPN for overage products (675784: 1,000 min / 675789: 5,000 min) → identify client → increase overage_minutes → If suspended: automatically reactivate to active. Instant resumption of call operations.'
+                                    } },
+                                { id: 'wf-trial-expiry', idt: '05', name: { de: 'Trial Expiry',
+                                        en: 'Trial Expiry' }, sub: { de: 'Täglich 03:00',
+                                        en: 'Daily 03:00' }, tier: 'starter', desc: {
+                                        de: '<strong>Workflow 05:</strong> Cron-Job täglich um 03:00 Uhr. Sucht nach Trials mit abgelaufener trial_ends_at + 24h Gnadenfrist, die NICHT auf paid upgegraded wurden → Status auf cancelled setzen → Abschluss-E-Mail mit Link zum Neustart.',
+                                        en: '<strong>Workflow 05:</strong> Cron job daily at 03:00. Finds trials with expired trial_ends_at + 24h grace period that were NOT upgraded to paid → set status to cancelled → closing email with restart link.'
+                                    } },
+                                { id: 'wf-monthly-reset', idt: '06', name: { de: 'Monthly Reset',
+                                        en: 'Monthly Reset' }, sub: { de: '1. des Monats',
+                                        en: '1st of month' }, tier: 'starter', desc: {
+                                        de: '<strong>Workflow 06:</strong> Cron-Job am 1. jedes Monats um 02:00 Uhr. Setzt alle aktiven und suspended-Clients zurück: overage_minutes = 0, status = active, warn_sent_at = null, renewal_date = nächster Monat. Harte Trennung zwischen Basis-Kontingent und Overage.',
+                                        en: '<strong>Workflow 06:</strong> Cron job on the 1st of each month at 02:00. Resets all active and suspended clients: overage_minutes = 0, status = active, warn_sent_at = null, renewal_date = next month. Hard separation between base allocation and overage.'
+                                    } },
+                                { id: 'wf-cancellation', idt: '07', name: { de: 'Cancellation',
+                                        en: 'Cancellation' }, sub: { de: 'Refund/Chargeback',
+                                        en: 'Refund/Chargeback' }, tier: 'starter', desc: {
+                                        de: '<strong>Workflow 07:</strong> Digistore24 IPN für on_refund, on_payment_missed, on_chargeback, on_cancellation → Client in Supabase auf cancelled setzen → Bestätigungs-E-Mail senden. Idempotent: bereits cancelled-Clients werden übersprungen.',
+                                        en: '<strong>Workflow 07:</strong> Digistore24 IPN for on_refund, on_payment_missed, on_chargeback, on_cancellation → set client to cancelled in Supabase → send confirmation email. Idempotent: already cancelled clients are skipped.'
+                                    } },
+                                { id: 'wf-email-drip', idt: '08', name: { de: 'Email Drip',
+                                        en: 'Email Drip' }, sub: { de: '5-Sequenzen',
+                                        en: '5-sequence' }, tier: 'starter', desc: {
+                                        de: '<strong>Workflow 08:</strong> Cron-Job täglich um 09:00 Uhr. 5-stufige deutsche E-Mail-Sequenz (Tag 1/3/5/7/14) ab Kaufdatum. Personalisierte Magic Links, tier-spezifische Inhalte, Nutzungsstatistiken. drip_step-Spalte verhindert Duplikate.',
+                                        en: '<strong>Workflow 08:</strong> Cron job daily at 09:00. 5-stage German email sequence (day 1/3/5/7/14) from purchase date. Personalised magic links, tier-specific content, usage statistics. drip_step column prevents duplicates.'
+                                    } },
+                                { id: 'wf-batch-dialer', idt: '09', name: { de: 'Batch Dialer',
+                                        en: 'Batch Dialer' }, sub: { de: 'Kampagnen-Start',
+                                        en: 'Campaign launch' }, tier: 'starter', desc: {
+                                        de: '<strong>Workflow 09:</strong> Dashboard-Webhook empfangen → Client + Agent-Settings laden (Zeitfenster, aktive Tage, Unternehmensdaten) → Pending Leads aus Supabase abrufen → Retell Batch Call API mit dynamischen Variablen (company_name, contact_name, target_industry, target_role) aufrufen → Leads auf "calling" setzen.',
+                                        en: '<strong>Workflow 09:</strong> Receive dashboard webhook → load client + agent settings (time window, active days, company data) → fetch pending leads from Supabase → call Retell Batch Call API with dynamic variables (company_name, contact_name, target_industry, target_role) → set leads to "calling".'
+                                    } }
+                            ] },
+                        { id: 'ai-engine', nodes: [
+                                { id: 'retell-voice', idt: 'RT', name: { de: 'Retell Voice',
+                                        en: 'Retell Voice' }, sub: { de: 'Orchestrator',
+                                        en: 'Orchestrator' }, tier: 'starter', desc: {
+                                        de: 'Retell Voice Engine orchestriert den KI-Anruf: Sprecherwechsel, Latenzmanagement, Unterbrechungserkennung. ~$0,055/min. Basis: 20 gleichzeitige Anrufe inklusive. $8/Monat pro zusätzlichem parallelem Anruf.',
+                                        en: 'Retell Voice Engine orchestrates the AI call: turn-taking, latency management, interruption handling. ~$0.055/min. Base: 20 concurrent calls included. $8/mo per additional concurrent call.'
+                                    } },
+                                { id: 'elevenlabs-tts', idt: 'EL', name: { de: 'ElevenLabs TTS',
+                                        en: 'ElevenLabs TTS' }, sub: { de: 'Carola-Stimme',
+                                        en: 'Carola voice' }, tier: 'starter', desc: {
+                                        de: 'ElevenLabs Text-to-Speech mit der Carola-Stimme. Natürliche deutsche Aussprache, angemessene Prosodie und emotionale Tonanpassung. ~$0,015/min.',
+                                        en: 'ElevenLabs Text-to-Speech with the Carola voice. Natural German pronunciation, appropriate prosody and emotional tone matching. ~$0.015/min.'
+                                    } },
+                                { id: 'gemini-llm', idt: 'GM', name: { de: 'Gemini Flash',
+                                        en: 'Gemini Flash' }, sub: { de: 'Entscheidungsmotor',
+                                        en: 'Decision engine' }, tier: 'starter', desc: {
+                                        de: 'Gemini 3.0 Flash LLM dient als KI-Gehirn — entscheidet, was basierend auf Prompt, Wissensdatenbank und Echtzeit-Gesprächskontext gesagt wird. ~$0,027/min. Niedrige Latenz für natürlichen Gesprächsfluss.',
+                                        en: 'Gemini 3.0 Flash LLM serves as the AI brain — decides what to say based on prompt, knowledge base and real-time conversation context. ~$0.027/min. Low latency for natural conversation flow.'
+                                    } }
+                            ] },
+                        { id: 'intelligence', nodes: [
+                                { id: 'sentiment', idt: 'SE', name: { de: 'Sentiment',
+                                        en: 'Sentiment' }, sub: { de: 'Tonanalyse', en: 'Tone analysis' },
+                                    tier: 'pro', desc: {
+                                        de: 'Echtzeit-Sentiment-Erkennung. Klassifiziert Gespräche als positiv, neutral oder negativ. Enterprise: erweiterte Analyse mit Trend-Erkennung über Kampagnen hinweg.',
+                                        en: 'Real-time sentiment detection. Classifies conversations as positive, neutral or negative. Enterprise: advanced analysis with trend detection across campaigns.'
+                                    } },
+                                { id: 'lead-score', idt: 'LS', name: { de: 'Lead-Score',
+                                        en: 'Lead Score' }, sub: { de: '0-100 Bewertung',
+                                        en: '0-100 rating' }, tier: 'pro', desc: {
+                                        de: 'KI-generierte Lead-Qualitätsbewertung (0-100). Hot Prospects (80+) werden für sofortiges Follow-up markiert. Enterprise: Custom Scoring-Modelle pro Branche.',
+                                        en: 'AI-generated lead quality score (0-100). Hot prospects (80+) flagged for immediate follow-up. Enterprise: custom scoring models per industry.'
+                                    } },
+                                { id: 'transcript', idt: 'TR', name: { de: 'Transkript',
+                                        en: 'Transcript' }, sub: { de: 'Volltext', en: 'Full text' },
+                                    tier: 'starter', desc: {
+                                        de: 'Vollständiges Anruftranskript in Supabase. Durchsuchbar, mit Zeitstempeln, für Prompt-Tuning und Compliance.',
+                                        en: 'Complete call transcript in Supabase. Searchable, timestamped, for prompt tuning and compliance.'
+                                    } },
+                                { id: 'summary', idt: 'SU', name: { de: 'KI-Zusammenfassung',
+                                        en: 'AI Summary' }, sub: { de: 'Kernpunkte', en: 'Key takeaways' },
+                                    tier: 'starter', desc: {
+                                        de: 'Prägnante KI-generierte Anrufzusammenfassung. Enterprise: Detailed Summary mit Einwand-Analyse und empfohlenen nächsten Schritten.',
+                                        en: 'Concise AI-generated call summary. Enterprise: detailed summary with objection analysis and recommended next steps.'
+                                    } }
+                            ] },
+                        { id: 'actions', nodes: [
+                                { id: 'crm-sync', idt: 'CR', name: { de: 'CRM-Sync', en: 'CRM Sync' },
+                                    sub: { de: 'Make.com Flows', en: 'Make.com flows' }, tier: 'pro',
+                                    desc: {
+                                        de: 'Make.com-Webhooks übertragen Anrufergebnisse direkt in HubSpot/Salesforce/Pipedrive. Professional: 10 automatisierte Flows. Enterprise: unbegrenzt + Custom-Flows nach Kundenwunsch.',
+                                        en: 'Make.com webhooks push call outcomes directly into HubSpot/Salesforce/Pipedrive. Professional: 10 automated flows. Enterprise: unlimited + custom flows per client request.'
+                                    } },
+                                { id: 'calendar-book', idt: 'CA', name: { de: 'Kalender',
+                                        en: 'Calendar' }, sub: { de: 'Auto-Buchung',
+                                        en: 'Auto-booking' }, tier: 'pro', desc: {
+                                        de: 'KI-Agent bucht Meetings direkt in Cal.com/Google Calendar/Outlook. Prüft Echtzeit-Verfügbarkeit und bestätigt beide Parteien via E-Mail/SMS.',
+                                        en: 'AI agent books meetings directly into Cal.com/Google Calendar/Outlook. Checks real-time availability and confirms both parties via email/SMS.'
+                                    } },
+                                { id: 'sms-followup', idt: 'SM', name: { de: 'SMS', en: 'SMS' },
+                                    sub: { de: 'Nachverfolgung', en: 'Follow-up' }, tier: 'pro', desc: {
+                                        de: 'Automatisierte SMS-Nachverfolgung: Terminbestätigungen, Erinnerungen, Re-Engagement. ~€15/Monat SMS-Kontingent in Professional enthalten.',
+                                        en: 'Automated SMS follow-up: meeting confirmations, reminders, re-engagement. ~€15/mo SMS credits included in Professional.'
+                                    } },
+                                { id: 'slack-notify', idt: 'SL', name: { de: 'Slack',
+                                        en: 'Slack' }, sub: { de: 'Echtzeit-Alarme',
+                                        en: 'Real-time alerts' }, tier: 'pro', desc: {
+                                        de: 'Sofortige Slack-Benachrichtigungen: Hot Lead (Score 80+), Meeting gebucht, Einwandmuster erkannt, Nutzungsschwelle erreicht. Enterprise: WhatsApp-Benachrichtigungen zusätzlich.',
+                                        en: 'Instant Slack notifications: hot lead (score 80+), meeting booked, objection pattern detected, usage threshold reached. Enterprise: WhatsApp notifications additionally.'
+                                    } },
+                                { id: 'email-drip', idt: 'EM', name: { de: 'E-Mail-Drip',
+                                        en: 'Email Drip' }, sub: { de: '5-Sequenzen',
+                                        en: '5-sequence' }, tier: 'starter', desc: {
+                                        de: 'Fünf-E-Mail-Drip auf Deutsch (Tage 1/3/5/7/14). Personalisierte Magic Links. Läuft via n8n-Cron (Workflow 08). drip_step-Tracking verhindert Duplikate.',
+                                        en: 'Five-email drip in German (days 1/3/5/7/14). Personalised magic links. Runs via n8n cron (Workflow 08). drip_step tracking prevents duplicates.'
+                                    } }
+                            ] },
+                        { id: 'human', nodes: [
+                                { id: 'sales-team', idt: 'VT', name: { de: 'Vertriebsteam',
+                                        en: 'Sales Team' }, sub: { de: 'Deals abschließen',
+                                        en: 'Close deals' }, tier: 'starter', desc: {
+                                        de: 'Qualifizierte Leads mit vollständigem Kontext an das menschliche Vertriebsteam: Anrufzusammenfassung, Lead-Score, Transkript, nächste Schritte. <strong>Die KI qualifiziert — der Mensch schließt ab.</strong><br><br>Enterprise: Dedizierter Account Manager (4h/Woche) für Strategie-Calls, Optimierung und Reporting.',
+                                        en: 'Qualified leads handed off to the human sales team with full context: call summary, lead score, transcript, next steps. <strong>The AI qualifies — the human closes.</strong><br><br>Enterprise: Dedicated account manager (4h/week) for strategy calls, optimisation and reporting.'
+                                    } },
+                                { id: 'recruiter', idt: 'PM', name: { de: 'Personalvermittler',
+                                        en: 'Recruiter' }, sub: { de: 'A-Kandidaten',
+                                        en: 'A-candidates' }, tier: 'pro', desc: {
+                                        de: 'Nur Top-10%-Kandidaten erreichen den Personalvermittler — vollständig vorab gescreent mit Verfügbarkeit, Gehaltsvorstellung und Qualifikationsprofil.',
+                                        en: 'Only top-10% candidates reach the recruiter — fully pre-screened with availability, salary expectation and qualification profile.'
+                                    } },
+                                { id: 'practice-owner', idt: 'PX', name: { de: 'Praxisinhaber',
+                                        en: 'Practice Owner' }, sub: { de: 'Nur Notfälle',
+                                        en: 'Emergency only' }, tier: 'pro', desc: {
+                                        de: 'Der Arzt wird nur bei echten Notfällen kontaktiert. Alle Routinetermine, FAQs und Nachrichten außerhalb der Öffnungszeiten werden vollständig von der KI bearbeitet.',
+                                        en: 'The doctor is only contacted for true emergencies. All routine appointments, FAQs and after-hours messages are fully handled by the AI.'
+                                    } }
+                            ] }
+                    ]
+                },
+                hiring: {
+                    rows: [
+                        { id: 'sources', nodes: [
+                                { id: 'csv-upload', idt: 'CSV', name: { de: 'CSV-Upload',
+                                        en: 'CSV Upload' }, sub: { de: 'Kandidatenliste',
+                                        en: 'Candidate list' }, tier: 'starter', desc: {
+                                        de: 'Kandidatenlisten via CSV hochladen. Telefonnummern, Namen und optionale Notizen. Verarbeitung über die Batch Call API für Outbound-Screening.',
+                                        en: 'Upload candidate lists via CSV. Phone numbers, names and optional notes. Processed through the Batch Call API for outbound screening.'
+                                    } },
+                                { id: 'manual-entry', idt: '+', name: { de: 'Manuelle Eingabe',
+                                        en: 'Manual Entry' }, sub: { de: 'Einzelkandidat',
+                                        en: 'Single candidate' }, tier: 'starter', desc: {
+                                        de: 'Einzelne Kandidaten manuell hinzufügen. Ideal für spontane Bewerber oder Empfehlungen.',
+                                        en: 'Add individual candidates manually. Ideal for walk-in applicants or referrals.'
+                                    } },
+                                { id: 'linkedin-sourcing', idt: 'LI', name: { de: 'LinkedIn Sourcing',
+                                        en: 'LinkedIn Sourcing' }, sub: { de: 'Passive Kandidaten',
+                                        en: 'Passive candidates' }, tier: 'enterprise', desc: {
+                                        de: 'Automatisiertes LinkedIn-Sourcing identifiziert passive Kandidaten. Outreach-Nachrichten laden zu einem kurzen Screening-Anruf mit dem KI-Recruiter ein.',
+                                        en: 'Automated LinkedIn sourcing identifies passive candidates. Outreach messages invite them to a quick screening call with the AI recruiter.'
+                                    } }
+                            ] },
+                        { id: 'payments', nodes: [
+                                { id: 'digistore24', idt: 'DG', name: { de: 'Digistore24',
+                                        en: 'Digistore24' }, sub: { de: 'Primäre Abwicklung',
+                                        en: 'Primary processor' }, tier: 'starter', desc: {
+                                        de: 'Digistore24 verarbeitet Abonnements und Overage-Pakete. IPN-Webhooks feuern bei Kauf, Rebill, Refund und Chargeback. <strong>5% Plattformgebühr.</strong>',
+                                        en: 'Digistore24 processes subscriptions and overage packages. IPN webhooks fire on purchase, rebill, refund and chargeback. <strong>5% platform fee.</strong>'
+                                    } },
+                                { id: 'stripe', idt: 'ST', name: { de: 'Stripe', en: 'Stripe' },
+                                    sub: { de: 'Redundanz', en: 'Redundancy' }, tier: 'pro', desc: {
+                                        de: 'Parallele Stripe-Integration als Fallback. Greift bei Digistore24-Verzögerungen oder wenn Kunden direkt per Kreditkarte zahlen wollen.',
+                                        en: 'Parallel Stripe integration as fallback. Kicks in during Digistore24 delays or when clients prefer direct credit card payment.'
+                                    } }
+                            ] },
+                        { id: 'n8n', nodes: [
+                                { id: 'wf-new-sale', idt: '01', name: { de: 'New Sale',
+                                        en: 'New Sale' }, sub: { de: 'IPN → Provisioning',
+                                        en: 'IPN → Provisioning' }, tier: 'starter', desc: {
+                                        de: '<strong>Workflow 01:</strong> Vollständig automatisierte Client-Provisionierung bei Kauf.',
+                                        en: '<strong>Workflow 01:</strong> Fully automated client provisioning on purchase.'
+                                    } },
+                                { id: 'wf-call-ended', idt: '02', name: { de: 'Call Ended',
+                                        en: 'Call Ended' }, sub: { de: 'Screening-Log',
+                                        en: 'Screening log' }, tier: 'starter', desc: {
+                                        de: '<strong>Workflow 02:</strong> Screening-Anruf protokollieren, Fit-Score berechnen, Usage tracken.',
+                                        en: '<strong>Workflow 02:</strong> Log screening call, calculate fit score, track usage.'
+                                    } },
+                                { id: 'wf-batch-dialer', idt: '09', name: { de: 'Batch Dialer',
+                                        en: 'Batch Dialer' }, sub: { de: 'Screening starten',
+                                        en: 'Start screening' }, tier: 'starter', desc: {
+                                        de: '<strong>Workflow 09:</strong> Batch-Screening-Kampagne mit dynamischen Variablen starten.',
+                                        en: '<strong>Workflow 09:</strong> Launch batch screening campaign with dynamic variables.'
+                                    } }
+                            ] },
+                        { id: 'ai-engine', nodes: [
+                                { id: 'retell-voice', idt: 'RT', name: { de: 'Retell Voice',
+                                        en: 'Retell Voice' }, sub: { de: 'Orchestrator',
+                                        en: 'Orchestrator' }, tier: 'starter', desc: {
+                                        de: 'Retell Voice Engine orchestriert den Screening-Anruf mit natürlichem Sprecherwechsel.',
+                                        en: 'Retell Voice Engine orchestrates the screening call with natural turn-taking.'
+                                    } },
+                                { id: 'elevenlabs-tts', idt: 'EL', name: { de: 'ElevenLabs TTS',
+                                        en: 'ElevenLabs TTS' }, sub: { de: 'Max-Stimme',
+                                        en: 'Max voice' }, tier: 'starter', desc: {
+                                        de: 'Professionelle deutsche Männerstimme (Max) für Personalvermittler-Anrufe.',
+                                        en: 'Professional German male voice (Max) for recruiter calls.'
+                                    } },
+                                { id: 'gemini-llm', idt: 'GM', name: { de: 'Gemini Flash',
+                                        en: 'Gemini Flash' }, sub: { de: 'Interview-Logik',
+                                        en: 'Interview logic' }, tier: 'starter', desc: {
+                                        de: 'Führt strukturierte 8-Minuten-Interviews: Verfügbarkeit → Erfahrung → Gehalt → Motivation.',
+                                        en: 'Conducts structured 8-minute interviews: availability → experience → salary → motivation.'
+                                    } }
+                            ] },
+                        { id: 'intelligence', nodes: [
+                                { id: 'fit-score', idt: 'FS', name: { de: 'Fit-Score',
+                                        en: 'Fit Score' }, sub: { de: 'A/B/C-Einstufung',
+                                        en: 'A/B/C rating' }, tier: 'pro', desc: {
+                                        de: 'Kandidaten als A (Top 10%), B (Backup) oder C (ablehnen) eingestuft.',
+                                        en: 'Candidates graded A (top 10%), B (backup) or C (decline).'
+                                    } },
+                                { id: 'transcript', idt: 'TR', name: { de: 'Transkript',
+                                        en: 'Transcript' }, sub: { de: 'Interview-Text',
+                                        en: 'Interview text' }, tier: 'starter', desc: {
+                                        de: 'Vollständiges Interview-Transkript für den Personalvermittler.',
+                                        en: 'Complete interview transcript for the recruiter.'
+                                    } }
+                            ] },
+                        { id: 'actions', nodes: [
+                                { id: 'ats-sync', idt: 'AT', name: { de: 'ATS-Sync',
+                                        en: 'ATS Sync' }, sub: { de: 'Workable/Lever',
+                                        en: 'Workable/Lever' }, tier: 'pro', desc: {
+                                        de: 'Gescreente Kandidaten direkt ins Applicant Tracking System übertragen.',
+                                        en: 'Push screened candidates directly into the Applicant Tracking System.'
+                                    } },
+                                { id: 'calendar-book', idt: 'CA', name: { de: 'Kalender',
+                                        en: 'Calendar' }, sub: { de: 'Interview-Buchung',
+                                        en: 'Interview booking' }, tier: 'pro', desc: {
+                                        de: 'Automatische Buchung von Folgeinterviews mit A-Kandidaten.',
+                                        en: 'Auto-book follow-up interviews with A-candidates.'
+                                    } },
+                                { id: 'slack-notify', idt: 'SL', name: { de: 'Slack',
+                                        en: 'Slack' }, sub: { de: 'A-Kandidat Alarm',
+                                        en: 'A-candidate alert' }, tier: 'pro', desc: {
+                                        de: 'Sofortige Benachrichtigung bei Identifizierung eines A-Kandidaten.',
+                                        en: 'Instant notification when an A-candidate is identified.'
+                                    } }
+                            ] },
+                        { id: 'human', nodes: [
+                                { id: 'recruiter', idt: 'PM', name: { de: 'Personalvermittler',
+                                        en: 'Recruiter' }, sub: { de: 'Nur A-Kandidaten',
+                                        en: 'A-candidates only' }, tier: 'starter', desc: {
+                                        de: 'Der Personalvermittler spricht nur mit den besten 10%. Spart 80%+ der Screening-Zeit.',
+                                        en: 'The recruiter only speaks with the top 10%. Saves 80%+ of screening time.'
+                                    } }
+                            ] }
+                    ]
+                },
+                secretary: {
+                    rows: [
+                        { id: 'sources', nodes: [
+                                { id: 'inbound-call', idt: 'IN', name: { de: 'Eingehender Anruf',
+                                        en: 'Inbound Call' }, sub: { de: 'Patientenanruf',
+                                        en: 'Patient call' }, tier: 'starter', desc: {
+                                        de: 'Alle eingehenden Anrufe der Praxis werden rund um die Uhr beantwortet. Automatische Patienten-Erkennung.',
+                                        en: 'All inbound calls to the practice answered 24/7. Automatic patient recognition.'
+                                    } }
+                            ] },
+                        { id: 'payments', nodes: [
+                                { id: 'digistore24', idt: 'DG', name: { de: 'Digistore24',
+                                        en: 'Digistore24' }, sub: { de: 'Abo + Overage',
+                                        en: 'Sub + Overage' }, tier: 'starter', desc: {
+                                        de: 'Digistore24 verarbeitet €699/Monat und Overage-Pakete. <strong>5% Plattformgebühr.</strong>',
+                                        en: 'Digistore24 processes €699/mo and overage packages. <strong>5% platform fee.</strong>'
+                                    } }
+                            ] },
+                        { id: 'n8n', nodes: [
+                                { id: 'wf-new-sale', idt: '01', name: { de: 'New Sale',
+                                        en: 'New Sale' }, sub: { de: 'Praxis-Provisioning',
+                                        en: 'Practice provisioning' }, tier: 'starter', desc: {
+                                        de: '<strong>Workflow 01:</strong> Automatische Praxis-Provisionierung bei Kauf inkl. Rufnummer.',
+                                        en: '<strong>Workflow 01:</strong> Automatic practice provisioning on purchase incl. phone number.'
+                                    } },
+                                { id: 'wf-call-ended', idt: '02', name: { de: 'Call Ended',
+                                        en: 'Call Ended' }, sub: { de: 'Termin-Log',
+                                        en: 'Appointment log' }, tier: 'starter', desc: {
+                                        de: '<strong>Workflow 02:</strong> Anruf protokollieren, Terminbuchung bestätigen, Usage tracken.',
+                                        en: '<strong>Workflow 02:</strong> Log call, confirm appointment booking, track usage.'
+                                    } }
+                            ] },
+                        { id: 'ai-engine', nodes: [
+                                { id: 'retell-voice', idt: 'RT', name: { de: 'Retell Voice',
+                                        en: 'Retell Voice' }, sub: { de: 'Orchestrator',
+                                        en: 'Orchestrator' }, tier: 'starter', desc: {
+                                        de: 'Unterscheidet zwischen Terminanfragen, FAQs und Notfällen.',
+                                        en: 'Distinguishes between appointment requests, FAQs and emergencies.'
+                                    } },
+                                { id: 'elevenlabs-tts', idt: 'EL', name: { de: 'ElevenLabs TTS',
+                                        en: 'ElevenLabs TTS' }, sub: { de: 'Lena-Stimme',
+                                        en: 'Lena voice' }, tier: 'starter', desc: {
+                                        de: 'Warme, professionelle deutsche Frauenstimme (Lena) für das Gesundheitswesen.',
+                                        en: 'Warm, professional German female voice (Lena) calibrated for healthcare.'
+                                    } },
+                                { id: 'gemini-llm', idt: 'GM', name: { de: 'Gemini Flash',
+                                        en: 'Gemini Flash' }, sub: { de: 'Triage-Logik',
+                                        en: 'Triage logic' }, tier: 'starter', desc: {
+                                        de: 'Triagiert jeden Anruf: Routinetermin buchen, FAQ beantworten, Notfall eskalieren.',
+                                        en: 'Triages every call: book routine appointment, answer FAQ, escalate emergency.'
+                                    } }
+                            ] },
+                        { id: 'intelligence', nodes: [
+                                { id: 'sentiment', idt: 'SE', name: { de: 'Patientenstimmung',
+                                        en: 'Patient Mood' }, sub: { de: 'Eskalations-Trigger',
+                                        en: 'Escalation trigger' }, tier: 'pro', desc: {
+                                        de: 'Erkennt verärgerte oder ängstliche Patienten und priorisiert sie für die Praxis.',
+                                        en: 'Detects upset or anxious patients and prioritises them for the practice.'
+                                    } }
+                            ] },
+                        { id: 'actions', nodes: [
+                                { id: 'calendar-book', idt: 'CA', name: { de: 'Kalender',
+                                        en: 'Calendar' }, sub: { de: 'Terminbuchung',
+                                        en: 'Appointment booking' }, tier: 'starter', desc: {
+                                        de: 'Direkte Buchung in Cal.com/Google Calendar mit SMS-/E-Mail-Bestätigung.',
+                                        en: 'Direct booking into Cal.com/Google Calendar with SMS/email confirmation.'
+                                    } },
+                                { id: 'sms-reminder', idt: 'SM', name: { de: 'SMS-Erinnerung',
+                                        en: 'SMS Reminder' }, sub: { de: 'No-Show-Reduktion',
+                                        en: 'No-show reduction' }, tier: 'pro', desc: {
+                                        de: 'Automatisierte SMS-Erinnerungen 24h vor dem Termin. Reduziert No-Shows erheblich.',
+                                        en: 'Automated SMS reminders 24h before appointment. Significantly reduces no-shows.'
+                                    } },
+                                { id: 'emergency-alert', idt: 'EA', name: { de: 'Notfall-Alarm',
+                                        en: 'Emergency Alert' }, sub: { de: 'Arzt-Benachrichtigung',
+                                        en: 'Doctor notified' }, tier: 'pro', desc: {
+                                        de: 'Notfälle lösen sofortige Slack-/WhatsApp-Benachrichtigung an den Arzt aus.',
+                                        en: 'Emergencies trigger immediate Slack/WhatsApp notification to the doctor.'
+                                    } }
+                            ] },
+                        { id: 'human', nodes: [
+                                { id: 'practice-owner', idt: 'PX', name: { de: 'Dr. Müller',
+                                        en: 'Dr. Müller' }, sub: { de: 'Nur Notfälle',
+                                        en: 'Emergency only' }, tier: 'starter', desc: {
+                                        de: 'Der Praxisinhaber wird nur bei echten Notfällen kontaktiert. Alles andere läuft vollständig über die KI.',
+                                        en: 'The practice owner is only contacted for true emergencies. Everything else runs fully through the AI.'
+                                    } }
+                            ] }
+                    ]
+                }
+            };
+
+            // ──────────────────────────────────────
+            // STATE
+            // ──────────────────────────────────────
+            let currentLang = 'de';
+            let currentTier = 'starter';
+            let currentUseCase = 'leadgen';
+            let selectedNodeId = null;
+            let particles = [];
+            let animFrameId = null;
+
+            // ──────────────────────────────────────
+            // DOM REFS
+            // ──────────────────────────────────────
+            const flowGrid = document.getElementById('flow-grid');
+            const flowSvg = document.getElementById('flow-svg');
+            const flowBody = document.getElementById('flow-body');
+            const detailPanel = document.getElementById('detail-panel');
+            const detailTitle = document.getElementById('detail-title');
+            const detailBody = document.getElementById('detail-body');
+            const detailTiers = document.getElementById('detail-tiers');
+            const flowTierIndicator = document.getElementById('flow-tier-indicator');
+            const pageSubtitle = document.getElementById('page-subtitle');
+            const langBtn = document.getElementById('lang-btn');
+
+            // ──────────────────────────────────────
+            // HELPERS
+            // ──────────────────────────────────────
+            function t(key) { return LANG[currentLang][key] || key; }
+
+            function tierRank(tier) { return tier === 'starter' ? 0 : tier === 'pro' ? 1 : 2; }
+
+            function isNodeAvailable(nodeTier) { return tierRank(currentTier) >= tierRank(nodeTier); }
+
+            function getGlowClass() { return currentTier === 'starter' ? 'glow-green' : currentTier === 'pro' ?
+                    'glow-blue' : 'glow-orange'; }
+
+            function getTierBadgeClass(tier) { return tier === 'starter' ? 'ntb-starter' : tier === 'pro' ?
+                    'ntb-pro' : 'ntb-enterprise'; }
+
+            function getTierBadgeText(tier) { return tier === 'enterprise' ? 'ENT' : tier === 'pro' ? 'PRO' :
+                    'STA'; }
+
+            function getGlowColor() { return currentTier === 'starter' ? '#3ECF8E' : currentTier === 'pro' ?
+                    '#60A5FA' : '#F97316'; }
+
+            function updateI18n() {
+                document.querySelectorAll('[data-i18n]').forEach(el => {
+                    const key = el.getAttribute('data-i18n');
+                    if (LANG[currentLang][key]) el.textContent = LANG[currentLang][key];
+                });
+                pageSubtitle.textContent = t('page_subtitle');
+                langBtn.textContent = currentLang === 'de' ? 'EN' : 'DE';
+                flowTierIndicator.textContent = t('click_node');
+            }
+
+            // ──────────────────────────────────────
+            // RENDER FLOW GRID
+            // ──────────────────────────────────────
+            function renderFlowGrid() {
+                const config = NODE_CONFIG[currentUseCase];
+                const glowClass = getGlowClass();
+                flowGrid.innerHTML = config.rows.map(row => {
+                    const rowLabel = t('row_' + row.id) || row.id;
+                    const nodesHTML = row.nodes.map(node => {
+                        const available = isNodeAvailable(node.tier);
+                        const lockedClass = available ? 'available ' + glowClass : 'locked';
+                        const selectedClass = node.id === selectedNodeId ? ' selected' : '';
+                        const pulseClass = available && node.tier === currentTier ? ' pulse' : '';
+                        const nodeName = node.name[currentLang] || node.name.en;
+                        const nodeSub = node.sub[currentLang] || node.sub.en;
+                        return `
+                  <div class="node ${lockedClass}${selectedClass}${pulseClass}"
+                       data-node-id="${node.id}" data-tier="${node.tier}"
+                       title="${nodeName} — ${nodeSub}">
+                    ${!available ? `<span class="node-tier-badge ${getTierBadgeClass(node.tier)}">${getTierBadgeText(node.tier)}</span>` : ''}
+                    <span class="node-idt ${available ? 'idt-available' : 'idt-locked'}">${node.idt}</span>
+                    <div class="node-name">${nodeName}</div>
+                    <div class="node-sub">${nodeSub}</div>
+                  </div>`;
+                    }).join('');
+                    return `<div class="flow-row" data-row-id="${row.id}"><span class="flow-row-label">${rowLabel}</span>${nodesHTML}</div>`;
+                }).join('');
+
+                document.querySelectorAll('.node:not(.locked)').forEach(el => {
+                    el.addEventListener('click', function() {
+                        onNodeClick(this.getAttribute('data-node-id'));
+                    });
+                });
+
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => updateSVGConnections());
+                });
+            }
+
+            // ──────────────────────────────────────
+            // SVG CONNECTIONS + PARTICLES
+            // ──────────────────────────────────────
+            function updateSVGConnections() {
+                const svg = flowSvg;
+                const containerRect = flowBody.getBoundingClientRect();
+                const rows = flowGrid.querySelectorAll('.flow-row');
+                const w = containerRect.width;
+                const h = containerRect.height;
+                svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+                svg.style.width = w + 'px';
+                svg.style.height = h + 'px';
+                svg.innerHTML = '';
+                const allPaths = [];
+                const glowColor = getGlowColor();
+
+                for (let i = 0; i < rows.length - 1; i++) {
+                    const topNodes = rows[i].querySelectorAll('.node');
+                    const bottomNodes = rows[i + 1].querySelectorAll('.node');
+                    const topAvail = [],
+                        bottomAvail = [];
+                    topNodes.forEach(n => { if (isNodeAvailable(n.getAttribute('data-tier'))) topAvail.push(
+                            n); });
+                    bottomNodes.forEach(n => { if (isNodeAvailable(n.getAttribute('data-tier')))
+                            bottomAvail.push(n); });
+                    if (!topAvail.length || !bottomAvail.length) continue;
+                    topAvail.forEach(tn => {
+                        const tRect = tn.getBoundingClientRect();
+                        const tx = tRect.left - containerRect.left + tRect.width / 2;
+                        const ty = tRect.top - containerRect.top + tRect.height;
+                        const scored = bottomAvail.map(bn => {
+                            const bRect = bn.getBoundingClientRect();
+                            const bx = bRect.left - containerRect.left + bRect.width / 2;
+                            const by = bRect.top - containerRect.top;
+                            return { node: bn, bx, by, dist: Math.abs(tx - bx) };
+                        }).sort((a, b) => a.dist - b.dist);
+                        scored.slice(0, Math.min(2, scored.length)).forEach(t => {
+                            const cy = (ty + t.by) / 2;
+                            allPaths.push({
+                                d: `M${tx.toFixed(1)},${ty.toFixed(1)} C${tx.toFixed(1)},${cy.toFixed(1)} ${t.bx.toFixed(1)},${cy.toFixed(1)} ${t.bx.toFixed(1)},${t.by.toFixed(1)}`
+                            });
+                        });
+                    });
+                }
+
+                allPaths.forEach(p => {
+                    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                    path.setAttribute('d', p.d);
+                    path.setAttribute('fill', 'none');
+                    path.setAttribute('stroke', glowColor);
+                    path.setAttribute('stroke-width', '1.4');
+                    path.setAttribute('stroke-dasharray', '7 4');
+                    path.setAttribute('stroke-linecap', 'round');
+                    path.setAttribute('opacity', '0.45');
+                    path.style.animation = 'flowDash 1.1s linear infinite';
+                    svg.appendChild(path);
+                });
+
+                const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+                const filter = document.createElementNS('http://www.w3.org/2000/svg', 'filter');
+                filter.setAttribute('id', 'glow');
+                filter.innerHTML =
+                    '<feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>';
+                defs.appendChild(filter);
+                svg.appendChild(defs);
+
+                initParticles(svg, allPaths);
+            }
+
+            function initParticles(svg, paths) {
+                if (animFrameId) cancelAnimationFrame(animFrameId);
+                svg.querySelectorAll('.particle').forEach(p => p.remove());
+                particles = [];
+                if (!paths.length) return;
+                const glowColor = getGlowColor();
+                const count = Math.min(36, paths.length * 3);
+                for (let i = 0; i < count; i++) {
+                    const pd = paths[Math.floor(Math.random() * paths.length)];
+                    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                    circle.setAttribute('class', 'particle');
+                    circle.setAttribute('r', '2.2');
+                    circle.setAttribute('fill', glowColor);
+                    circle.setAttribute('opacity', '0.6');
+                    circle.setAttribute('filter', 'url(#glow)');
+                    svg.appendChild(circle);
+                    particles.push({ el: circle, pathD: pd.d, offset: Math.random(), speed: 0.0007 + Math.random() *
+                            0.0028 });
+                }
+                const tempPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                tempPath.setAttribute('visibility', 'hidden');
+                svg.appendChild(tempPath);
+
+                function animate() {
+                    particles.forEach(p => {
+                        p.offset += p.speed;
+                        if (p.offset > 1) p.offset -= 1;
+                        tempPath.setAttribute('d', p.pathD);
+                        const len = tempPath.getTotalLength();
+                        if (len > 0) {
+                            const pt = tempPath.getPointAtLength(p.offset * len);
+                            p.el.setAttribute('cx', pt.x);
+                            p.el.setAttribute('cy', pt.y);
+                            const fade = p.offset < 0.1 ? p.offset / 0.1 : p.offset > 0.9 ? (1 - p.offset) /
+                                0.1 : 1;
+                            p.el.setAttribute('opacity', (0.3 + fade * 0.55).toFixed(2));
+                        }
+                    });
+                    animFrameId = requestAnimationFrame(animate);
+                }
+                animate();
+            }
+
+            // ──────────────────────────────────────
+            // NODE CLICK
+            // ──────────────────────────────────────
+            function onNodeClick(nodeId) {
+                const config = NODE_CONFIG[currentUseCase];
+                let foundNode = null;
+                for (const row of config.rows) {
+                    for (const node of row.nodes) { if (node.id === nodeId) { foundNode = node; break; } }
+                    if (foundNode) break;
+                }
+                if (!foundNode) return;
+                if (selectedNodeId === nodeId) { selectedNodeId = null;
+                    detailPanel.classList.remove('open'); } else {
+                    selectedNodeId = nodeId;
+                    detailTitle.textContent =
+                        `${foundNode.name[currentLang] || foundNode.name.en} — ${foundNode.sub[currentLang] || foundNode.sub.en}`;
+                    detailBody.innerHTML = foundNode.desc[currentLang] || foundNode.desc.en;
+                    const tierNames = { starter: t('tier_starter') + ' €699', pro: t('tier_pro') +
+                            ' €4,5K', enterprise: t('tier_ent') + ' €25K' };
+                    detailTiers.innerHTML = ['starter', 'pro', 'enterprise'].map(tier =>
+                        `<span class="detail-tier-pill ${tierRank(foundNode.tier) <= tierRank(tier) ? 'dtp-on' : 'dtp-off'}">${tierNames[tier]}</span>`
+                    ).join('');
+                    detailPanel.classList.add('open');
+                }
+                renderFlowGrid();
+            }
+
+            // ──────────────────────────────────────
+            // TIER SWITCHING
+            // ──────────────────────────────────────
+            window.setTier = function(tier, btn) {
+                currentTier = tier;
+                selectedNodeId = null;
+                detailPanel.classList.remove('open');
+                flowTierIndicator.textContent = t('click_node');
+                document.querySelectorAll('.sc-btn').forEach(b => b.className = 'sc-btn');
+                btn.classList.add(tier === 'starter' ? 'active-s' : tier === 'pro' ? 'active-p' : 'active-e');
+                renderFlowGrid();
+            };
+
+            // ──────────────────────────────────────
+            // USE CASE SWITCHING
+            // ──────────────────────────────────────
+            window.setUseCase = function(uc, btn) {
+                currentUseCase = uc;
+                selectedNodeId = null;
+                detailPanel.classList.remove('open');
+                flowTierIndicator.textContent = t('click_node');
+                document.querySelectorAll('.persona-btn').forEach(b => b.className = 'persona-btn');
+                btn.classList.add(uc === 'leadgen' ? 'active-lg' : uc === 'hiring' ? 'active-hi' : 'active-se');
+                renderFlowGrid();
+            };
+
+            // ──────────────────────────────────────
+            // LANGUAGE TOGGLE
+            // ──────────────────────────────────────
+            window.toggleLang = function() {
+                currentLang = currentLang === 'de' ? 'en' : 'de';
+                updateI18n();
+                const wasSelected = selectedNodeId;
+                renderFlowGrid();
+                if (wasSelected) {
+                    selectedNodeId = wasSelected;
+                    const config = NODE_CONFIG[currentUseCase];
+                    let foundNode = null;
+                    for (const row of config.rows) {
+                        for (const node of row.nodes) { if (node.id === wasSelected) { foundNode = node;
+                                break; } }
+                        if (foundNode) break;
+                    }
+                    if (foundNode) {
+                        detailTitle.textContent =
+                            `${foundNode.name[currentLang] || foundNode.name.en} — ${foundNode.sub[currentLang] || foundNode.sub.en}`;
+                        detailBody.innerHTML = foundNode.desc[currentLang] || foundNode.desc.en;
+                        const tierNames = { starter: t('tier_starter') + ' €699', pro: t('tier_pro') +
+                                ' €4,5K', enterprise: t('tier_ent') + ' €25K' };
+                        detailTiers.innerHTML = ['starter', 'pro', 'enterprise'].map(tier =>
+                            `<span class="detail-tier-pill ${tierRank(foundNode.tier) <= tierRank(tier) ? 'dtp-on' : 'dtp-off'}">${tierNames[tier]}</span>`
+                        ).join('');
+                        detailPanel.classList.add('open');
+                    }
+                }
+                flowTierIndicator.textContent = t('click_node');
+            };
+
+            // ──────────────────────────────────────
+            // RESIZE
+            // ──────────────────────────────────────
+            let resizeTimeout;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => updateSVGConnections(), 200);
+            });
+
+            // ──────────────────────────────────────
+            // INIT
+            // ──────────────────────────────────────
+            function init() {
+                updateI18n();
+                flowTierIndicator.textContent = t('click_node');
+                renderFlowGrid();
+            }
+            document.addEventListener('DOMContentLoaded', init);
+        })();
+    </script>
+</body>
+</html>

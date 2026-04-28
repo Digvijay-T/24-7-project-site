@@ -1,0 +1,32 @@
+# 24/7 PROJECT — robots.txt
+# Deploy this file AFTER disabling Cloudflare's managed AI bot blocking
+# (Security → Bots → AI Scrapers and Crawlers → Off)
+
+User-agent: *
+Allow: /
+Disallow: /dashboard/
+Disallow: /api/
+Disallow: /webhook/
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+Sitemap: https://24-7-project.com/sitemap.xml

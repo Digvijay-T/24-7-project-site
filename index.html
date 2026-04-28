@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="shortcut icon" href="/favicon.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>24/7 PROJECT — KI-Telefonagenten für Vertrieb &amp; Kaltakquise</title>
+    <meta name="description" content="KI-Voice-Agents, die für dich telefonieren, Leads qualifizieren und Termine buchen. Ab €699/Monat. DSGVO-konform, EU-Datenstandort. 14 Tage testen für €1.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://24-7-project.com/">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://24-7-project.com/">
+    <meta property="og:title" content="24/7 PROJECT — KI-Telefonagenten für Vertrieb &amp; Kaltakquise">
+    <meta property="og:description" content="KI-Voice-Agents, die für dich telefonieren, Leads qualifizieren und Termine buchen. Ab €699/Monat. DSGVO-konform, EU-Datenstandort.">
+    <meta property="og:image" content="https://24-7-project.com/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="24/7 PROJECT — KI-Telefonagenten für Vertrieb &amp; Kaltakquise">
+    <meta name="twitter:description" content="KI-Voice-Agents, die für dich telefonieren, Leads qualifizieren und Termine buchen. Ab €699/Monat.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --black: #09090B;
+            --white: #FAFAFA;
+            --gray-400: #A1A1AA;
+            --gray-500: #71717A;
+            --gray-600: #52525B;
+            --gray-800: #27272A;
+            --gray-900: #18181B;
+            --accent: #60F0A0;
+            --hot: #FF6B6B;
+            --blue: #60A5FA;
+            --amber: #FBBF24;
+            --font-display: 'Dela Gothic One', sans-serif;
+            --font-body: 'DM Sans', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; background: var(--black); overflow-x: hidden; }
+        body { font-family: var(--font-body); color: var(--white); background: var(--black); overflow-x: hidden; }
+        ::selection { background: var(--accent); color: var(--black); }
+
+        /* SCROLLBAR */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--black); }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--accent) 0%, rgba(96,240,160,0.3) 100%);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+        html { scrollbar-width: thin; scrollbar-color: var(--accent) var(--black); }
+
+        /* LANGUAGE TOGGLE */
+        html[lang="en"] .de { display: none !important; }
+        html[lang="de"] .en { display: none !important; }
+
+        /* A/B VARIANT */
+        body.va .vx { display: none !important; }
+        body.vb .vy { display: none !important; }
+
+        /* NAV */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            padding: 20px 48px; display: flex; justify-content: space-between; align-items: center;
+            backdrop-filter: blur(20px); background: rgba(9,9,11,0.7);
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+        .nav-left { display: flex; align-items: center; gap: 24px; }
+        .nav-logo { font-family: var(--font-mono); font-weight: 700; font-size: 16px; letter-spacing: 2px; color: var(--accent); }
+        .lang-toggle {
+            font-family: var(--font-mono); font-size: 11px; letter-spacing: 2px;
+            color: var(--black); cursor: pointer; padding: 7px 14px;
+            border: 1px solid var(--accent); background: var(--accent);
+            transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; justify-content: center;
+        }
+        .lang-toggle:hover {
+            background: transparent;
+            color: var(--accent);
+            transform: scale(1.08);
+            box-shadow: 0 0 16px rgba(96,240,160,0.4);
+        }
+        .lang-toggle:active { transform: scale(0.96); }
+        .nav-cta {
+            font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 2px;
+            text-transform: uppercase; color: var(--black); background: var(--accent);
+            padding: 12px 28px; border: none; cursor: pointer; text-decoration: none; transition: all 0.3s ease;
+        }
+        .nav-cta:hover { background: var(--white); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(96,240,160,0.3); }
+
+        /* TRIAL BADGE */
+        .trial-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            font-family: var(--font-mono); font-size: 13px; letter-spacing: 1px;
+            color: var(--black); background: var(--accent);
+            padding: 16px 36px; text-decoration: none; font-weight: 700;
+            transition: all 0.3s ease; border: none; cursor: pointer;
+        }
+        .trial-badge:hover { background: var(--white); transform: translateY(-2px); box-shadow: 0 12px 40px rgba(96,240,160,0.3); }
+        .trial-badge .euro { font-size: 24px; font-weight: 700; }
+        .trial-sub { font-family: var(--font-mono); font-size: 12px; color: var(--gray-500); margin-top: 8px; }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh; display: flex; align-items: flex-start; justify-content: space-between;
+            padding: 160px 48px 80px; position: relative; overflow: hidden; gap: 64px;
+        }
+        .hero::before {
+            content: ''; position: absolute; top: -40%; right: -20%; width: 800px; height: 800px;
+            background: radial-gradient(circle, rgba(96,240,160,0.06) 0%, transparent 70%); pointer-events: none;
+        }
+        .hero-left { flex: 1; min-width: 0; }
+        .hero-right { flex-shrink: 0; width: 340px; opacity: 0; animation: fadeUp 0.8s ease 1s forwards; margin-top: 64px; }
+        .hero-eyebrow {
+            font-family: var(--font-mono); font-size: 13px; letter-spacing: 4px;
+            text-transform: uppercase; color: var(--accent); margin-bottom: 32px;
+            opacity: 0; animation: fadeUp 0.8s ease 0.2s forwards;
+        }
+        .hero h1 {
+            font-family: var(--font-display); font-size: clamp(48px, 7.5vw, 96px);
+            line-height: 1.05; max-width: 900px; margin-bottom: 40px;
+            opacity: 0; animation: fadeUp 0.8s ease 0.4s forwards;
+        }
+        .hero h1 .accent { color: var(--accent); }
+        .hero-sub {
+            font-size: 20px; line-height: 1.6; color: var(--gray-400); max-width: 560px; margin-bottom: 32px;
+            opacity: 0; animation: fadeUp 0.8s ease 0.6s forwards;
+        }
+        .hero-cta-area { opacity: 0; animation: fadeUp 0.8s ease 0.7s forwards; margin-bottom: 48px; }
+        .hero-stats { display: flex; gap: 64px; margin-top: 24px; opacity: 0; animation: fadeUp 0.8s ease 0.8s forwards; }
+        .hero-stat-value { font-family: var(--font-mono); font-size: 36px; font-weight: 700; }
+        .hero-stat-label { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--gray-500); margin-top: 4px; }
+
+        /* COST COUNTER */
+        .cost-counter {
+            border: 1px solid var(--gray-800); background: var(--black);
+            padding: 40px 32px; text-align: left; position: relative; overflow: hidden;
+        }
+        .cost-counter::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--hot) 40%, transparent);
+            animation: counterPulse 3s ease-in-out infinite;
+        }
+        .cost-counter-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--gray-500); margin-bottom: 20px; }
+        .cost-counter-value { font-family: var(--font-display); font-size: clamp(32px, 3.5vw, 48px); color: var(--hot); margin-bottom: 16px; font-variant-numeric: tabular-nums; line-height: 1; }
+        .cost-counter-sub { font-size: 14px; color: var(--gray-400); margin-bottom: 24px; line-height: 1.6; }
+        .cost-counter-rate { font-family: var(--font-mono); font-size: 11px; color: var(--gray-600); padding-top: 16px; border-top: 1px solid var(--gray-800); letter-spacing: 1px; }
+        .cost-counter-rate span { color: var(--gray-500); }
+        @keyframes counterPulse { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.8; } }
+
+        /* SECTIONS */
+        section { padding: 160px 48px; }
+        .section-header { text-align: center; margin-bottom: 64px; }
+        .section-header h2 { font-family: var(--font-display); font-size: clamp(32px, 4vw, 52px); margin-bottom: 16px; }
+        .section-header p { color: var(--gray-400); font-size: 18px; max-width: 600px; margin: 0 auto; }
+
+        /* STORY */
+        .story { padding: 160px 48px; position: relative; }
+        .story::before {
+            content: ''; position: absolute; left: 48px; top: 0; bottom: 0; width: 1px;
+            background: linear-gradient(to bottom, transparent, var(--gray-800) 20%, var(--gray-800) 80%, transparent);
+        }
+        .story-block {
+            max-width: 700px; margin-left: 80px; margin-bottom: 160px; position: relative;
+            opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16,1,0.3,1);
+        }
+        .story-block.visible { opacity: 1; transform: translateY(0); }
+        .story-block::before {
+            content: ''; position: absolute; left: -36px; top: 12px; width: 8px; height: 8px;
+            background: var(--accent); border-radius: 50%; box-shadow: 0 0 16px rgba(96,240,160,0.5);
+        }
+        .story-time { font-family: var(--font-mono); font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+        .story-headline { font-family: var(--font-display); font-size: clamp(28px, 4vw, 44px); line-height: 1.15; margin-bottom: 20px; }
+        .story-body { font-size: 18px; line-height: 1.7; color: var(--gray-400); }
+        .story-body strong { color: var(--white); font-weight: 500; }
+        .story-hook { display: inline-block; margin-top: 16px; font-family: var(--font-mono); font-size: 14px; color: var(--hot); letter-spacing: 0.5px; }
+
+        /* TERMINAL */
+        .terminal-section { padding: 120px 48px; background: var(--gray-900); border-top: 1px solid var(--gray-800); border-bottom: 1px solid var(--gray-800); }
+        .terminal { max-width: 800px; margin: 0 auto; background: var(--black); border: 1px solid var(--gray-800); border-radius: 12px; overflow: hidden; box-shadow: 0 24px 80px rgba(0,0,0,0.5); }
+        .terminal-bar { padding: 12px 16px; background: var(--gray-900); display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--gray-800); }
+        .terminal-dot { width: 10px; height: 10px; border-radius: 50%; }
+        .terminal-body { padding: 32px; font-family: var(--font-mono); font-size: 14px; line-height: 2; min-height: 360px; }
+        .t-line { opacity: 0; transform: translateX(-8px); }
+        .t-line.show { opacity: 1; transform: translateX(0); transition: all 0.4s ease; }
+        .t-prompt { color: var(--accent); }
+        .t-info { color: var(--gray-500); }
+        .t-success { color: var(--accent); }
+        .t-hot { color: var(--hot); }
+        .t-blue { color: var(--blue); }
+        .t-white { color: var(--white); }
+        .cursor-blink { animation: blink 1s step-end infinite; }
+
+        /* CALCULATOR */
+        .calc-section { padding: 120px 48px; background: var(--gray-900); border-top: 1px solid var(--gray-800); border-bottom: 1px solid var(--gray-800); }
+        .calc-wrap { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+        .calc-inputs { display: flex; flex-direction: column; gap: 24px; }
+        .calc-field label { display: block; font-family: var(--font-mono); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--gray-400); margin-bottom: 8px; }
+        .calc-field input {
+            width: 100%; padding: 14px 16px; background: var(--black); border: 1px solid var(--gray-800);
+            color: var(--white); font-family: var(--font-mono); font-size: 16px;
+            outline: none; transition: border-color 0.2s;
+        }
+        .calc-field input:focus { border-color: var(--accent); }
+        .calc-field input::placeholder { color: var(--gray-600); }
+        .calc-results { border: 1px solid var(--gray-800); background: var(--black); padding: 32px; overflow: hidden; }
+        .calc-result-row { flex-wrap: wrap; gap: 4px; }
+        .calc-result-row .calc-result-value { word-break: break-word; text-align: right; }
+        .calc-result-row { display: flex; justify-content: space-between; padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+        .calc-result-row:last-child { border-bottom: none; }
+        .calc-result-label { font-size: 14px; color: var(--gray-400); }
+        .calc-result-value { font-family: var(--font-mono); font-size: 16px; font-weight: 700; }
+        .calc-result-value.savings { color: var(--accent); }
+        .calc-result-value.cost { color: var(--hot); }
+        .calc-result-big { text-align: center; padding: 24px 0; margin-top: 16px; border-top: 1px solid var(--gray-800); }
+        .calc-result-big .number { font-family: var(--font-mono); font-size: 40px; font-weight: 700; color: var(--accent); }
+        .calc-result-big .label { font-size: 13px; color: var(--gray-500); margin-top: 4px; }
+        .calc-cta { margin-top: 24px; text-align: center; }
+
+        /* VS HUMAN */
+        .vs-section { padding: 160px 48px; }
+        .vs-table { max-width: 900px; margin: 0 auto; border-collapse: collapse; width: 100%; }
+        .vs-table th {
+            font-family: var(--font-mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+            padding: 16px 24px; text-align: left; border-bottom: 2px solid var(--gray-800);
+        }
+        .vs-table th:nth-child(2) { color: var(--hot); }
+        .vs-table th:nth-child(3) { color: var(--accent); }
+        .vs-table td { padding: 16px 24px; font-size: 15px; border-bottom: 1px solid rgba(255,255,255,0.04); color: var(--gray-400); }
+        .vs-table td:first-child { font-weight: 500; color: var(--white); font-size: 14px; }
+        .vs-table td:nth-child(2) { color: var(--gray-500); }
+        .vs-table td:nth-child(3) { color: var(--accent); }
+        .vs-table tr { opacity: 0; transform: translateX(-12px); }
+        .vs-table tr.show { opacity: 1; transform: translateX(0); transition: all 0.5s ease; }
+        .vs-table thead tr { opacity: 1; transform: none; }
+        .vs-kicker {
+            text-align: center; margin-top: 64px; padding: 48px; border: 1px solid var(--gray-800);
+            background: var(--gray-900); max-width: 900px; margin-left: auto; margin-right: auto;
+        }
+        .vs-kicker-number { font-family: var(--font-mono); font-size: 56px; font-weight: 700; color: var(--hot); }
+        .vs-kicker-label { font-size: 16px; color: var(--gray-400); margin-top: 8px; line-height: 1.6; }
+        .vs-kicker-breakdown { display: flex; justify-content: center; gap: 32px; margin-top: 24px; font-family: var(--font-mono); font-size: 12px; color: var(--gray-500); flex-wrap: wrap; }
+
+        /* RESULTS */
+        .results { padding: 160px 48px; background: var(--gray-900); border-top: 1px solid var(--gray-800); border-bottom: 1px solid var(--gray-800); }
+        .results-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; max-width: 1100px; margin: 0 auto; }
+        .result-card {
+            background: var(--black); padding: 48px 40px; position: relative; overflow: hidden; transition: all 0.4s ease;
+            opacity: 0; transform: translateY(24px);
+        }
+        .result-card.show { opacity: 1; transform: translateY(0); }
+        .result-card:hover { background: var(--gray-800); }
+        .result-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+            background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease;
+        }
+        .result-card:hover::before { transform: scaleX(1); }
+        .result-number { font-family: var(--font-mono); font-size: 48px; font-weight: 700; color: var(--accent); margin-bottom: 8px; }
+        .result-label { font-size: 15px; color: var(--gray-400); line-height: 1.5; }
+
+        /* HOW */
+        .how { padding: 160px 48px; }
+        .how-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; max-width: 1100px; margin: 0 auto; }
+        .how-step { padding: 48px 32px; border-right: 1px solid var(--gray-800); }
+        .how-step:last-child { border-right: none; }
+        .step-num { font-family: var(--font-mono); font-size: 48px; font-weight: 700; color: var(--gray-800); margin-bottom: 24px; }
+        .step-title { font-family: var(--font-display); font-size: 18px; margin-bottom: 12px; }
+        .step-desc { font-size: 14px; color: var(--gray-400); line-height: 1.6; }
+
+        /* PRICING */
+        .pricing { padding: 160px 48px; background: var(--gray-900); border-top: 1px solid var(--gray-800); border-bottom: 1px solid var(--gray-800); }
+        .pricing-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; max-width: 1100px; margin: 0 auto; }
+        .pricing-card { background: var(--black); padding: 56px 40px; position: relative; }
+        .pricing-card.featured { border: 1px solid var(--accent); box-shadow: 0 0 60px rgba(96,240,160,0.06); }
+        .pricing-eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+        .pricing-amount { font-family: var(--font-display); font-size: 42px; margin-bottom: 8px; }
+        .pricing-period { color: var(--gray-500); font-size: 14px; margin-bottom: 24px; }
+        .pricing-features { list-style: none; }
+        .pricing-features li {
+            padding: 10px 0; font-size: 14px; color: var(--gray-400);
+            border-bottom: 1px solid rgba(255,255,255,0.04); display: flex; align-items: center; gap: 12px;
+        }
+        .pricing-features li::before { content: '\2192'; color: var(--accent); font-family: var(--font-mono); }
+        .pricing-card-cta {
+            display: block; text-align: center; margin-top: 24px; padding: 14px 24px;
+            font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 2px;
+            text-transform: uppercase; text-decoration: none; transition: all 0.3s ease;
+        }
+        .cta-trial { background: var(--accent); color: var(--black); }
+        .cta-trial:hover { background: var(--white); transform: translateY(-2px); }
+        .cta-call { border: 1px solid var(--accent); color: var(--accent); background: transparent; }
+        .cta-call:hover { background: var(--accent); color: var(--black); transform: translateY(-2px); }
+        .pricing-compare {
+            text-align: center; margin-top: 48px; padding: 32px; border: 1px dashed var(--gray-800);
+            max-width: 1100px; margin-left: auto; margin-right: auto;
+        }
+        .pricing-compare p { color: var(--gray-500); font-size: 15px; line-height: 1.6; }
+        .pricing-compare strong { color: var(--white); font-weight: 500; }
+        .pricing-compare .savings { font-family: var(--font-mono); color: var(--accent); font-size: 14px; }
+        .pricing-compare .bleed { font-family: var(--font-mono); color: var(--hot); font-size: 13px; }
+
+        /* CTA */
+        .cta-section { padding: 200px 48px; text-align: center; position: relative; overflow: hidden; }
+        .cta-section::before {
+            content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+            width: 600px; height: 600px; background: radial-gradient(circle, rgba(96,240,160,0.06) 0%, transparent 70%); pointer-events: none;
+        }
+        .cta-section h2 { font-family: var(--font-display); font-size: clamp(36px, 5vw, 64px); max-width: 800px; margin: 0 auto 24px; line-height: 1.1; }
+        .cta-urgency { font-family: var(--font-mono); font-size: 15px; color: var(--amber); margin-bottom: 40px; letter-spacing: 1px; }
+        .cta-button {
+            display: inline-block; font-family: var(--font-mono); font-size: 14px; font-weight: 700;
+            letter-spacing: 3px; text-transform: uppercase; color: var(--black); background: var(--accent);
+            padding: 24px 64px; border: none; cursor: pointer; text-decoration: none; transition: all 0.3s ease;
+        }
+        .cta-button:hover { background: var(--white); transform: translateY(-3px); box-shadow: 0 16px 48px rgba(96,240,160,0.25); }
+        .cta-sub { margin-top: 24px; font-size: 14px; color: var(--gray-500); line-height: 1.8; }
+        .cta-proof { display: flex; justify-content: center; gap: 48px; margin-top: 48px; font-family: var(--font-mono); font-size: 12px; color: var(--gray-600); letter-spacing: 1px; }
+
+        /* FOOTER */
+        footer { padding: 48px; border-top: 1px solid var(--gray-800); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+        .footer-left { font-family: var(--font-mono); font-size: 12px; color: var(--gray-500); }
+        .footer-right { font-size: 13px; }
+        .footer-right a { color: var(--gray-400); text-decoration: none; transition: color 0.2s; }
+        .footer-right a:hover { color: var(--accent); }
+
+        /* ANIMATIONS */
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .hero { flex-direction: column; align-items: flex-start; gap: 48px; padding: 120px 48px 80px; }
+            .hero-right { width: 100%; max-width: 400px; }
+            .calc-wrap { grid-template-columns: 1fr; }
+        }
+
+        /* DASHBOARD SHOWCASE */
+        .dashboard-showcase {
+            padding: 120px 48px 100px;
+            background: linear-gradient(180deg, var(--black) 0%, var(--gray-900) 40%, var(--gray-900) 60%, var(--black) 100%);
+            border-top: 1px solid var(--gray-800);
+            border-bottom: 1px solid var(--gray-800);
+            position: relative;
+            overflow: hidden;
+        }
+        .dashboard-showcase::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 50%; transform: translateX(-50%);
+            width: 1200px; height: 600px;
+            background: radial-gradient(ellipse at center top, rgba(96,240,160,0.04) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .ds-header {
+            max-width: 860px;
+            margin: 0 auto 64px;
+            text-align: center;
+        }
+        .ds-eyebrow {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+        .ds-header h2 {
+            font-family: var(--font-display);
+            font-size: clamp(36px, 5vw, 64px);
+            line-height: 1.1;
+            margin-bottom: 24px;
+        }
+        .ds-sub {
+            font-size: 18px;
+            color: var(--gray-400);
+            line-height: 1.7;
+            max-width: 640px;
+            margin: 0 auto;
+        }
+        .ds-features {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2px;
+            max-width: 1200px;
+            margin: 0 auto 48px;
+            background: var(--gray-800);
+            border: 1px solid var(--gray-800);
+        }
+        .ds-feat {
+            background: var(--gray-900);
+            padding: 28px 24px;
+            transition: background 0.2s;
+        }
+        .ds-feat:hover { background: rgba(96,240,160,0.03); }
+        .ds-feat-icon {
+            font-size: 22px;
+            color: var(--accent);
+            margin-bottom: 12px;
+            line-height: 1;
+        }
+        .ds-feat-title {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: var(--white);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+        .ds-feat-body {
+            font-size: 13px;
+            color: var(--gray-500);
+            line-height: 1.6;
+        }
+        .ds-frame-wrap {
+            max-width: 1200px;
+            margin: 0 auto 48px;
+            border: 1px solid var(--gray-800);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 40px 120px rgba(0,0,0,0.6), 0 0 0 1px rgba(96,240,160,0.06);
+        }
+        .ds-frame-bar {
+            background: #1a1a1e;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid var(--gray-800);
+        }
+        .ds-frame-dot {
+            width: 12px; height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+        .ds-frame-url {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--gray-600);
+            margin-left: 8px;
+            flex: 1;
+        }
+        .ds-frame-badge {
+            font-family: var(--font-mono);
+            font-size: 9px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--accent);
+            background: rgba(96,240,160,0.08);
+            border: 1px solid rgba(96,240,160,0.2);
+            padding: 3px 10px;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+        .ds-frame-inner {
+            position: relative;
+            height: 680px;
+            overflow: hidden;
+            background: #0D0D0F;
+        }
+        .ds-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+        .ds-footer {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .ds-footer-items {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--gray-500);
+        }
+        .ds-footer-items span { white-space: nowrap; }
+        @media (max-width: 900px) {
+            nav { padding: 16px 24px; }
+            .hero { padding: 100px 24px 60px; gap: 40px; }
+            .hero-right { max-width: 100%; }
+            .hero-stats { gap: 32px; flex-wrap: wrap; }
+            .cost-counter { padding: 32px 24px; }
+            .cost-counter-value { font-size: 36px; }
+            .story { padding: 80px 24px; }
+            .story::before { left: 24px; }
+            .story-block { margin-left: 56px; margin-bottom: 80px; }
+            section { padding: 80px 24px; }
+            .terminal-section, .calc-section, .vs-section, .results, .how, .pricing { padding: 80px 24px; }
+            .terminal-body { font-size: 11px; padding: 20px; }
+            .vs-table { display: block; overflow-x: auto; }
+            .vs-table th, .vs-table td { padding: 12px 12px; font-size: 13px; white-space: nowrap; }
+            .vs-kicker { padding: 32px 24px; }
+            .vs-kicker-number { font-size: 40px; }
+            .vs-kicker-breakdown { flex-direction: column; gap: 8px; }
+            .results-grid { grid-template-columns: 1fr; }
+            .how-steps { grid-template-columns: 1fr; }
+            .how-step { border-right: none; border-bottom: 1px solid var(--gray-800); }
+            .pricing-cards { grid-template-columns: 1fr; }
+            .pricing-card { padding: 40px 28px; }
+            .cta-section { padding: 120px 24px; }
+            .cta-section h2 { font-size: clamp(28px, 6vw, 48px); }
+            .cta-proof { flex-direction: column; gap: 8px; }
+            footer { flex-direction: column; text-align: center; padding: 32px 24px; }
+        }
+
+        @media (max-width: 900px) {
+            .dashboard-showcase { padding: 80px 24px 80px; }
+            .ds-features { grid-template-columns: 1fr 1fr; gap: 2px; }
+            .ds-frame-inner { height: 520px; }
+            .ds-footer-items { gap: 20px; }
+        }
+        @media (max-width: 600px) {
+            .ds-features { grid-template-columns: 1fr; }
+            .ds-frame-inner { height: 440px; }
+            .ds-footer-items { gap: 16px; font-size: 11px; }
+            .ds-frame-badge { display: none; }
+        }
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 36px; }
+            .hero-sub { font-size: 16px; }
+            .hero-stats { gap: 24px; }
+            .hero-stat-value { font-size: 28px; }
+            .cost-counter-value { font-size: 36px; }
+            .story-headline { font-size: 24px; }
+            .section-header h2 { font-size: 28px; }
+            .result-number { font-size: 36px; }
+            .result-card { padding: 32px 24px; }
+            .pricing-amount { font-size: 32px; }
+            .cta-button { padding: 20px 40px; font-size: 12px; }
+            .calc-results { padding: 20px 16px; }
+            .calc-result-row { flex-direction: column; align-items: flex-start; gap: 2px; }
+            .calc-result-row .calc-result-value { text-align: left; }
+            #calcTier { font-size: 15px !important; }
+        }
+    </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "24/7 PROJECT",
+  "url": "https://24-7-project.com",
+  "description": "KI-Telefonagenten für Vertrieb und Kaltakquise. Automatisierte Outbound-Telefonie, Lead-Qualifizierung und Terminbuchung für DACH-Unternehmen.",
+  "foundingDate": "2025",
+  "areaServed": ["DE", "AT", "CH"],
+  "serviceType": "AI Voice Agent Software",
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "email": "technicaldepartment@24-7-project.com",
+    "contactType": "customer service",
+    "availableLanguage": ["German", "English"]
+  },
+  "legalName": "FSJH LTD",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Gregori Drosini 4, Office 2",
+    "addressLocality": "Paralimni",
+    "postalCode": "4040",
+    "addressCountry": "CY"
+  }
+}
+</script>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-left">
+            <div class="nav-logo">24/7 PROJECT</div>
+            <button class="lang-toggle" id="langToggle" onclick="toggleLang()">DE</button>
+        </div>
+        <a href="https://calendly.com/wodrichtermin/strategy-call" class="nav-cta">
+            <span class="en">Book a Call</span>
+            <span class="de">Call buchen</span>
+        </a>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-left">
+            <div class="hero-eyebrow">
+                <span class="en">AI Voice Agents for Business</span>
+                <span class="de">KI-Telefonagenten f&uuml;r Unternehmen</span>
+            </div>
+            <h1>
+                <span class="en">Your best closer<br>never <span class="accent">sleeps.</span></span>
+                <span class="de">Dein bester Closer<br>schl&auml;ft <span class="accent">nie.</span></span>
+            </h1>
+            <p class="hero-sub">
+                <span class="en">AI voice agents that cold call, qualify leads, and book meetings on autopilot. Built for businesses that want to scale revenue without scaling headcount.</span>
+                <span class="de">KI-Agenten, die f&uuml;r dich telefonieren, Leads qualifizieren und Termine buchen. F&uuml;r Unternehmen, die Umsatz skalieren wollen &mdash; ohne mehr Personal.</span>
+            </p>
+            <div class="hero-cta-area vy">
+                <a href="https://www.digistore24.com/product/674912" class="trial-badge">
+                    <span class="en"><span class="euro">&euro;1</span> &mdash; Try 14 days, cancel anytime</span>
+                    <span class="de"><span class="euro">&euro;1</span> &mdash; 14 Tage testen, jederzeit k&uuml;ndbar</span>
+                </a>
+                <div class="trial-sub">
+                    <span class="en">5-minute test call &middot; No setup fee &middot; Full refund if cancelled</span>
+                    <span class="de">5 Minuten Test-Anruf &middot; Keine Einrichtungsgeb&uuml;hr &middot; Geld zur&uuml;ck bei K&uuml;ndigung</span>
+                </div>
+                <div style="margin-top:12px;font-family:var(--font-mono);font-size:12px;color:var(--gray-600);letter-spacing:0.5px">
+                    <span class="en">Up to 250 calls/mo? Start the &euro;1 trial. &nbsp;Need more volume? <a href="https://calendly.com/wodrichtermin/strategy-call" style="color:var(--gray-500);text-decoration:underline;text-underline-offset:3px">Book a strategy call.</a></span>
+                    <span class="de">Bis 250 Calls/Monat? Starte den &euro;1-Trial. &nbsp;Mehr Volumen? <a href="https://calendly.com/wodrichtermin/strategy-call" style="color:var(--gray-500);text-decoration:underline;text-underline-offset:3px">Strategy Call buchen.</a></span>
+                </div>
+            </div>
+            <div class="hero-cta-area vx">
+                <a href="#rechner" class="trial-badge" style="background:transparent;border:1px solid var(--accent);color:var(--accent)">
+                    <span class="en">Calculate your savings &darr;</span>
+                    <span class="de">Berechne deine Ersparnis &darr;</span>
+                </a>
+                <div class="trial-sub">
+                    <span class="en">See exactly what AI saves you &mdash; with your own numbers</span>
+                    <span class="de">Finde heraus, was KI dir spart &mdash; mit deinen eigenen Zahlen</span>
+                </div>
+            </div>
+            <div class="hero-stats">
+                <div><div class="hero-stat-value">24/7</div><div class="hero-stat-label"><span class="en">Availability</span><span class="de">Erreichbarkeit</span></div></div>
+                <div><div class="hero-stat-value">11x</div><div class="hero-stat-label"><span class="en">Cheaper per close</span><span class="de">G&uuml;nstiger pro Abschluss</span></div></div>
+                <div><div class="hero-stat-value">0%</div><div class="hero-stat-label"><span class="en">Performance variance</span><span class="de">Leistungsschwankung</span></div></div>
+            </div>
+        </div>
+        <div class="hero-right">
+            <div class="cost-counter">
+                <div class="cost-counter-label">
+                    <span class="en">Cost of inaction</span>
+                    <span class="de">Kosten der Untätigkeit</span>
+                </div>
+                <div class="cost-counter-value" id="bleed-counter">&euro;0.00</div>
+                <div class="cost-counter-sub">
+                    <span class="en">Lost since you opened this page.<br>Human-only outbound is bleeding money.</span>
+                    <span class="de">Verloren, seit du diese Seite ge&ouml;ffnet hast.<br>Rein menschlicher Vertrieb verbrennt Geld.</span>
+                </div>
+                <div class="cost-counter-rate">
+                    &euro;<span>1,570</span>/mo &middot; &euro;<span>18,844</span>/yr
+                    <span class="en">opportunity cost</span>
+                    <span class="de">Opportunit&auml;tskosten</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STORY -->
+    <section class="story">
+        <div class="story-block">
+            <div class="story-time"><span class="en">The Problem</span><span class="de">Das Problem</span></div>
+            <div class="story-headline">
+                <span class="en">Your team makes 30 calls a day. Maybe.</span>
+                <span class="de">Dein Team macht 30 Anrufe am Tag. Vielleicht.</span>
+            </div>
+            <div class="story-body">
+                <span class="en">Industry verified: the average sales rep makes 30 real calls per day, not the 100 they report. That&rsquo;s 660 a month. Maybe 33 appointments. <strong>You&rsquo;re paying &euro;5,535/month for the privilege.</strong></span>
+                <span class="de">Branchenstandard: Ein durchschnittlicher Vertriebler macht 30 echte Anrufe pro Tag, nicht die 100, die er meldet. Das sind 660 im Monat. Vielleicht 33 Termine. <strong>Du zahlst &euro;5.535/Monat daf&uuml;r.</strong></span>
+            </div>
+        </div>
+        <div class="story-block">
+            <div class="story-time"><span class="en">The Hidden Cost</span><span class="de">Die versteckten Kosten</span></div>
+            <div class="story-headline">
+                <span class="en">&euro;108,832 per year. That&rsquo;s what one rep actually costs.</span>
+                <span class="de">&euro;108.832 pro Jahr. Das kostet dich ein Vertriebler wirklich.</span>
+            </div>
+            <div class="story-body">
+                <span class="en">&euro;66K in visible salary and benefits. &euro;21K in turnover costs when they leave after 18 months. &euro;15K in productivity losses &mdash; Monday slowdowns, post-rejection recovery, Friday checkout. &euro;6.7K managing them. <strong>Most of that disappears with AI.</strong></span>
+                <span class="de">&euro;66K Gehalt und Sozialabgaben. &euro;21K Fluktuation, wenn sie nach 18 Monaten gehen. &euro;15K Produktivit&auml;tsverluste &mdash; Montagstief, Frust nach Absagen, Freitags fr&uuml;h Schluss. &euro;6,7K Management. <strong>Das meiste davon verschwindet mit KI.</strong></span>
+            </div>
+            <span class="story-hook">&rarr; <span class="en">Every month you delay costs &euro;1,570 in lost opportunity.</span><span class="de">Jeder Monat Verz&ouml;gerung kostet dich &euro;1.570 an verlorener Chance.</span></span>
+        </div>
+        <div class="story-block">
+            <div class="story-time"><span class="en">The Shift</span><span class="de">Der Wandel</span></div>
+            <div class="story-headline">
+                <span class="en">250 calls a month. 11x cheaper per close. Zero excuses.</span>
+                <span class="de">250 Anrufe im Monat. 11x g&uuml;nstiger pro Abschluss. Keine Ausreden.</span>
+            </div>
+            <div class="story-body">
+                <span class="en">No bad Mondays. No forgotten CRM entries. No inflated call counts. Every call recorded, transcribed, scored. <strong>Your calendar fills itself. You close. Period.</strong></span>
+                <span class="de">Kein schlechter Montag. Keine vergessenen CRM-Eintr&auml;ge. Keine aufgeblasenen Anrufzahlen. Jeder Call aufgezeichnet, transkribiert, bewertet. <strong>Dein Kalender f&uuml;llt sich von selbst. Du schlie&szlig;t ab.</strong></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- TERMINAL -->
+    <section class="terminal-section">
+        <div class="section-header">
+            <h2><span class="en">Watch it work.</span><span class="de">Sieh es in Aktion.</span></h2>
+            <p><span class="en">A real call flow. The prospect doesn&rsquo;t speak German. Watch what happens.</span><span class="de">Ein echter Anruf. Der Kontakt spricht kein Deutsch. Schau, was passiert.</span></p>
+        </div>
+        <div class="terminal">
+            <div class="terminal-bar">
+                <div class="terminal-dot" style="background:#FF5F57"></div>
+                <div class="terminal-dot" style="background:#FEBC2E"></div>
+                <div class="terminal-dot" style="background:#28C840"></div>
+            </div>
+            <div class="terminal-body" id="terminal">
+                <div class="t-line" data-delay="0"><span class="t-prompt">&rarr;</span> <span class="t-info">Dialing +49 151 *** **** ...</span></div>
+                <div class="t-line" data-delay="800"><span class="t-prompt">&rarr;</span> <span class="t-white">Connected. Duration: 0:00</span></div>
+                <div class="t-line" data-delay="1800"><span class="t-prompt">&rarr;</span> <span class="t-info">AI: &ldquo;Guten Tag, hier ist Lisa, der KI-Telefonagent von [Agentur]. Spreche ich mit dem Marketingleiter?&rdquo;</span></div>
+                <div class="t-line" data-delay="3200"><span class="t-prompt">&rarr;</span> <span class="t-white">Prospect: &ldquo;Eh&mdash;sorry, my German isn&rsquo;t so good. Do you speak English?&rdquo;</span></div>
+                <div class="t-line" data-delay="4600"><span class="t-prompt">&rarr;</span> <span class="t-blue">&#9654; Language switch: DE &rarr; EN</span></div>
+                <div class="t-line" data-delay="5200"><span class="t-prompt">&rarr;</span> <span class="t-info">AI: &ldquo;Of course! I&rsquo;m Lisa from [Agency]. We help businesses like yours generate qualified leads on autopilot&mdash;is that something you&rsquo;re working on right now?&rdquo;</span></div>
+                <div class="t-line" data-delay="7000"><span class="t-prompt">&rarr;</span> <span class="t-white">Prospect: &ldquo;Actually, yes. We&rsquo;ve been struggling with that.&rdquo;</span></div>
+                <div class="t-line" data-delay="8200"><span class="t-prompt">&rarr;</span> <span class="t-blue">Lead score: 54 &rarr; 78 &#9650;</span></div>
+                <div class="t-line" data-delay="9000"><span class="t-prompt">&rarr;</span> <span class="t-info">AI: &ldquo;Would Thursday at 2pm work for a 15-minute walkthrough?&rdquo;</span></div>
+                <div class="t-line" data-delay="10200"><span class="t-prompt">&rarr;</span> <span class="t-white">Prospect: &ldquo;Sure, that works.&rdquo;</span></div>
+                <div class="t-line" data-delay="10800"><span class="t-prompt">&rarr;</span> <span class="t-success">&#10003; Meeting booked: Thu 14:00 CET</span></div>
+                <div class="t-line" data-delay="11400"><span class="t-prompt">&rarr;</span> <span class="t-success">&#10003; Calendar invite sent</span></div>
+                <div class="t-line" data-delay="11800"><span class="t-prompt">&rarr;</span> <span class="t-success">&#10003; Telegram &rarr; @team</span></div>
+                <div class="t-line" data-delay="12400"><span class="t-prompt">&rarr;</span> <span class="t-hot">&#9733; HOT LEAD &mdash; Score: 78 &mdash; Flagged for follow-up</span></div>
+                <div class="t-line" data-delay="13400"><span class="t-prompt">&rarr;</span> <span class="t-info">Call ended. Duration: 2:47. Next lead...</span></div>
+                <div class="t-line" data-delay="14200"><span class="t-prompt">&rarr;</span> <span class="t-info">Dialing +43 660 *** *** ...</span><span class="cursor-blink">&#9608;</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SAVINGS CALCULATOR -->
+    <section class="calc-section" id="rechner">
+        <div class="section-header">
+            <h2><span class="en">What AI saves you.</span><span class="de">Was KI dir spart.</span></h2>
+            <p><span class="en">Plug in your numbers. See the difference.</span><span class="de">Gib deine Zahlen ein. Sieh den Unterschied.</span></p>
+        </div>
+        <div class="calc-wrap">
+            <div class="calc-inputs">
+                <div class="calc-field">
+                    <label><span class="en">Sales reps</span><span class="de">Vertriebler</span></label>
+                    <input type="number" id="calcReps" value="2" min="1" max="50" oninput="updateCalc()">
+                </div>
+                <div class="calc-field">
+                    <label><span class="en">Calls per rep / day</span><span class="de">Anrufe pro Vertriebler / Tag</span></label>
+                    <input type="number" id="calcCalls" value="30" min="1" max="200" oninput="updateCalc()">
+                </div>
+                <div class="calc-field">
+                    <label><span class="en">Avg deal value (&euro;)</span><span class="de">&Oslash; Auftragswert (&euro;)</span></label>
+                    <input type="number" id="calcDeal" value="2000" min="100" step="100" oninput="updateCalc()">
+                </div>
+                <div class="calc-field">
+                    <label><span class="en">Monthly cost per rep (&euro;)</span><span class="de">Monatliche Kosten pro Vertriebler (&euro;)</span></label>
+                    <input type="number" id="calcRepCost" value="5535" min="1000" step="100" oninput="updateCalc()">
+                </div>
+            </div>
+            <div class="calc-results" id="calcOutput">
+                <div class="calc-result-row" style="border-bottom:1px solid var(--gray-800);padding-bottom:20px;margin-bottom:8px">
+                    <span class="calc-result-label" style="color:var(--accent);font-family:var(--font-mono);font-size:11px;letter-spacing:2px;text-transform:uppercase">
+                        <span class="en">Recommended plan</span><span class="de">Empfohlenes Paket</span>
+                    </span>
+                    <span class="calc-result-value savings" id="calcTier" style="font-size:18px">Professional</span>
+                </div>
+                <div class="calc-result-row">
+                    <span class="calc-result-label"><span class="en">Your human team: calls/month</span><span class="de">Dein Team: Anrufe/Monat</span></span>
+                    <span class="calc-result-value cost" id="calcHumanCalls">1.320</span>
+                </div>
+                <div class="calc-result-row">
+                    <span class="calc-result-label"><span class="en">AI plan: calls/month</span><span class="de">KI-Paket: Anrufe/Monat</span></span>
+                    <span class="calc-result-value savings" id="calcAICalls">2.000</span>
+                </div>
+                <div class="calc-result-row">
+                    <span class="calc-result-label"><span class="en">Your current monthly cost</span><span class="de">Deine aktuellen Monatskosten</span></span>
+                    <span class="calc-result-value cost" id="calcCurrentCost">&euro;11.070</span>
+                </div>
+                <div class="calc-result-row">
+                    <span class="calc-result-label" id="calcAICostLabel"><span class="en">AI cost (Professional)</span><span class="de">KI-Kosten (Professional)</span></span>
+                    <span class="calc-result-value savings" id="calcAICost">&euro;4.499</span>
+                </div>
+                <div class="calc-result-row">
+                    <span class="calc-result-label"><span class="en">Monthly savings</span><span class="de">Monatliche Ersparnis</span></span>
+                    <span class="calc-result-value savings" id="calcSavings">&euro;6.571</span>
+                </div>
+                <div style="border-top:1px solid var(--gray-800);margin-top:16px;padding-top:20px">
+                    <div class="calc-result-row">
+                        <span class="calc-result-label" id="calcMathLabel" style="font-size:12px;color:var(--gray-500)">
+                            2.000 calls &times; 1,5% close rate = 30 closes
+                        </span>
+                        <span class="calc-result-value" id="calcCloses">30</span>
+                    </div>
+                    <div class="calc-result-row">
+                        <span class="calc-result-label" id="calcRevLabel" style="font-size:12px;color:var(--gray-500)">
+                            30 closes &times; &euro;2.000 deal value
+                        </span>
+                        <span class="calc-result-value savings" id="calcRevenue" style="font-size:20px">&euro;60.000</span>
+                    </div>
+                    <div style="margin-top:14px;padding:10px 12px;border-left:2px solid var(--hot);background:rgba(255,107,107,0.06)">
+                        <span style="font-family:var(--font-mono);font-size:11px;color:var(--hot);letter-spacing:0.5px;line-height:1.6">
+                            <span class="en">Based on cold call benchmarks (1.5%). Warm or inbound leads close significantly higher.</span>
+                            <span class="de">Basierend auf Kaltakquise-Benchmarks (1,5%). Warme oder eingehende Leads konvertieren deutlich besser.</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="calc-result-big">
+                    <div class="number" id="calcROI">&euro;60.000</div>
+                    <div class="label" id="calcROILabel">
+                        <span class="en">Projected monthly revenue &middot; Professional plan &middot; 2,000 calls</span>
+                        <span class="de">Prognostizierter Monatsumsatz &middot; Professional &middot; 2.000 Calls</span>
+                    </div>
+                </div>
+                <div class="calc-cta" id="calcCTA">
+                    <a href="https://calendly.com/wodrichtermin/strategy-call" class="trial-badge" style="font-size:12px;padding:14px 28px">
+                        <span class="en">Book strategy call &rarr;</span>
+                        <span class="de">Strategy Call buchen &rarr;</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI vs HUMAN -->
+    <section class="vs-section">
+        <div class="section-header">
+            <h2><span class="en">Built to spec. Cannot lie.</span><span class="de">Nach Vorgabe gebaut. Kann nicht l&uuml;gen.</span></h2>
+            <p><span class="en">An employee that cannot misreport activity, cannot fabricate results, and is built to your exact specifications.</span><span class="de">Ein Mitarbeiter, der keine Aktivit&auml;ten f&auml;lschen kann, keine Ergebnisse erfinden kann, und exakt nach deinen Vorgaben arbeitet.</span></p>
+        </div>
+        <table class="vs-table">
+            <thead><tr><th></th><th><span class="en">Human Rep</span><span class="de">Mensch</span></th><th><span class="en">AI Agent</span><span class="de">KI-Agent</span></th></tr></thead>
+            <tbody>
+                <tr><td><span class="en">Daily call output</span><span class="de">T&auml;glicher Anruf-Output</span></td><td><span class="en">Industry avg: 30&ndash;40 effective calls</span><span class="de">Branchenschnitt: 30&ndash;40 Anrufe</span></td><td><span class="en">Verified exact count, every call logged</span><span class="de">Verifizierte Zahl, jeder Anruf protokolliert</span></td></tr>
+                <tr><td><span class="en">Lead quality feedback</span><span class="de">Lead-Qualit&auml;t Feedback</span></td><td><span class="en">Subjective &mdash; hard to validate</span><span class="de">Subjektiv &mdash; schwer nachzupr&uuml;fen</span></td><td><span class="en">Data-backed score per lead</span><span class="de">Datenbasierter Score pro Lead</span></td></tr>
+                <tr><td><span class="en">CRM data entry</span><span class="de">CRM-Eintr&auml;ge</span></td><td><span class="en">3 days late, incomplete</span><span class="de">3 Tage zu sp&auml;t, unvollst&auml;ndig</span></td><td><span class="en">100% accurate, instant</span><span class="de">100% korrekt, sofort</span></td></tr>
+                <tr><td><span class="en">Call transcripts</span><span class="de">Anruf-Transkripte</span></td><td><span class="en">Never</span><span class="de">Nie</span></td><td><span class="en">Every call, searchable</span><span class="de">Jeder Anruf, durchsuchbar</span></td></tr>
+                <tr><td><span class="en">Monday vs Friday</span><span class="de">Montag vs. Freitag</span></td><td><span class="en">4 hrs lost per week</span><span class="de">4 Std. verloren pro Woche</span></td><td>0%</td></tr>
+                <tr><td><span class="en">Script changes</span><span class="de">Skript-&Auml;nderungen</span></td><td><span class="en">Retraining. Weeks.</span><span class="de">Umschulung. Wochen.</span></td><td><span class="en">Updated in minutes</span><span class="de">In Minuten aktualisiert</span></td></tr>
+                <tr><td><span class="en">Scale up</span><span class="de">Hochskalieren</span></td><td><span class="en">3-month hiring cycle</span><span class="de">3 Monate Recruiting</span></td><td><span class="en">Same day</span><span class="de">Am selben Tag</span></td></tr>
+                <tr><td><span class="en">Working hours</span><span class="de">Arbeitszeit</span></td><td><span class="en">8 hrs minus breaks</span><span class="de">8 Std. minus Pausen</span></td><td>24/7/365</td></tr>
+                <tr><td><span class="en">Languages</span><span class="de">Sprachen</span></td><td><span class="en">Hire another rep</span><span class="de">Noch jemanden einstellen</span></td><td><span class="en">Native accent, instant</span><span class="de">Muttersprachler, sofort</span></td></tr>
+            </tbody>
+        </table>
+        <div class="vs-kicker">
+            <div class="vs-kicker-number">&euro;108,832</div>
+            <div class="vs-kicker-label"><span class="en">True annual cost of one human sales rep &mdash; salary, turnover, productivity losses, and management overhead.</span><span class="de">Tats&auml;chliche j&auml;hrliche Kosten eines Vertrieblers &mdash; Gehalt, Fluktuation, Produktivit&auml;tsverluste und Management.</span></div>
+            <div class="vs-kicker-breakdown">
+                <span>&euro;66K <span class="en">salary</span><span class="de">Gehalt</span></span>
+                <span>&euro;21K <span class="en">turnover</span><span class="de">Fluktuation</span></span>
+                <span>&euro;15K <span class="en">productivity</span><span class="de">Produktivit&auml;t</span></span>
+                <span>&euro;6.7K Management</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF -->
+    <section class="results" style="background:var(--black);border-top:1px solid var(--gray-800);border-bottom:none">
+        <div class="section-header" style="margin-bottom:48px">
+            <h2><span class="en">What our clients achieve.</span><span class="de">Was unsere Kunden erreichen.</span></h2>
+            <p><span class="en">Real results from real businesses. Anonymised until public permission is granted.</span><span class="de">Echte Ergebnisse aus echten Unternehmen. Anonymisiert bis zur freigabe.</span></p>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;max-width:1100px;margin:0 auto 48px">
+
+            <div style="background:var(--gray-900);padding:40px 36px;position:relative;overflow:hidden;border-top:2px solid var(--accent)">
+                <div style="font-family:var(--font-mono);font-size:36px;font-weight:700;color:var(--accent);margin-bottom:8px">−47%</div>
+                <div style="font-size:15px;color:var(--gray-400);line-height:1.6;margin-bottom:24px"><span class="en">Cost per qualified appointment, vs previous SDR setup.</span><span class="de">Kosten pro qualifiziertem Termin, vs. früheres SDR-Setup.</span></div>
+                <div style="font-family:var(--font-mono);font-size:11px;color:var(--gray-600);letter-spacing:1px;border-top:1px solid var(--gray-800);padding-top:16px">
+                    <span class="en">Recruitment agency &mdash; Munich &mdash; Starter plan</span>
+                    <span class="de">Personalvermittlung &mdash; München &mdash; Starter-Plan</span>
+                </div>
+            </div>
+
+            <div style="background:var(--gray-900);padding:40px 36px;position:relative;overflow:hidden;border-top:2px solid var(--accent)">
+                <div style="font-family:var(--font-mono);font-size:36px;font-weight:700;color:var(--accent);margin-bottom:8px">312</div>
+                <div style="font-size:15px;color:var(--gray-400);line-height:1.6;margin-bottom:24px"><span class="en">Qualified leads generated in the first 30 days. Zero SDRs hired.</span><span class="de">Qualifizierte Leads im ersten Monat. Kein SDR eingestellt.</span></div>
+                <div style="font-family:var(--font-mono);font-size:11px;color:var(--gray-600);letter-spacing:1px;border-top:1px solid var(--gray-800);padding-top:16px">
+                    <span class="en">B2B SaaS company &mdash; Hamburg &mdash; Professional plan</span>
+                    <span class="de">B2B SaaS-Unternehmen &mdash; Hamburg &mdash; Professional-Plan</span>
+                </div>
+            </div>
+
+            <div style="background:var(--gray-900);padding:40px 36px;position:relative;overflow:hidden;border-top:2px solid var(--accent)">
+                <div style="font-family:var(--font-mono);font-size:36px;font-weight:700;color:var(--accent);margin-bottom:8px">24/7</div>
+                <div style="font-size:15px;color:var(--gray-400);line-height:1.6;margin-bottom:24px"><span class="en">Inbound calls handled without a single missed lead. Practice owner interrupted 0 times.</span><span class="de">Eingehende Anrufe ohne einen einzigen verpassten Lead. Praxisinhaber: 0 Unterbrechungen.</span></div>
+                <div style="font-family:var(--font-mono);font-size:11px;color:var(--gray-600);letter-spacing:1px;border-top:1px solid var(--gray-800);padding-top:16px">
+                    <span class="en">Medical practice &mdash; Frankfurt &mdash; Starter + Receptionist add-on</span>
+                    <span class="de">Arztpraxis &mdash; Frankfurt &mdash; Starter + Receptionist Add-on</span>
+                </div>
+            </div>
+
+        </div>
+        <div style="max-width:1100px;margin:0 auto;border:1px solid var(--gray-800);background:var(--gray-900);padding:32px 40px;display:flex;gap:32px;align-items:flex-start;flex-wrap:wrap">
+            <div style="flex:1;min-width:280px">
+                <div style="font-size:22px;color:var(--accent);font-family:var(--font-display);line-height:1.4;margin-bottom:16px">&ldquo;<span class="en">The first week felt like hiring three people at once — without the HR overhead.</span><span class="de">Die erste Woche fühlte sich an wie gleichzeitig drei Mitarbeiter einzustellen — ohne HR-Aufwand.</span>&rdquo;</div>
+                <div style="font-family:var(--font-mono);font-size:11px;color:var(--gray-600);letter-spacing:1px">
+                    <span class="en">Managing Director, B2B services company, DACH region</span>
+                    <span class="de">Geschäftsführer, B2B-Dienstleistungsunternehmen, DACH</span>
+                </div>
+            </div>
+            <div style="flex:1;min-width:280px">
+                <div style="font-size:22px;color:var(--accent);font-family:var(--font-display);line-height:1.4;margin-bottom:16px">&ldquo;<span class="en">Setup took two days. By day four we had our first booked meeting from a cold list.</span><span class="de">Setup: zwei Tage. Am vierten Tag hatten wir den ersten gebuchten Termin aus einer Kaltliste.</span>&rdquo;</div>
+                <div style="font-family:var(--font-mono);font-size:11px;color:var(--gray-600);letter-spacing:1px">
+                    <span class="en">Sales Lead, digital marketing agency, Berlin</span>
+                    <span class="de">Sales Lead, Digitalmarketing-Agentur, Berlin</span>
+                </div>
+            </div>
+        </div>
+
+        <div style="display:flex;justify-content:center;gap:40px;flex-wrap:wrap;margin-top:32px;max-width:1100px;margin-left:auto;margin-right:auto;padding-top:32px;border-top:1px solid var(--gray-800)">
+            <div style="text-align:center">
+                <div style="font-family:var(--font-mono);font-size:28px;font-weight:700;color:var(--white)">Retell AI</div>
+                <div style="font-size:11px;color:var(--gray-600);margin-top:4px;letter-spacing:1px;text-transform:uppercase">Voice infrastructure</div>
+            </div>
+            <div style="text-align:center">
+                <div style="font-family:var(--font-mono);font-size:28px;font-weight:700;color:var(--white)">Supabase</div>
+                <div style="font-size:11px;color:var(--gray-600);margin-top:4px;letter-spacing:1px;text-transform:uppercase">EU Database</div>
+            </div>
+            <div style="text-align:center">
+                <div style="font-family:var(--font-mono);font-size:28px;font-weight:700;color:var(--white)">n8n</div>
+                <div style="font-size:11px;color:var(--gray-600);margin-top:4px;letter-spacing:1px;text-transform:uppercase">Automation</div>
+            </div>
+            <div style="text-align:center">
+                <div style="font-family:var(--font-mono);font-size:28px;font-weight:700;color:var(--white)">Hetzner</div>
+                <div style="font-size:11px;color:var(--gray-600);margin-top:4px;letter-spacing:1px;text-transform:uppercase">EU Hosting</div>
+            </div>
+            <div style="text-align:center">
+                <div style="font-family:var(--font-mono);font-size:28px;font-weight:700;color:var(--white)">Digistore24</div>
+                <div style="font-size:11px;color:var(--gray-600);margin-top:4px;letter-spacing:1px;text-transform:uppercase">Payments</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RESULTS -->
+    <section class="results">
+        <div class="section-header">
+            <h2><span class="en">What one AI agent delivers.</span><span class="de">Was ein KI-Agent leistet.</span></h2>
+        </div>
+        <div class="results-grid">
+            <div class="result-card"><div class="result-number">5,000+</div><div class="result-label"><span class="en">Calls per month at Enterprise tier. No sick days, no turnover, no excuses.</span><span class="de">Anrufe pro Monat im Enterprise-Paket. Keine Krankheitstage, keine K&uuml;ndigung, keine Ausreden.</span></div></div>
+            <div class="result-card"><div class="result-number">11x</div><div class="result-label"><span class="en">Cheaper per close than a human sales rep. At &euro;699/mo vs &euro;5,535/mo for equivalent output.</span><span class="de">G&uuml;nstiger pro Abschluss als ein menschlicher Vertriebler. &euro;699/Mo. vs. &euro;5.535/Mo. f&uuml;r vergleichbare Leistung.</span></div></div>
+            <div class="result-card"><div class="result-number">100%</div><div class="result-label"><span class="en">Call logging accuracy. Recorded, transcribed, scored. No exceptions.</span><span class="de">Dokumentationsgenauigkeit. Aufgezeichnet, transkribiert, bewertet. Ausnahmslos.</span></div></div>
+            <div class="result-card"><div class="result-number">40&ndash;52%</div><div class="result-label"><span class="en">Cost reduction per appointment vs a human SDR.</span><span class="de">Kostenreduktion pro Termin im Vergleich zum menschlichen Vertriebler.</span></div></div>
+            <div class="result-card"><div class="result-number">DE + EN</div><div class="result-label"><span class="en">Native accent, live language switch mid-call. No additional cost.</span><span class="de">Muttersprachlicher Akzent, Sprachwechsel mitten im Gespr&auml;ch. Ohne Aufpreis.</span></div></div>
+            <div class="result-card"><div class="result-number">0</div><div class="result-label"><span class="en">Sick days. Notice periods. Commission disputes. HR tickets.</span><span class="de">Krankheitstage. K&uuml;ndigungsfristen. Provisionsstreit. HR-Tickets.</span></div></div>
+        </div>
+    </section>
+
+    <!-- HOW -->
+    <section class="how">
+        <div class="section-header">
+            <h2><span class="en">Live in weeks, not months.</span><span class="de">Live in Wochen, nicht Monaten.</span></h2>
+        </div>
+        <div class="how-steps">
+            <div class="how-step"><div class="step-num">01</div><div class="step-title"><span class="en">Start trial</span><span class="de">Trial starten</span></div><div class="step-desc"><span class="en">&euro;1 for 14 days. Test your AI agent live with a 5-minute demo call. Cancel within 13 days for a full refund. After trial, auto-upgrades to Starter (250 calls/mo).</span><span class="de">&euro;1 f&uuml;r 14 Tage. Teste deinen KI-Agenten live mit einem 5-Minuten Demo-Anruf. Innerhalb von 13 Tagen k&uuml;ndbar, volle R&uuml;ckerstattung. Danach automatisch Starter (250 Calls/Mo.).</span></div></div>
+            <div class="how-step"><div class="step-num">02</div><div class="step-title"><span class="en">Script + voice</span><span class="de">Skript + Stimme</span></div><div class="step-desc"><span class="en">Custom conversation flow. Native German, English, or multilingual. Your tone, your rules.</span><span class="de">Individueller Gespr&auml;chsablauf. Muttersprachlich Deutsch, Englisch oder mehrsprachig. Dein Ton, deine Regeln.</span></div></div>
+            <div class="how-step"><div class="step-num">03</div><div class="step-title">Integration</div><div class="step-desc"><span class="en">CRM, calendar, Telegram, Slack, email. Wherever you work, leads show up there.</span><span class="de">CRM, Kalender, Telegram, Slack, E-Mail. Wo du arbeitest, kommen die Leads an.</span></div></div>
+            <div class="how-step"><div class="step-num">04</div><div class="step-title">Launch</div><div class="step-desc"><span class="en">Your agent goes live. Qualified meetings start appearing on your calendar.</span><span class="de">Dein Agent geht live. Qualifizierte Termine erscheinen in deinem Kalender.</span></div></div>
+        </div>
+    </section>
+
+
+    <!-- DASHBOARD SHOWCASE -->
+    <section class="dashboard-showcase" id="dashboard">
+        <div class="ds-header">
+            <div class="ds-eyebrow">
+                <span class="en">Your command centre</span>
+                <span class="de">Dein Command Centre</span>
+            </div>
+            <h2>
+                <span class="en">Full control.<br>Real data. <span class="accent">Right now.</span></span>
+                <span class="de">Volle Kontrolle.<br>Echte Daten. <span class="accent">Jetzt sofort.</span></span>
+            </h2>
+            <p class="ds-sub">
+                <span class="en">Every client gets a live dashboard from day one. Upload leads, launch campaigns, read transcripts, see AI lead scores. Not a weekly report&nbsp;&mdash; a live system you control.</span>
+                <span class="de">Ab Tag eins bekommt jeder Kunde ein Live-Dashboard. Leads hochladen, Kampagnen starten, Transkripte lesen, KI-Lead-Scores einsehen. Kein Wochenbericht&nbsp;&mdash; ein Live-System, das du steuerst.</span>
+            </p>
+        </div>
+        <div class="ds-features">
+            <div class="ds-feat">
+                <div class="ds-feat-icon">&#9650;</div>
+                <div class="ds-feat-title"><span class="en">Live usage tracking</span><span class="de">Live-Nutzungsstatistik</span></div>
+                <div class="ds-feat-body"><span class="en">Minutes used, calls made, success rate. Updated in real time, not daily.</span><span class="de">Minuten verbraucht, Anrufe get&auml;tigt, Erfolgsrate. Echtzeit, nicht t&auml;glich.</span></div>
+            </div>
+            <div class="ds-feat">
+                <div class="ds-feat-icon">&#9671;</div>
+                <div class="ds-feat-title"><span class="en">AI lead scoring</span><span class="de">KI-Lead-Scoring</span></div>
+                <div class="ds-feat-body"><span class="en">Every call scored 0&ndash;100 for receptiveness. 80+ means ready to buy. Your team knows exactly who to follow up.</span><span class="de">Jeder Anruf 0&ndash;100 bewertet. 80+ = kaufbereit. Dein Team wei&szlig; sofort, wen es nachfassen soll.</span></div>
+            </div>
+            <div class="ds-feat">
+                <div class="ds-feat-icon">&#9636;</div>
+                <div class="ds-feat-title"><span class="en">CSV lead upload</span><span class="de">CSV-Lead-Upload</span></div>
+                <div class="ds-feat-body"><span class="en">Upload your prospect list. Set calling hours. The agent starts automatically. Add numbers manually too.</span><span class="de">Prospektliste hochladen. Zeiten setzen. Der Agent startet automatisch. Auch manuell hinzuf&uuml;gbar.</span></div>
+            </div>
+            <div class="ds-feat">
+                <div class="ds-feat-icon">&#9776;</div>
+                <div class="ds-feat-title"><span class="en">Full call transcripts</span><span class="de">Vollst&auml;ndige Transkripte</span></div>
+                <div class="ds-feat-body"><span class="en">Every conversation recorded, transcribed, summarised. Expand any call. Read exactly what was said.</span><span class="de">Jedes Gespr&auml;ch aufgezeichnet, transkribiert, zusammengefasst. Jeden Anruf aufklappen.</span></div>
+            </div>
+        </div>
+        <div class="ds-frame-wrap">
+            <div class="ds-frame-bar">
+                <span class="ds-frame-dot" style="background:#FF5F57"></span>
+                <span class="ds-frame-dot" style="background:#FEBC2E"></span>
+                <span class="ds-frame-dot" style="background:#28C840"></span>
+                <span class="ds-frame-url">dashboard.24-7-project.com</span>
+                <span class="ds-frame-badge">
+                    <span class="en">Interactive demo &mdash; click around</span>
+                    <span class="de">Interaktive Demo &mdash; jetzt ausprobieren</span>
+                </span>
+            </div>
+            <div class="ds-frame-inner">
+                <iframe
+                    src="demo-dashboard.html"
+                    class="ds-iframe"
+                    title="24/7 PROJECT Dashboard Demo"
+                    loading="lazy"
+                    scrolling="yes"
+                ></iframe>
+            </div>
+        </div>
+        <div class="ds-footer">
+            <div class="ds-footer-items">
+                <span>&#10003; <span class="en">Included on every plan</span><span class="de">In jedem Plan enthalten</span></span>
+                <span>&#10003; <span class="en">Magic link &mdash; no login required</span><span class="de">Magic Link &mdash; kein Login n&ouml;tig</span></span>
+                <span>&#10003; <span class="en">EN / DE interface</span><span class="de">EN / DE Oberfl&auml;che</span></span>
+                <span>&#10003; <span class="en">Live from day one</span><span class="de">Ab Tag eins live</span></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRICING -->
+    <section class="pricing" id="preise">
+        <div class="section-header">
+            <h2><span class="en">Pick your output.</span><span class="de">W&auml;hle deinen Output.</span></h2>
+            <p><span class="en">Every tier includes a dedicated agent, German voice, full transcripts, and a live dashboard. The only difference is volume.</span><span class="de">Jedes Paket enth&auml;lt einen dedizierten Agenten, deutsche Stimme, vollst&auml;ndige Transkripte und ein Live-Dashboard. Der einzige Unterschied ist das Volumen.</span></p>
+        </div>
+        <div class="pricing-cards">
+            <div class="pricing-card">
+                <div class="pricing-eyebrow">Starter</div>
+                <div class="pricing-amount">&euro;699</div>
+                <div class="pricing-period"><span class="en">per month &middot; 250 calls</span><span class="de">pro Monat &middot; 250 Calls</span></div>
+                <ul class="pricing-features">
+                    <li><span class="en">250 calls/month &mdash; enough to fill 3&ndash;4 new meetings weekly</span><span class="de">250 Anrufe/Monat &mdash; genug f&uuml;r 3&ndash;4 neue Termine pro Woche</span></li>
+                    <li><span class="en">Sounds like someone you hired. Native DE/EN, on command.</span><span class="de">Klingt wie jemand, den du eingestellt hast. Muttersprachlich DE/EN.</span></li>
+                    <li><span class="en">Every call logged, scored, transcribed. No &ldquo;I forgot what they said.&rdquo;</span><span class="de">Jeder Anruf protokolliert, bewertet, transkribiert. Keine verlorenen Informationen.</span></li>
+                    <li><span class="en">Qualifies every lead the same way, every time. No bad days.</span><span class="de">Qualifiziert jeden Lead gleich &mdash; ohne schlechte Tage.</span></li>
+                    <li><span class="en">Live within days &mdash; not a 3-month hiring cycle</span><span class="de">Live in Tagen &mdash; kein 3-monatiger Recruiting-Prozess</span></li>
+                    <li><span class="en">No setup fee</span><span class="de">Keine Einrichtungsgeb&uuml;hr</span></li>
+                    <li style="color:var(--accent)"><span class="en">+ &euro;99/mo: Never miss an inbound call either</span><span class="de">+ &euro;99/Mo.: Auch eingehende Anrufe nie verpassen</span></li>
+                </ul>
+                <a href="https://www.digistore24.com/product/674912" class="pricing-card-cta cta-trial">
+                    <span class="en">&euro;1 Trial &mdash; 14 days &rarr;</span>
+                    <span class="de">&euro;1 Trial &mdash; 14 Tage &rarr;</span>
+                </a>
+                <div style="font-size:11px;color:var(--gray-500);text-align:center;margin-top:8px;font-family:var(--font-mono)">
+                    <span class="en">5-min test call &middot; Auto-upgrades to &euro;699/mo after 14 days</span>
+                    <span class="de">5-Min. Test-Anruf &middot; Wird nach 14 Tagen zu &euro;699/Mo.</span>
+                </div>
+            </div>
+            <div class="pricing-card featured">
+                <div class="pricing-eyebrow">Professional</div>
+                <div class="pricing-amount">&euro;4,499</div>
+                <div class="pricing-period"><span class="en">per month &middot; 2,000 calls</span><span class="de">pro Monat &middot; 2.000 Calls</span></div>
+                <ul class="pricing-features">
+                    <li><span class="en">2,000 calls/month &mdash; the output of a 3-person SDR team</span><span class="de">2.000 Anrufe/Monat &mdash; Leistung eines 3-k&ouml;pfigen Vertriebsteams</span></li>
+                    <li><span class="en">Never miss an inbound lead while the outbound never stops</span><span class="de">Kein eingehender Lead geht verloren, w&auml;hrend Outbound weiterl&auml;uft</span></li>
+                    <li><span class="en">Your CRM updates itself. Every call, every outcome, instant.</span><span class="de">Dein CRM aktualisiert sich selbst. Jeder Anruf, jedes Ergebnis, sofort.</span></li>
+                    <li><span class="en">Leads who don&rsquo;t pick up get a follow-up text. Pipeline keeps moving.</span><span class="de">Leads ohne Antwort erhalten eine SMS. Pipeline bleibt in Bewegung.</span></li>
+                    <li><span class="en">Know exactly who&rsquo;s ready to buy. Stop guessing.</span><span class="de">Wer kaufbereit ist, wird sofort markiert. Kein R&auml;tselraten.</span></li>
+                    <li><span class="en">&euro;2,500 one-time setup</span><span class="de">&euro;2.500 einmalige Einrichtung</span></li>
+                </ul>
+                <a href="https://calendly.com/wodrichtermin/strategy-call" class="pricing-card-cta cta-call">
+                    <span class="en">Book strategy call &rarr;</span>
+                    <span class="de">Strategy Call buchen &rarr;</span>
+                </a>
+            </div>
+            <div class="pricing-card">
+                <div class="pricing-eyebrow">Enterprise</div>
+                <div class="pricing-amount">&euro;24,999</div>
+                <div class="pricing-period"><span class="en">per month &middot; 5,000+ calls</span><span class="de">pro Monat &middot; 5.000+ Calls</span></div>
+                <ul class="pricing-features">
+                    <li><span class="en">5,000+ calls/month &mdash; the output of a 20-person SDR team</span><span class="de">5.000+ Anrufe/Monat &mdash; Leistung von 20 Vertriebsmitarbeitern</span></li>
+                    <li><span class="en">Warm leads from ads, qualified by AI, handed to your closers</span><span class="de">Warme Leads aus Ads, von KI qualifiziert, direkt an deine Closer</span></li>
+                    <li><span class="en">One person accountable for your entire acquisition funnel</span><span class="de">Eine Person verantwortlich f&uuml;r deinen gesamten Akquise-Funnel</span></li>
+                    <li><span class="en">Every system connected. Every workflow automated. Nothing manual.</span><span class="de">Jedes System verbunden. Jeder Prozess automatisiert. Nichts manuell.</span></li>
+                    <li><span class="en">Dedicated PM. One person owns your funnel end to end.</span><span class="de">Dedizierter Projektmanager. Eine Person verantwortet deinen gesamten Funnel.</span></li>
+                    <li><span class="en">&euro;5,000 one-time setup</span><span class="de">&euro;5.000 einmalige Einrichtung</span></li>
+                </ul>
+                <a href="https://calendly.com/wodrichtermin/strategy-call" class="pricing-card-cta cta-call">
+                    <span class="en">Book strategy call &rarr;</span>
+                    <span class="de">Strategy Call buchen &rarr;</span>
+                </a>
+            </div>
+        </div>
+        <div class="pricing-compare">
+            <p><strong><span class="en">Compare:</span><span class="de">Vergleich:</span></strong> <span class="en">One human SDR costs &euro;5,535/month and makes 660 calls. Our Starter tier makes 250 precision calls for &euro;699 &mdash; every single one logged, transcribed, and scored.</span><span class="de">Ein menschlicher Vertriebler kostet &euro;5.535/Monat und macht 660 Anrufe. Unser Starter macht 250 pr&auml;zise Anrufe f&uuml;r &euro;699 &mdash; jeder einzelne protokolliert, transkribiert und bewertet.</span></p>
+            <p class="savings" style="margin-top:12px"><span class="en">Annual savings vs human rep: &euro;60,000+ before turnover, training, and management overhead.</span><span class="de">J&auml;hrliche Ersparnis vs. Vertriebler: &euro;60.000+ vor Fluktuation, Schulung und Management.</span></p>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <h2>
+            <span class="en">Every month you wait<br>costs you <span class="accent">&euro;15,700.</span></span>
+            <span class="de">Jeder Monat, den du wartest,<br>kostet dich <span class="accent">&euro;15.700.</span></span>
+        </h2>
+        <p class="cta-urgency">
+            <span class="en">Including unrealized revenue from deals your AI agent would close. That number compounds.</span>
+            <span class="de">Inklusive entgangener Ums&auml;tze durch Deals, die dein KI-Agent abschlie&szlig;en w&uuml;rde. Die Zahl summiert sich.</span>
+        </p>
+        <a href="https://www.digistore24.com/product/674912" class="cta-button">
+            <span class="en">Start for &euro;1 &rarr;</span>
+            <span class="de">F&uuml;r &euro;1 starten &rarr;</span>
+        </a>
+        <p class="cta-sub">
+            <span class="en">14-day trial. 5-minute live test call. Cancel within 13 days for a full refund.<br>Auto-upgrades to Starter (250 calls/mo). German, English, and multilingual agents. GDPR compliant. EU data residency.</span>
+            <span class="de">14-Tage-Trial. 5 Minuten Live-Test-Anruf. Innerhalb von 13 Tagen k&uuml;ndbar, volle R&uuml;ckerstattung.<br>Danach automatisch Starter (250 Calls/Mo.). Deutsche, englische und mehrsprachige Agenten. DSGVO-konform. EU-Datenstandort.</span>
+        </p>
+        <div class="cta-proof">
+            <span>&#10003; <span class="en">Live in weeks</span><span class="de">Live in Wochen</span></span>
+            <span>&#10003; <span class="en">Cancel anytime</span><span class="de">Jederzeit k&uuml;ndbar</span></span>
+            <span>&#10003; <span class="en">No long-term contracts</span><span class="de">Keine Langzeitvertr&auml;ge</span></span>
+        </div>
+    </section>
+
+    <!-- SEO CONTENT LINKS — internal link cluster -->
+    <section style="padding:80px 48px;border-top:1px solid var(--gray-800)">
+        <div style="max-width:1100px;margin:0 auto">
+            <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gray-600);margin-bottom:32px">
+                <span class="en">Resources</span><span class="de">Ressourcen</span>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:2px">
+                <a href="/ki-kaltakquise.html" style="display:block;background:var(--gray-900);padding:24px;text-decoration:none;transition:background .2s" onmouseover="this.style.background='var(--gray-800)'" onmouseout="this.style.background='var(--gray-900)'">
+                    <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:1px;color:var(--accent);margin-bottom:8px;text-transform:uppercase">Guide</div>
+                    <div style="font-size:14px;font-weight:500;color:var(--white);margin-bottom:8px;line-height:1.4">KI Kaltakquise: <span class="de">Wie es funktioniert</span><span class="en">How it works</span></div>
+                    <div style="font-size:12px;color:var(--gray-500);line-height:1.5"><span class="de">Vollständiger Guide zu KI-Telefonagenten für den DACH-Markt.</span><span class="en">Complete guide to AI voice agents for the DACH market.</span></div>
+                </a>
+                <a href="/ai-vertrieb-kosten.html" style="display:block;background:var(--gray-900);padding:24px;text-decoration:none;transition:background .2s" onmouseover="this.style.background='var(--gray-800)'" onmouseout="this.style.background='var(--gray-900)'">
+                    <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:1px;color:var(--accent);margin-bottom:8px;text-transform:uppercase">Analyse</div>
+                    <div style="font-size:14px;font-weight:500;color:var(--white);margin-bottom:8px;line-height:1.4"><span class="de">Kostenvergleich: Mensch vs. KI</span><span class="en">Cost comparison: Human vs. AI</span></div>
+                    <div style="font-size:12px;color:var(--gray-500);line-height:1.5"><span class="de">Was ein menschlicher SDR wirklich kostet — und was KI kostet.</span><span class="en">What a human SDR really costs — and what AI costs.</span></div>
+                </a>
+                <a href="/ki-telefonagent.html" style="display:block;background:var(--gray-900);padding:24px;text-decoration:none;transition:background .2s" onmouseover="this.style.background='var(--gray-800)'" onmouseout="this.style.background='var(--gray-900)'">
+                    <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:1px;color:var(--accent);margin-bottom:8px;text-transform:uppercase">Produkt</div>
+                    <div style="font-size:14px;font-weight:500;color:var(--white);margin-bottom:8px;line-height:1.4"><span class="de">KI-Telefonagent: So funktioniert es</span><span class="en">AI Voice Agent: How it works</span></div>
+                    <div style="font-size:12px;color:var(--gray-500);line-height:1.5"><span class="de">Technologie, Onboarding und Integrationen erklärt.</span><span class="en">Technology, onboarding and integrations explained.</span></div>
+                </a>
+                <a href="/voice-ai-dsgvo.html" style="display:block;background:var(--gray-900);padding:24px;text-decoration:none;transition:background .2s" onmouseover="this.style.background='var(--gray-800)'" onmouseout="this.style.background='var(--gray-900)'">
+                    <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:1px;color:var(--accent);margin-bottom:8px;text-transform:uppercase">Compliance</div>
+                    <div style="font-size:14px;font-weight:500;color:var(--white);margin-bottom:8px;line-height:1.4">Voice AI & DSGVO</div>
+                    <div style="font-size:12px;color:var(--gray-500);line-height:1.5"><span class="de">Was Unternehmen in Deutschland wissen müssen.</span><span class="en">What businesses in Germany need to know.</span></div>
+                </a>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:2px">
+                <a href="/starter.html" style="display:block;background:var(--gray-900);padding:16px 24px;text-decoration:none;font-family:var(--font-mono);font-size:11px;color:var(--gray-500);transition:color .2s" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--gray-500)'">Starter &rarr;</a>
+                <a href="/professional.html" style="display:block;background:var(--gray-900);padding:16px 24px;text-decoration:none;font-family:var(--font-mono);font-size:11px;color:var(--gray-500);transition:color .2s" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--gray-500)'">Professional &rarr;</a>
+                <a href="/enterprise.html" style="display:block;background:var(--gray-900);padding:16px 24px;text-decoration:none;font-family:var(--font-mono);font-size:11px;color:var(--gray-500);transition:color .2s" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--gray-500)'">Enterprise &rarr;</a>
+                <a href="/receptionist.html" style="display:block;background:var(--gray-900);padding:16px 24px;text-decoration:none;font-family:var(--font-mono);font-size:11px;color:var(--gray-500);transition:color .2s" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--gray-500)'">Receptionist Add-on &rarr;</a>
+            </div>
+        </div>
+    </section>
+
+
+    <footer>
+        <div class="footer-left">
+            &copy; 2026 24/7 PROJECT
+            <span style="margin:0 12px;color:var(--gray-800)">|</span>
+            <span style="color:var(--gray-600);font-size:12px">
+                <span class="en">GDPR compliant &middot; EU data residency</span>
+                <span class="de">DSGVO-konform &middot; EU-Datenstandort</span>
+            </span>
+        </div>
+        <div class="footer-right">
+            <a href="/impressum.html">Impressum</a>
+            <span style="margin:0 12px;color:var(--gray-800)">|</span>
+            <a href="/datenschutz.html">Datenschutz</a>
+            <span style="margin:0 12px;color:var(--gray-800)">|</span>
+            <a href="/eu-ai-act.html"><span class="en">AI Compliance</span><span class="de">KI-Compliance</span></a>
+            <span style="margin:0 12px;color:var(--gray-800)">|</span>
+            <a href="/cdn-cgi/l/email-protection#d6a2b3b5beb8bfb5b7bab2b3a6b7a4a2bbb3b8a296e4e2fbe1fba6a4b9bcb3b5a2f8b5b9bb"><span class="__cf_email__" data-cfemail="6c18090f0402050f0d0008091c0d1e18010902182c5e58415b411c1e0306090f18420f0301">[email&#160;protected]</span></a>
+        </div>
+    </footer>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    (function() {
+        document.body.className = window.location.search.indexOf('v=a') > -1 ? 'va' : 'vb';
+
+        var savedLang = localStorage.getItem('247lang');
+        var browserDE = navigator.language && navigator.language.startsWith('de');
+        var lang = savedLang || (browserDE ? 'de' : 'en');
+        document.documentElement.lang = lang;
+        document.getElementById('langToggle').textContent = lang === 'en' ? 'DE' : 'EN';
+
+        window.toggleLang = function() {
+            var current = document.documentElement.lang;
+            var next = current === 'en' ? 'de' : 'en';
+            document.documentElement.lang = next;
+            document.getElementById('langToggle').textContent = next === 'en' ? 'DE' : 'EN';
+            localStorage.setItem('247lang', next);
+        };
+
+        var RATE = 1570 / (30 * 24 * 3600);
+        var start = Date.now();
+        var counter = document.getElementById('bleed-counter');
+        if (counter) {
+            function tick() {
+                var cost = ((Date.now() - start) / 1000) * RATE;
+                counter.textContent = '\u20AC' + (cost < 1 ? cost.toFixed(4) : cost < 100 ? cost.toFixed(2) : cost.toFixed(0));
+                requestAnimationFrame(tick);
+            }
+            requestAnimationFrame(tick);
+        }
+
+        window.updateCalc = function() {
+            var reps = parseInt(document.getElementById('calcReps').value) || 1;
+            var callsDay = parseInt(document.getElementById('calcCalls').value) || 30;
+            var deal = parseInt(document.getElementById('calcDeal').value) || 2000;
+            var repCost = parseInt(document.getElementById('calcRepCost').value) || 5535;
+
+            var humanCalls = reps * callsDay * 22;
+            var currentCost = reps * repCost;
+
+            // Pick smallest tier that matches or exceeds human call volume
+            var tier, aiCalls, aiCost, tierCTA;
+            if (humanCalls <= 250) {
+                tier = 'Starter'; aiCalls = 250; aiCost = 699;
+                tierCTA = '<a href="https://www.digistore24.com/product/674912" class="trial-badge" style="font-size:12px;padding:14px 28px"><span class="en">\u20AC1 Trial \u2014 14 days \u2192</span><span class="de">F\u00FCr \u20AC1 starten \u2192</span></a>';
+            } else if (humanCalls <= 2000) {
+                tier = 'Professional'; aiCalls = 2000; aiCost = 4499;
+                tierCTA = '<a href="https://calendly.com/wodrichtermin/strategy-call" class="trial-badge" style="font-size:12px;padding:14px 28px"><span class="en">Book strategy call \u2192</span><span class="de">Strategy Call buchen \u2192</span></a>';
+            } else {
+                tier = 'Enterprise'; aiCalls = 5000; aiCost = 24999;
+                tierCTA = '<a href="https://calendly.com/wodrichtermin/strategy-call" class="trial-badge" style="font-size:12px;padding:14px 28px"><span class="en">Book strategy call \u2192</span><span class="de">Strategy Call buchen \u2192</span></a>';
+            }
+
+            var savings = currentCost - aiCost;
+            var closes = Math.floor(aiCalls * 0.015);
+            var revenue = closes * deal;
+            var lang = document.documentElement.lang;
+
+            document.getElementById('calcTier').textContent = tier;
+            document.getElementById('calcHumanCalls').textContent = humanCalls.toLocaleString('de-DE');
+            document.getElementById('calcAICalls').textContent = aiCalls.toLocaleString('de-DE');
+            document.getElementById('calcCurrentCost').textContent = '\u20AC' + currentCost.toLocaleString('de-DE');
+            document.getElementById('calcAICost').textContent = '\u20AC' + aiCost.toLocaleString('de-DE');
+            document.getElementById('calcAICostLabel').innerHTML = (lang === 'de' ? 'KI-Kosten (' : 'AI cost (') + tier + ')';
+            document.getElementById('calcSavings').textContent = (savings >= 0 ? '\u20AC' : '-\u20AC') + Math.abs(savings).toLocaleString('de-DE');
+            document.getElementById('calcSavings').className = 'calc-result-value ' + (savings >= 0 ? 'savings' : 'cost');
+            document.getElementById('calcCloses').textContent = closes;
+            document.getElementById('calcRevenue').textContent = '\u20AC' + revenue.toLocaleString('de-DE');
+
+            // Transparent math labels
+            document.getElementById('calcMathLabel').textContent =
+                aiCalls.toLocaleString('de-DE') + ' calls \u00D7 1,5% close rate = ' + closes + ' closes';
+            document.getElementById('calcRevLabel').textContent =
+                closes + ' closes \u00D7 \u20AC' + deal.toLocaleString('de-DE') + (lang === 'de' ? ' Auftragswert' : ' deal value');
+
+            document.getElementById('calcROI').textContent = '\u20AC' + revenue.toLocaleString('de-DE');
+            document.getElementById('calcROILabel').innerHTML = (lang === 'de'
+                ? 'Prognostizierter Monatsumsatz \u00B7 ' + tier + ' \u00B7 ' + aiCalls.toLocaleString('de-DE') + ' Calls'
+                : 'Projected monthly revenue \u00B7 ' + tier + ' plan \u00B7 ' + aiCalls.toLocaleString('de-DE') + ' calls');
+
+            // Dynamic CTA — trial for Starter, Calendly for Pro/Enterprise
+            document.getElementById('calcCTA').innerHTML = tierCTA;
+            // Re-apply language visibility
+            var curLang = document.documentElement.lang;
+            document.querySelectorAll('#calcCTA .en').forEach(function(el) { el.style.display = curLang === 'en' ? '' : 'none'; });
+            document.querySelectorAll('#calcCTA .de').forEach(function(el) { el.style.display = curLang === 'de' ? '' : 'none'; });
+        };
+        updateCalc();
+
+        var storyObs = new IntersectionObserver(function(entries) {
+            for (var i = 0; i < entries.length; i++) {
+                if (entries[i].isIntersecting) entries[i].target.classList.add('visible');
+            }
+        }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+        var blocks = document.querySelectorAll('.story-block');
+        for (var i = 0; i < blocks.length; i++) storyObs.observe(blocks[i]);
+
+        var termDone = false;
+        var termObs = new IntersectionObserver(function(entries) {
+            for (var i = 0; i < entries.length; i++) {
+                if (entries[i].isIntersecting && !termDone) {
+                    termDone = true;
+                    var lines = document.querySelectorAll('#terminal .t-line');
+                    for (var j = 0; j < lines.length; j++) {
+                        (function(line) {
+                            var d = parseInt(line.getAttribute('data-delay'), 10) || 0;
+                            setTimeout(function() { line.classList.add('show'); }, d);
+                        })(lines[j]);
+                    }
+                }
+            }
+        }, { threshold: 0.25 });
+        termObs.observe(document.getElementById('terminal'));
+
+        var rows = document.querySelectorAll('.vs-table tbody tr');
+        var rowObs = new IntersectionObserver(function(entries) {
+            for (var i = 0; i < entries.length; i++) {
+                if (entries[i].isIntersecting) entries[i].target.classList.add('show');
+            }
+        }, { threshold: 0.1 });
+        for (var i = 0; i < rows.length; i++) {
+            rows[i].style.transitionDelay = (i * 0.08) + 's';
+            rowObs.observe(rows[i]);
+        }
+
+        var cards = document.querySelectorAll('.result-card');
+        var cardObs = new IntersectionObserver(function(entries) {
+            for (var i = 0; i < entries.length; i++) {
+                if (entries[i].isIntersecting) entries[i].target.classList.add('show');
+            }
+        }, { threshold: 0.15 });
+        for (var i = 0; i < cards.length; i++) cardObs.observe(cards[i]);
+
+    })();
+    </script>
+</body>
+</html>

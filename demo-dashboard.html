@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>24/7 PROJECT — Demo Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0D0D0F;--s1:#141416;--s2:#1C1C1F;--s3:#242427;--b1:rgba(255,255,255,0.06);--b2:rgba(255,255,255,0.10);--b3:rgba(255,255,255,0.16);--white:#F5F5F6;--muted:#8A8A96;--dim:#5A5A66;--green:#3ECF8E;--gd:rgba(62,207,142,0.10);--orange:#F97316;--od:rgba(249,115,22,0.10);--red:#EF4444;--amber:#F59E0B;--mono:'JetBrains Mono',monospace;--sans:'DM Sans',sans-serif;--r:10px}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:var(--bg);color:var(--white);font-family:var(--sans);min-height:100vh}
+::selection{background:var(--green);color:#000}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--s3);border-radius:2px}
+.demo-bar{background:linear-gradient(90deg,rgba(62,207,142,0.10),rgba(62,207,142,0.05));border-bottom:1px solid rgba(62,207,142,0.18);padding:10px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;position:sticky;top:0;z-index:10}
+.demo-pill{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;background:var(--green);color:#000;padding:4px 10px;border-radius:20px}
+.demo-note{font-size:12px;color:var(--muted)}.demo-note strong{color:var(--white)}
+.sc-row{display:flex;gap:6px;flex-wrap:wrap}
+.sc-btn{font-family:var(--mono);font-size:10px;font-weight:700;padding:5px 12px;border-radius:5px;border:1px solid var(--b2);background:transparent;color:var(--muted);cursor:pointer;transition:all .15s}
+.sc-btn:hover{border-color:var(--b3);color:var(--white)}
+.sc-btn.active{background:var(--s2);color:var(--green);border-color:rgba(62,207,142,0.3)}
+.shell{max-width:920px;margin:0 auto;padding:0 20px 80px}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 0 22px;border-bottom:1px solid var(--b1);margin-bottom:20px;gap:12px;flex-wrap:wrap}
+.tb-left{display:flex;align-items:center;gap:10px}
+.brand-icon{width:28px;height:28px;background:var(--green);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.brand-icon span{font-family:var(--mono);font-size:8px;font-weight:700;color:#000}
+.brand-name{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:1.5px}
+.tb-right{display:flex;align-items:center;gap:10px}
+.co-name{font-size:13px;color:var(--muted);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.status-pill{font-family:var(--mono);font-size:9px;font-weight:700;padding:3px 8px;border-radius:20px}
+.sp-active{background:var(--gd);color:var(--green);border:1px solid rgba(62,207,142,0.2)}
+.sp-trial{background:rgba(251,191,36,0.1);color:var(--amber);border:1px solid rgba(251,191,36,0.2)}
+.sp-suspended{background:rgba(239,68,68,0.1);color:var(--red);border:1px solid rgba(239,68,68,0.2)}
+.lang-btn{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:1px;padding:4px 10px;border:1px solid var(--green);background:var(--green);color:#000;cursor:pointer;border-radius:4px;transition:all .2s}
+.lang-btn:hover{background:transparent;color:var(--green)}
+.card{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);margin-bottom:10px}
+.ch{padding:14px 18px;border-bottom:1px solid var(--b1);display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.ct{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--dim)}
+.sus{background:rgba(239,68,68,0.07);border:1px solid rgba(239,68,68,0.2);border-radius:var(--r);padding:14px 18px;margin-bottom:10px;display:flex;align-items:center;gap:14px}
+.sus-text{flex:1;font-size:13px;color:var(--red);line-height:1.5}
+.sus-text strong{display:block;font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;margin-bottom:2px}
+.gauge-inner{display:flex;align-items:center;gap:24px;flex-wrap:wrap;padding:20px}
+.gauge-wrap{position:relative;flex-shrink:0}
+.gauge-wrap svg{transform:rotate(-90deg);display:block}
+.gc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.gp{font-family:var(--mono);font-size:20px;font-weight:700;line-height:1}
+.gl{font-size:9px;color:var(--muted);margin-top:2px;text-transform:uppercase;letter-spacing:0.5px}
+.gr{flex:1;min-width:200px}
+.plan-badge{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:10px;color:var(--green);background:var(--gd);border:1px solid rgba(62,207,142,0.2);padding:3px 8px;border-radius:20px;margin-bottom:14px}
+.pd{width:5px;height:5px;border-radius:50%;background:var(--green)}
+.stats-row{display:flex}
+.stat-b{flex:1;padding:0 12px;border-right:1px solid var(--b1)}
+.stat-b:first-child{padding-left:0}.stat-b:last-child{border-right:none}
+.stat-l{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;font-family:var(--mono)}
+.stat-v{font-family:var(--mono);font-size:19px;font-weight:700;line-height:1}
+.stat-u{font-size:10px;font-weight:400;color:var(--muted);margin-left:2px}
+.prog-wrap{margin-top:16px}
+.prog-track{height:4px;background:var(--s2);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;border-radius:2px}
+.rn{margin-top:7px;font-size:11px;color:var(--dim);display:flex;align-items:center;gap:5px}
+.an-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px}
+.an{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);padding:14px}
+.al{font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);margin-bottom:6px}
+.av{font-family:var(--mono);font-size:19px;font-weight:700}
+.as{font-size:11px;color:var(--muted);margin-top:3px}
+.calling-g{display:grid;grid-template-columns:1fr 1fr;gap:18px;padding:18px}
+.fg{display:flex;flex-direction:column;gap:14px}
+.fl{font-family:var(--mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--dim);margin-bottom:4px}
+.fi{background:var(--s2);border:1px solid var(--b1);color:var(--white);font-family:var(--mono);font-size:11px;padding:8px 10px;border-radius:5px;width:100%;outline:none;transition:border-color .2s}
+.fi:focus{border-color:rgba(62,207,142,0.4)}.fi option{background:var(--s2)}
+.toggle-row{display:flex;align-items:center;justify-content:space-between}
+.tl{font-size:13px;font-weight:500}.tsub{font-size:11px;color:var(--muted);margin-top:2px}
+.toggle-sw{position:relative;width:40px;height:22px;flex-shrink:0}
+.toggle-sw input{opacity:0;width:0;height:0}
+.track{position:absolute;inset:0;background:var(--s3);border-radius:11px;cursor:pointer;transition:background .2s;border:1px solid var(--b2)}
+.track:after{content:'';position:absolute;left:3px;top:3px;width:14px;height:14px;background:var(--muted);border-radius:50%;transition:all .2s}
+.toggle-sw input:checked+.track{background:var(--green)}
+.toggle-sw input:checked+.track:after{transform:translateX(18px);background:#000}
+.days-row{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
+.day-btn{font-family:var(--mono);font-size:9px;font-weight:700;padding:4px 7px;border-radius:4px;border:1px solid var(--b2);background:transparent;color:var(--muted);cursor:pointer;transition:all .15s}
+.day-btn.on{background:var(--gd);color:var(--green);border-color:rgba(62,207,142,0.3)}
+.save-btn{font-family:var(--mono);font-size:10px;font-weight:700;padding:8px 16px;background:var(--green);color:#000;border:none;border-radius:6px;cursor:pointer;transition:all .2s}
+.save-btn:hover{background:#2db87b;transform:translateY(-1px)}
+.number-row{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--s2);border-radius:7px;border:1px solid var(--b1);margin:12px 16px}
+.number-val{font-family:var(--mono);font-size:14px;font-weight:700}
+.number-type{font-family:var(--mono);font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:2px}
+.number-badge{font-family:var(--mono);font-size:8px;padding:2px 6px;border-radius:3px;background:var(--gd);color:var(--green);border:1px solid rgba(62,207,142,0.2)}
+/* LEADS */
+.leads-tabs{display:flex;gap:0;border-bottom:1px solid var(--b1);margin:0 16px}
+.leads-tab{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.5px;padding:10px 14px;background:transparent;border:none;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s;white-space:nowrap}
+.leads-tab.active{color:var(--green);border-bottom-color:var(--green)}
+.leads-tab-panel{padding:16px;display:none}
+.leads-tab-panel.active{display:block}
+.leads-input-row{display:flex;gap:8px;align-items:flex-start}
+.leads-input-row .fi{flex:1;min-width:0}
+.add-btn{font-family:var(--mono);font-size:10px;font-weight:700;padding:8px 14px;background:var(--green);color:#000;border:none;border-radius:5px;cursor:pointer;white-space:nowrap;flex-shrink:0}
+.add-btn:hover{background:#2db87b}
+.csv-drop{border:1px dashed var(--b2);border-radius:7px;padding:20px;text-align:center;cursor:pointer;transition:border-color .2s;margin-bottom:10px}
+.csv-drop:hover{border-color:var(--green)}
+.csv-drop-text{font-size:12px;color:var(--muted);line-height:1.6}
+.csv-drop-text strong{color:var(--white);display:block;margin-bottom:4px}
+.leads-list{max-height:260px;overflow-y:auto;display:flex;flex-direction:column;gap:4px;padding:0 16px 16px}
+.lead-row{display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--s2);border-radius:6px;border:1px solid var(--b1);min-width:0}
+.lead-num{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--white);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.lead-name{font-size:11px;color:var(--muted);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.lead-st{font-family:var(--mono);font-size:9px;font-weight:700;padding:2px 7px;border-radius:3px;flex-shrink:0;white-space:nowrap}
+.lst-pending{background:var(--s3);color:var(--muted);border:1px solid var(--b2)}
+.lst-calling{background:rgba(245,158,11,0.1);color:var(--amber);border:1px solid rgba(245,158,11,0.2)}
+.lst-called{background:var(--gd);color:var(--green);border:1px solid rgba(62,207,142,0.2)}
+.lst-failed{background:rgba(239,68,68,0.1);color:var(--red);border:1px solid rgba(239,68,68,0.2)}
+.del-btn{font-size:13px;color:var(--dim);background:none;border:none;cursor:pointer;padding:2px 4px;flex-shrink:0;transition:color .15s;line-height:1}
+.del-btn:hover{color:var(--red)}
+.leads-footer{padding:10px 16px;border-top:1px solid var(--b1);display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.launch-btn{font-family:var(--mono);font-size:10px;font-weight:700;padding:7px 14px;background:var(--green);color:#000;border:none;border-radius:5px;cursor:pointer;transition:all .2s;letter-spacing:0.5px}
+.launch-btn:hover{background:#2db87b;transform:translateY(-1px)}
+.launch-btn:disabled{opacity:0.4;cursor:not-allowed;transform:none}
+.no-leads{padding:24px 16px;text-align:center;font-size:12px;color:var(--dim)}
+/* UPSELL */
+.upsell-card{background:linear-gradient(135deg,var(--s1) 0%,rgba(249,115,22,0.04) 100%);border:1px solid rgba(249,115,22,0.15);border-radius:var(--r);margin-bottom:10px;overflow:hidden}
+.upsell-header{padding:13px 16px;border-bottom:1px solid rgba(249,115,22,0.1);font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--orange)}
+.upsell-body{padding:16px}
+.upsell-stat{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:14px}
+.up-pkgs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.up-pkg{background:var(--s2);border:1px solid var(--b1);border-radius:8px;padding:14px;transition:border-color .2s}
+.up-pkg:hover{border-color:var(--b2)}
+.up-pkg.feat{border-color:var(--orange);background:linear-gradient(135deg,var(--s2) 0%,var(--od) 100%)}
+.up-tag{font-family:var(--mono);font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--orange);margin-bottom:6px;font-weight:700}
+.up-amt{font-family:var(--mono);font-size:20px;font-weight:700;margin-bottom:3px}
+.up-desc{font-size:11px;color:var(--muted);margin-bottom:10px}
+.btn{display:block;width:100%;padding:8px;font-family:var(--mono);font-size:10px;font-weight:700;text-align:center;border-radius:5px;cursor:pointer;border:none;transition:all .2s}
+.btn-out{background:transparent;color:var(--white);border:1px solid var(--b2)}
+.btn-out:hover{border-color:var(--b3)}
+.btn-org{background:var(--orange);color:#fff}
+.btn-org:hover{background:#e06412;transform:translateY(-1px)}
+.uu{border-top:1px solid rgba(249,115,22,0.1);padding:13px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.uu-text{font-size:12px;color:var(--muted)}.uu-text strong{color:var(--white);display:block;margin-bottom:1px}
+.uu-btn{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--orange);text-decoration:none;border:1px solid rgba(249,115,22,0.3);padding:7px 12px;border-radius:5px;background:transparent;cursor:pointer;transition:background .2s;white-space:nowrap}
+.uu-btn:hover{background:var(--od)}
+/* CALLS */
+.ctable{width:100%;border-collapse:collapse}
+.ctable th{padding:9px 14px;text-align:left;font-family:var(--mono);font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);border-bottom:1px solid var(--b1);font-weight:500}
+.ctable td{padding:10px 14px;font-size:11px;border-bottom:1px solid rgba(255,255,255,0.03)}
+.ctable tr.cr:hover td{background:rgba(255,255,255,0.015);cursor:pointer}
+.tm{font-family:var(--mono);font-size:10px;color:var(--muted)}
+.tn{font-family:var(--mono);font-size:10px;color:var(--white)}
+.st-ok{display:inline-block;padding:1px 6px;border-radius:3px;font-family:var(--mono);font-size:8px;font-weight:700;background:var(--gd);color:var(--green);border:1px solid rgba(62,207,142,0.2)}
+.st-fail{display:inline-block;padding:1px 6px;border-radius:3px;font-family:var(--mono);font-size:8px;font-weight:700;background:rgba(255,255,255,0.04);color:var(--dim);border:1px solid var(--b1)}
+.ls-h{display:inline-block;padding:1px 6px;border-radius:3px;font-family:var(--mono);font-size:8px;font-weight:700;background:var(--gd);color:var(--green);border:1px solid rgba(62,207,142,0.2)}
+.ls-m{display:inline-block;padding:1px 6px;border-radius:3px;font-family:var(--mono);font-size:8px;font-weight:700;background:rgba(245,158,11,0.1);color:var(--amber);border:1px solid rgba(245,158,11,0.2)}
+.exp-row td{padding:0}
+.exp-in{padding:12px 14px 14px;background:rgba(0,0,0,0.25);border-top:1px solid var(--b1)}
+.elbl{font-family:var(--mono);font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);margin-bottom:4px}
+.ebox{font-size:11px;color:var(--muted);line-height:1.6;background:var(--s2);border-radius:5px;padding:10px;margin-top:4px}
+.egrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.caret{font-size:9px;color:var(--dim);transition:transform .2s;display:inline-block;margin-left:4px}
+.caret.open{transform:rotate(90deg)}
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:16px}
+.sg-full{grid-column:1/-1}
+textarea.fi{padding:10px 12px;font-family:var(--sans)}
+.info-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.ic{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);padding:14px 16px}
+.icl{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:7px}
+.icv{font-size:13px;font-weight:600}
+.ics{font-size:11px;color:var(--muted);margin-top:2px}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--s3);border:1px solid var(--b2);padding:11px 16px;border-radius:8px;font-family:var(--mono);font-size:11px;color:var(--white);transform:translateY(16px);opacity:0;transition:all .3s;z-index:999;pointer-events:none;max-width:280px}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.success{border-color:rgba(62,207,142,0.3);color:var(--green)}
+.fi-anim{opacity:0;animation:fi .4s ease forwards}
+.fi-anim:nth-child(1){animation-delay:.03s}.fi-anim:nth-child(2){animation-delay:.08s}.fi-anim:nth-child(3){animation-delay:.13s}
+.fi-anim:nth-child(4){animation-delay:.18s}.fi-anim:nth-child(5){animation-delay:.23s}.fi-anim:nth-child(6){animation-delay:.28s}
+.fi-anim:nth-child(7){animation-delay:.33s}.fi-anim:nth-child(8){animation-delay:.38s}.fi-anim:nth-child(9){animation-delay:.43s}
+@keyframes fi{to{opacity:1}}
+@media(max-width:620px){.an-row,.calling-g,.sg,.egrid,.up-pkgs,.info-row{grid-template-columns:1fr 1fr}.calling-g,.sg,.egrid{grid-template-columns:1fr}.stats-row{flex-direction:column;gap:10px}.stat-b{padding:0;border-right:none;border-bottom:1px solid var(--b1);padding-bottom:10px}.stat-b:last-child{border-bottom:none}.gauge-inner{flex-direction:column;align-items:center;text-align:center}.gr{width:100%}.plan-badge{justify-content:center}.co-name{display:none}.leads-input-row{flex-direction:column}}
+
+.wins-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--b1);border:1px solid var(--b1);margin-bottom:10px}
+.win-tile{background:var(--s1);padding:14px 12px;text-align:center}
+.win-num{font-family:var(--mono);font-size:20px;font-weight:700;color:var(--white);line-height:1;margin-bottom:4px}
+.win-num.acc{color:var(--green)}
+.win-lbl{font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);line-height:1.4}
+.hot-card{background:linear-gradient(135deg,rgba(62,207,142,0.04) 0%,var(--s1) 100%);border:1px solid rgba(62,207,142,0.12);margin-bottom:10px}
+.hot-header{padding:12px 16px;border-bottom:1px solid rgba(62,207,142,0.1);display:flex;align-items:center;justify-content:space-between}
+.hot-title{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--green)}
+.hot-count{font-family:var(--mono);font-size:9px;color:var(--dim)}
+.hot-body{padding:10px 16px;display:flex;flex-direction:column;gap:6px}
+.hot-row{display:flex;align-items:center;gap:10px;padding:7px 10px;background:rgba(0,0,0,0.2);border-radius:3px}
+.hot-num{font-family:var(--mono);font-size:12px;color:var(--white);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hot-sum{font-size:11px;color:var(--dim);flex:2;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.roi-card{background:linear-gradient(135deg,rgba(96,165,250,0.04) 0%,var(--s1) 100%);border:1px solid rgba(96,165,250,0.12);margin-bottom:10px}
+.roi-header{padding:12px 16px;border-bottom:1px solid rgba(96,165,250,0.1);display:flex;align-items:center;justify-content:space-between}
+.roi-title{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#60A5FA}
+.roi-body{padding:16px}
+.roi-figure{font-family:var(--mono);font-size:26px;font-weight:700;color:var(--white);margin-bottom:4px}
+.roi-sub{font-size:11px;color:var(--dim);line-height:1.5;margin-bottom:12px}
+.roi-inputs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.roi-input-label{font-family:var(--mono);font-size:9px;color:var(--dim);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
+.pro-badge{display:inline-flex;align-items:center;font-family:var(--mono);font-size:8px;letter-spacing:1.5px;text-transform:uppercase;padding:2px 7px;background:rgba(96,165,250,0.08);color:#60A5FA;border:1px solid rgba(96,165,250,0.2);border-radius:2px;vertical-align:middle;margin-left:7px}
+.coming-soon-f{opacity:0.45;pointer-events:none}
+.cs-badge{font-family:var(--mono);font-size:8px;color:#FBBF24;background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.2);padding:2px 6px;border-radius:2px;margin-left:6px}
+.call-meta{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:7px}
+.cm-pill{font-family:var(--mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:2px}
+.cm-pos{background:rgba(62,207,142,0.12);color:var(--green);border:1px solid rgba(62,207,142,0.2)}
+.cm-neg{background:rgba(239,68,68,0.12);color:var(--red);border:1px solid rgba(239,68,68,0.2)}
+.cm-neu{background:rgba(255,255,255,0.06);color:var(--dim);border:1px solid rgba(255,255,255,0.1)}
+.cm-vm{background:rgba(251,191,36,0.1);color:#FBBF24;border:1px solid rgba(251,191,36,0.2)}
+.integ-card{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);margin-bottom:10px}
+.integ-header{padding:13px 16px;border-bottom:1px solid var(--b1);display:flex;align-items:center;justify-content:space-between}
+.integ-title{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--dim)}
+.integ-body{padding:16px}
+.integ-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;margin-bottom:12px}
+.integ-item{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted)}
+.integ-dot{width:5px;height:5px;border-radius:50%;background:var(--b3);flex-shrink:0}
+.integ-note{font-size:11px;color:var(--dim);line-height:1.6;border-top:1px solid var(--b1);padding-top:10px;margin-top:4px}
+</style>
+</head>
+<body>
+<div class="demo-bar">
+  <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+    <span class="demo-pill">DEMO</span>
+    <span class="demo-note">Interaktive Vorschau · <strong>Anrufe aufklappen</strong> · Leads hinzufügen · Einstellungen speichern</span>
+  </div>
+  <div class="sc-row">
+    <button class="sc-btn active" onclick="loadSc('trial',this)">Trial (65%)</button>
+    <button class="sc-btn" onclick="loadSc('active',this)">Aktiv (30%)</button>
+    <button class="sc-btn" onclick="loadSc('high',this)">Hohe Nutzung (88%)</button>
+    <button class="sc-btn" onclick="loadSc('suspended',this)">Gesperrt</button>
+  </div>
+</div>
+<div id="dash" class="shell"></div>
+<div class="toast" id="toast"></div>
+<script>
+const SC={
+  trial:{company:'Agentur Mustermann GmbH',tier:'starter',status:'trial',used:487,total:750,renewal:'01.05.2026',phone:'+1 833 247 9021',calls:34,avgDur:'3m 12s',sr:71},
+  active:{company:'Webflow Studio Berlin',tier:'starter',status:'active',used:220,total:750,renewal:'01.05.2026',phone:'+1 833 512 0048',calls:18,avgDur:'2m 44s',sr:78},
+  high:{company:'Vertrieb Nord GmbH',tier:'professional',status:'active',used:5280,total:6000,renewal:'01.05.2026',phone:'+1 855 247 3391',calls:102,avgDur:'3m 31s',sr:65},
+  suspended:{company:'Makler Gruppe Wien',tier:'starter',status:'suspended',used:750,total:750,renewal:'01.05.2026',phone:'+1 833 102 9944',calls:47,avgDur:'2m 58s',sr:60}
+};
+
+const CALLS=[
+  {date:'09.04.2026',time:'14:22',to:'+49 171 555 1234',dur:'3m 07s',score:82,cls:'ls-h',sentiment:'positive',vm:false,
+   sum:'Herr Müller zeigte starkes Interesse. Termin für KW16 vereinbart.',
+   det:'Gesprächsverlauf: Positiver Einstieg, Müller kannte das Thema bereits. Konkret nach Preisen und Integration gefragt. Termin Dienstag 10:00 bestätigt. Entscheidungskompetenz vorhanden (Geschäftsführer). Abschlusswahrscheinlichkeit hoch.',
+   tr:'Agent: Guten Tag, hier spricht der virtuelle Assistent...\nMüller: Ja, was kann ich für Sie tun?\nAgent: Ich rufe an wegen unserer KI-gestützten Vertriebslösung...\nMüller: Das klingt interessant. Wann können wir uns in detail unterhalten?'},
+  {date:'09.04.2026',time:'10:47',to:'+49 89 777 2345',dur:'43s',score:41,cls:'ls-m',sentiment:'neutral',vm:false,
+   sum:'Frau Schmidt bat um Rückruf nächste Woche.',
+   det:'Kurzes Gespräch. Keine inhaltliche Ablehnung — zeitlicher Konflikt. Empfehlung: erneuter Kontakt Mo/Di Vormittag.',
+   tr:'Agent: Guten Morgen...\nSchmidt: Ich bin gerade in einer Besprechung.\nAgent: Wann passt es Ihnen besser?\nSchmidt: Rufen Sie nächste Woche an.'},
+  {date:'08.04.2026',time:'16:05',to:'+49 40 999 3456',dur:'5m 12s',score:91,cls:'ls-h',sentiment:'positive',vm:false,
+   sum:'Sehr erfolgreich. Budget für Q2 bestätigt. Folgegespräch mit Entscheider vereinbart.',
+   det:'Höchste Priorität. Projektleiter mit Budgetverantwortung. Q2-Budget bereits genehmigt (€80K für Vertriebsautomatisierung). Zweites Gespräch mit Vorstand gewünscht. Konkurrenzprodukt (Salesforce Dialer) wird derzeit evaluiert — zeitkritisch.',
+   tr:'Agent: Guten Tag...\nKunde: Ja, ich bin Projektleiter...\nAgent: Wir helfen Agenturen dabei, Akquise zu automatisieren...\nKunde: Was kostet das genau?'},
+  {date:'08.04.2026',time:'11:33',to:'+49 211 111 4567',dur:'1m 35s',score:28,cls:'',sentiment:'negative',vm:false,
+   sum:'Kein Interesse. Auf DNC-Liste gesetzt.',
+   det:'Klare Ablehnung. Kontakt bat ausdrücklich, nicht mehr kontaktiert zu werden. Auf Do-not-call gesetzt. Keine Nachfassung.',
+   tr:'Agent: Guten Tag...\nKontakt: Nein danke, kein Interesse.\nAgent: Darf ich fragen warum?\nKontakt: Bitte nicht mehr anrufen.'},
+  {date:'07.04.2026',time:'09:18',to:'+49 30 222 5678',dur:'3m 48s',score:77,cls:'ls-h',sentiment:'positive',vm:false,
+   sum:'Interessiert, Budget erst im Juli. Follow-up gesetzt.',
+   det:'Qualifizierter Lead mit verzögertem Timing. Interesse klar vorhanden. Budget-Freigabe Q3. Empfehlung: Follow-up 15. Juni, Entscheider direkt ansprechen. Nicht an Assistent geraten — direkte Leitung.',
+   tr:'Agent: Guten Morgen...\nHerr Bauer: Was wollen Sie?\nAgent: Automatisierte Kundenakquise per KI...\nHerr Bauer: Spannend. Budget erst im nächsten Quartal.'},
+  {date:'06.04.2026',time:'15:30',to:'+49 69 333 6789',dur:'2m 10s',score:55,cls:'ls-m',sentiment:'neutral',vm:true,
+   sum:'Mailbox. Nachricht hinterlassen.',
+   det:'Anruf auf Mailbox gelandet. Kurze Nachricht hinterlassen mit Rückrufbitte. Kein Gesprächsinhalt auswertbar. Zweiter Versuch empfohlen: Dienstag 10-11 Uhr.',
+   tr:'[Mailbox] Agent: Guten Tag, ich hinterlasse eine Nachricht für Herrn Schneider...'}
+];
+
+let lang='de', calOn=true, days=['Mo','Di','Mi','Do','Fr'];
+let sc='trial';
+let demoLeads=[
+  {id:'1',phone:'+49 171 234 5678',name:'Max Müller',status:'pending'},
+  {id:'2',phone:'+49 89 987 6543',name:'Anna Schmidt',status:'called'},
+  {id:'3',phone:'+49 40 111 2222',name:'',status:'calling'},
+  {id:'4',phone:'+49 30 333 4444',name:'Tom Bauer',status:'failed'},
+  {id:'5',phone:'+49 221 555 6666',name:'',status:'pending'},
+];
+let nextId=6;
+
+const T={
+  de:{used:'Verbraucht',rem:'Verbleibend',tot:'Gesamt',min:'min',
+    totalCalls:'Anrufe gesamt',avgDur:'Ø Dauer',sr:'Erfolgsrate',usedMin:'Minuten',month:'Diesen Monat',
+    calling:'KAMPAGNE',calActive:'Agent aktiv',calInactive:'Agent pausiert',calDesc:'Startet automatische Anrufkampagnen',
+    tz:'Zeitzone',from:'Von / Bis',daysLbl:'Aktive Tage',save:'Speichern',
+    numbers:'RUFNUMMERN',outbound:'Ausgehend',
+    leadsTitle:'ANRUFLISTE',tabM:'Manuell',tabC:'CSV',
+    phonePh:'+49 171 555 1234',namePh:'Name (optional)',addBtn:'Hinzufügen',
+    csvDrop:'CSV hier ablegen oder klicken',csvSub:'Automatische Spaltenerkennung',
+    launch:'Kampagne starten',lCount:(p,t)=>`${p} ausstehend · ${t} gesamt`,noLeads:'Keine Leads.',
+    stPending:'Ausstehend',stCalling:'Wird angerufen',stCalled:'Angerufen',stFailed:'Fehler',stDnc:'Nicht anrufen',
+    upsell:'KONTINGENT AUFSTOCKEN',rec:'Empfohlen',once:'Einmalzahlung · sofort verfügbar',buy:'→ Jetzt kaufen',
+    upgradeText:'Upgrade auf Professional',upgradeSub:'2.000 Anrufe/Monat · CRM · SMS',upgradeBtn:'Gespräch vereinbaren →',
+    calls:'LETZTE ANRUFE',cDate:'Datum',cTime:'Zeit',cTo:'Angerufen',cDur:'Dauer',cStat:'Status',cScore:'Lead',
+    sum:'Zusammenfassung',tr:'Transkript',
+    winsTitle:'DIESEN MONAT',qualified:'Qualifizierte Leads',hot:'Kaufbereite Prospects',hours:'Stunden Akquise',
+    hotTitle:'TOP PROSPECTS',hotSub:(n)=>`${n} Leads mit hohem Interesse`,
+    detailSum:'Detaillierte KI-Analyse',sentLbl:'Sentiment',voicemailLbl:'Mailbox',positiv:'Positiv',negativ:'Negativ',neutral:'Neutral',
+    roiTitle:'ROI SCHÄTZUNG',roiSub:(n,r)=>`Basis: ${n} Anrufe · ${r}% Abschlussrate`,
+    avgDeal:'Ø Dealwert (€)',closeRateLabel:'Abschlussrate (%)',
+    integTitle:'ZUSÄTZLICHE INTEGRATIONEN AUF ANFRAGE',integCRM:'CRM-Automatisierungen (10 Flows)',integSMS:'SMS-Nachverfolgung',integSlack:'Slack-Benachrichtigungen',integCal:'Kalender-Buchung',integWebhook:'Webhook-Anbindung',integCustom:'Individuelle Skripte & Prompts',integNote:'Alle Integrationen werden im Rahmen des Professional-Plans auf Anfrage eingerichtet. Kontaktiere uns nach dem Kauf.',
+    personaName:'Agentenname',personaNamePh:'z.B. Lisa, Max',
+    customInstr:'Vollständige Anweisungen',customInstrPh:'Formuliere hier den vollständigen Agenten-Prompt...',
+    objHandling:'Einwandbehandlung',objHandlingPh:'z.B. "Kein Interesse": frage nach dem Grund...',
+    escalation:'Übergabe-Auslöser',escalationNote:'Coming soon — nächste Integrationsphase.',
+    proOnly:'Pro',
+    agentT:'AGENT ANPASSEN',coN:'Name deines Unternehmens',coNPh:'z.B. Mustermann GmbH',
+    ind:'Zielbranche',indPh:'z.B. Immobilien, SaaS',role:'Ansprechpartner',rolePh:'z.B. Geschäftsführer',
+    useCase:'Anwendungsfall',ucLeads:'Leads qualifizieren',ucEmployees:'Mitarbeiter vorqualifizieren',ucPurchasing:'Einkauf & sonstige Anrufe',
+    companyCtx:'Unternehmenskontext & Anweisungen',companyCtxPh:'Was soll der Agent wissen? Zielgruppe, Gesprächsziele, spezifische Anweisungen...',
+    agentNote:'Wird an den Agenten übergeben für relevantere Anrufe.',
+    plan:'Plan',renewal:'Verlängerung',lang:'EN',
+    status:{trial:'Trial',active:'Aktiv',suspended:'Gesperrt'},
+    renewMsg:(d)=>`Kontingent wird am ${d} zurückgesetzt.`,upsellStat:`Bei deinem aktuellen Tempo reicht das Kontingent noch ca. <strong style='color:var(--white)'>5 Tage</strong>.`,
+    ds:['Mo','Di','Mi','Do','Fr','Sa','So'],dk:['Mo','Di','Mi','Do','Fr','Sa','So'],
+    susp:'AGENT PAUSIERT',suspSub:'Minutenkontingent erschöpft.',
+    inT:'Eingehend',outT:'Ausgehend'},
+  en:{used:'Used',rem:'Remaining',tot:'Total',min:'min',
+    totalCalls:'Total calls',avgDur:'Avg duration',sr:'Success rate',usedMin:'Minutes',month:'This month',
+    calling:'CAMPAIGN',calActive:'Agent active',calInactive:'Agent paused',calDesc:'Start and stop automated calling campaigns',
+    tz:'Timezone',from:'From / To',daysLbl:'Active days',save:'Save',
+    numbers:'PHONE NUMBERS',outbound:'Outbound',
+    leadsTitle:'CALL LIST',tabM:'Manual',tabC:'CSV',
+    phonePh:'+49 171 555 1234',namePh:'Name (optional)',addBtn:'Add',
+    csvDrop:'Drop CSV here or click',csvSub:'Automatic column detection',
+    launch:'Launch campaign',lCount:(p,t)=>`${p} pending · ${t} total`,noLeads:'No leads.',
+    stPending:'Pending',stCalling:'Calling',stCalled:'Called',stFailed:'Failed',stDnc:'Do not call',
+    upsell:'TOP UP MINUTES',rec:'Recommended',once:'One-time · instant activation',buy:'→ Buy now',
+    upgradeText:'Upgrade to Professional',upgradeSub:'2,000 calls/mo · CRM · SMS',upgradeBtn:'Book a call →',
+    calls:'RECENT CALLS',cDate:'Date',cTime:'Time',cTo:'Called',cDur:'Duration',cStat:'Status',cScore:'Lead',
+    sum:'Summary',tr:'Transcript',
+    winsTitle:'THIS MONTH',qualified:'Qualified leads',hot:'Hot prospects',hours:'Hours outreach',
+    hotTitle:'TOP PROSPECTS',hotSub:(n)=>`${n} high-intent leads`,
+    detailSum:'Detailed AI analysis',sentLbl:'Sentiment',voicemailLbl:'Voicemail',positiv:'Positive',negativ:'Negative',neutral:'Neutral',
+    roiTitle:'ROI ESTIMATE',roiSub:(n,r)=>`Based on ${n} calls · ${r}% close rate`,
+    avgDeal:'Avg deal value (€)',closeRateLabel:'Close rate (%)',
+    integTitle:'ADDITIONAL INTEGRATIONS ON DEMAND',integCRM:'CRM automations (10 flows)',integSMS:'SMS follow-up',integSlack:'Slack notifications',integCal:'Calendar booking',integWebhook:'Webhook connectivity',integCustom:'Custom scripts & prompts',integNote:'All integrations are set up on request as part of your Professional plan. Contact us after purchase.',
+    personaName:'Agent name',personaNamePh:'e.g. Lisa, Alex',
+    customInstr:'Full instructions',customInstrPh:'Write the full agent prompt here...',
+    objHandling:'Objection handling',objHandlingPh:'e.g. "Not interested": ask why...',
+    escalation:'Escalation trigger',escalationNote:'Coming soon — next integration phase.',
+    proOnly:'Pro',
+    agentT:'CUSTOMISE AGENT',coN:'Your company name',coNPh:'e.g. Acme Ltd',
+    ind:'Target industry',indPh:'e.g. Real estate, SaaS',role:'Contact role',rolePh:'e.g. CEO',
+    useCase:'Use case',ucLeads:'Qualifying leads',ucEmployees:'Qualifying employees',ucPurchasing:'Purchasing & other calls',
+    companyCtx:'Company context & instructions',companyCtxPh:'What should the agent know? Target audience, goals, specific instructions...',
+    agentNote:'These details are passed to your agent to make calls more relevant.',
+    plan:'Plan',renewal:'Renewal',lang:'DE',
+    status:{trial:'Trial',active:'Active',suspended:'Suspended'},
+    renewMsg:(d)=>`Allocation resets on ${d}.`,upsellStat:`At your current pace the allocation will last approx. <strong style='color:var(--white)'>5 more days</strong>.`,
+    ds:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],dk:['Mo','Di','Mi','Do','Fr','Sa','So'],
+    susp:'AGENT SUSPENDED',suspSub:'Minute allocation exhausted.',
+    inT:'Inbound',outT:'Outbound'}
+};
+const tr=()=>T[lang];
+
+function toast(msg,type='success'){const el=document.getElementById('toast');el.textContent=msg;el.className='toast '+type+' show';setTimeout(()=>el.className='toast',2600);}
+function gauge(pct){const r=48,c=2*Math.PI*r,fill=Math.min(pct/100,1)*c,col=pct>=100?'#EF4444':pct>=80?'#F59E0B':'#3ECF8E';return`<svg width="112" height="112" viewBox="0 0 112 112"><circle cx="56" cy="56" r="48" fill="none" stroke="#1C1C1F" stroke-width="8"/><circle cx="56" cy="56" r="48" fill="none" stroke="${col}" stroke-width="8" stroke-dasharray="${(fill).toFixed(1)} ${c.toFixed(1)}" stroke-linecap="round"/></svg>`;}
+
+window.toggleDay=function(d,btn){const i=days.indexOf(d);if(i===-1){days.push(d);btn.classList.add('on');}else{days.splice(i,1);btn.classList.remove('on');}};
+window.toggleExp=function(id){const r=document.getElementById('ex'+id);const c=document.getElementById('ec'+id);if(!r)return;const o=r.style.display==='table-row';r.style.display=o?'none':'table-row';if(c)c.className='caret'+(o?'':' open');};
+window.switchTab=function(tab){document.querySelectorAll('.leads-tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));document.querySelectorAll('.leads-tab-panel').forEach(p=>p.classList.toggle('active',p.dataset.panel===tab));};
+window.addDemoLead=function(){const p=document.getElementById('dp');const n=document.getElementById('dn');if(!p||!p.value.trim())return;demoLeads.unshift({id:String(nextId++),phone:p.value.trim(),name:n?.value.trim()||'',status:'pending'});p.value='';if(n)n.value='';renderLeadsList();toast(lang==='de'?'Nummer hinzugefügt':'Number added');};
+window.delDemoLead=function(id){demoLeads=demoLeads.filter(l=>l.id!==id);renderLeadsList();};
+window.demoLaunch=function(){const pending=demoLeads.filter(l=>l.status==='pending');if(!pending.length)return;pending.forEach(l=>l.status='calling');renderLeadsList();toast(lang==='de'?`Kampagne gestartet — ${pending.length} Anrufe`:`Campaign started — ${pending.length} calls`);setTimeout(()=>{demoLeads.filter(l=>l.status==='calling').forEach(l=>l.status='called');renderLeadsList();},3000);};
+window.demoSave=function(){toast(tr().save==='Save'?'Settings saved':'Gespeichert');};
+window.demoToast=function(){toast(lang==='de'?'Demo-Modus':'Demo mode');};
+window.toggleLang=function(){lang=lang==='de'?'en':'de';render();};
+window.loadSc=function(s,btn){sc=s;document.querySelectorAll('.sc-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');render();};
+window.demoCSV=function(){const mock=[{id:String(nextId++),phone:'+49 171 999 0001',name:'Klaus Weber',status:'pending'},{id:String(nextId++),phone:'+49 89 888 7777',name:'Lisa Braun',status:'pending'},{id:String(nextId++),phone:'+49 30 777 6666',name:'',status:'pending'},{id:String(nextId++),phone:'+49 221 555 4444',name:'Hans Gruber',status:'pending'},{id:String(nextId++),phone:'+49 40 333 2222',name:'',status:'pending'}];demoLeads=mock.concat(demoLeads);renderLeadsList();toast(lang==='de'?'5 Nummern aus CSV importiert':'5 numbers imported from CSV');};
+
+function renderLeadsList(){
+  const t=tr();
+  const stL={pending:t.stPending,calling:t.stCalling,called:t.stCalled,failed:t.stFailed,do_not_call:t.stDnc};
+  const stC={pending:'lst-pending',calling:'lst-calling',called:'lst-called',failed:'lst-failed',do_not_call:'lst-do_not_call'};
+  const pending=demoLeads.filter(l=>l.status==='pending').length;
+  document.querySelectorAll('.leads-count-el').forEach(el=>el.textContent=t.lCount(pending,demoLeads.length));
+  const list=document.getElementById('leads-list');
+  if(!list)return;
+  const btn=document.getElementById('launch-btn');
+  if(btn)btn.disabled=pending===0;
+  if(!demoLeads.length){list.innerHTML=`<div class="no-leads">${t.noLeads}</div>`;return;}
+  list.innerHTML=demoLeads.map(l=>`<div class="lead-row"><span class="lead-num">${l.phone}</span>${l.name?`<span class="lead-name">${l.name}</span>`:''}<span class="lead-st ${stC[l.status]||'lst-pending'}">${stL[l.status]||l.status}</span>${l.status==='pending'?`<button class="del-btn" onclick="delDemoLead('${l.id}')">×</button>`:''}</div>`).join('');
+}
+
+function render(){
+  const t=tr();
+  const s=SC[sc];
+  const pct=Math.round(s.used/s.total*100);
+  const rem=Math.max(0,s.total-s.used);
+  const gc=pct>=100?'#EF4444':pct>=80?'#F59E0B':'#3ECF8E';
+  const bc=pct>=100?'background:var(--red)':pct>=80?'background:var(--amber)':'background:var(--green)';
+  const tier={starter:'Starter',professional:'Professional'}[s.tier]||s.tier;
+  const isPro=s.tier==='professional';
+  const qualCount=CALLS.filter(c=>c.score>=60).length;
+  const hotCount=CALLS.filter(c=>c.score>=80).length;
+  const hotCalls=CALLS.filter(c=>c.score>=70).slice(0,3);
+  const sentPos=isPro?CALLS.filter(c=>c.sentiment==='positive').length:0;
+  const sentNeg=isPro?CALLS.filter(c=>c.sentiment==='negative').length:0;
+  const sentNeu=isPro?CALLS.filter(c=>c.sentiment==='neutral').length:0;
+  const voicemailCount=isPro?CALLS.filter(c=>c.vm).length:0;
+  const projRevenue=isPro?Math.round(s.calls*0.015*2000):0;
+  const showOv=s.status!=='trial';
+  const pending=demoLeads.filter(l=>l.status==='pending').length;
+  const stL={pending:t.stPending,calling:t.stCalling,called:t.stCalled,failed:t.stFailed,do_not_call:t.stDnc};
+  const stC={pending:'lst-pending',calling:'lst-calling',called:'lst-called',failed:'lst-failed',do_not_call:'lst-do_not_call'};
+  const leadsHTML=demoLeads.length?demoLeads.map(l=>`<div class="lead-row"><span class="lead-num">${l.phone}</span>${l.name?`<span class="lead-name">${l.name}</span>`:''}<span class="lead-st ${stC[l.status]||'lst-pending'}">${stL[l.status]||l.status}</span>${l.status==='pending'?`<button class="del-btn" onclick="delDemoLead('${l.id}')">×</button>`:''}</div>`).join(''):`<div class="no-leads">${t.noLeads}</div>`;
+  const callRows=CALLS.map((c,i)=>`<tr class="cr" onclick="toggleExp(${i})"><td class="tm">${c.date}</td><td class="tm">${c.time}</td><td class="tn">${c.to}</td><td class="tn">${c.dur}</td><td><span class="${c.score>=60?'st-ok':'st-fail'}">${c.score>=1?'OK':'—'}</span></td><td style="display:flex;align-items:center;gap:5px">${c.cls?`<span class="${c.cls}">${c.score}</span>`:''}<span class="caret" id="ec${i}">▶</span></td></tr><tr class="exp-row" id="ex${i}" style="display:none"><td colspan="6"><div class="exp-in">${isPro&&(c.sentiment||c.vm)?`<div class="call-meta">${c.sentiment==='positive'?`<span class="cm-pill cm-pos">▲ ${t.positiv}</span>`:c.sentiment==='negative'?`<span class="cm-pill cm-neg">▼ ${t.negativ}</span>`:`<span class="cm-pill cm-neu">— ${t.neutral}</span>`}${c.vm?`<span class="cm-pill cm-vm">${t.voicemailLbl}</span>`:''}</div>`:''}<div class="egrid">${isPro&&c.det?`<div><div class="elbl">${t.detailSum}</div><div class="ebox">${c.det}</div></div>`:''}<div><div class="elbl">${t.sum}</div><div class="ebox">${c.sum}</div></div><div><div class="elbl">${t.tr}</div><div class="ebox" style="font-family:var(--mono);font-size:10px;max-height:110px;overflow-y:auto;white-space:pre-wrap">${c.tr}</div></div></div></div></td></tr>`).join('');
+  const daysHTML=t.ds.map((d,i)=>`<button class="day-btn ${days.includes(t.dk[i])?'on':''}" onclick="toggleDay('${t.dk[i]}',this)">${d}</button>`).join('');
+  document.getElementById('dash').innerHTML=`
+<div class="topbar fi-anim">
+  <div class="tb-left"><div class="brand-icon"><span>24/7</span></div><span class="brand-name">24/7 PROJECT</span></div>
+  <div class="tb-right"><span class="co-name">${s.company}</span><span class="status-pill sp-${s.status}">${t.status[s.status]||s.status}</span><button class="lang-btn" onclick="toggleLang()">${t.lang}</button></div>
+</div>
+${s.status==='suspended'?`<div class="sus fi-anim"><div class="sus-text"><strong>${t.susp}</strong>${t.suspSub}</div><button class="btn btn-org" style="width:auto;white-space:nowrap;padding:9px 16px" onclick="demoToast()">${t.buy}</button></div>`:''}
+<div class="card fi-anim"><div class="gauge-inner">
+  <div class="gauge-wrap" style="transform:rotate(-90deg) translateZ(0)">${gauge(pct)}<div class="gc" style="transform:rotate(90deg)"><span class="gp" style="color:${gc}">${pct}%</span><span class="gl">${t.used.toLowerCase()}</span></div></div>
+  <div class="gr">
+    <div class="plan-badge"><span class="pd"></span>${tier}</div>
+    <div class="stats-row">
+      <div class="stat-b"><div class="stat-l">${t.used}</div><div class="stat-v" style="color:var(--white)">${s.used.toLocaleString('de-DE')}<span class="stat-u">${t.min}</span></div></div>
+      <div class="stat-b"><div class="stat-l">${t.rem}</div><div class="stat-v" style="color:var(--green)">${rem.toLocaleString('de-DE')}<span class="stat-u">${t.min}</span></div></div>
+      <div class="stat-b"><div class="stat-l">${t.tot}</div><div class="stat-v" style="color:var(--white)">${s.total.toLocaleString('de-DE')}<span class="stat-u">${t.min}</span></div></div>
+    </div>
+    <div class="prog-wrap"><div class="prog-track"><div class="prog-fill" style="width:${pct}%;${bc}"></div></div><div class="rn"><span style="color:var(--green)">↻</span><span>${t.renewMsg(s.renewal)}</span></div></div>
+  </div>
+</div></div>
+<div class="an-row fi-anim">
+  <div class="an"><div class="al">${t.totalCalls}</div><div class="av">${s.calls}</div><div class="as">${t.month}</div></div>
+  <div class="an"><div class="al">${t.avgDur}</div><div class="av">${s.avgDur}</div><div class="as">${t.month}</div></div>
+  <div class="an"><div class="al">${t.sr}</div><div class="av" style="color:${s.sr>=60?'var(--green)':s.sr>=40?'var(--amber)':'var(--red)'}">${s.sr}%</div><div class="as">${t.month}</div></div>
+  <div class="an"><div class="al">${t.usedMin}</div><div class="av">${s.used.toLocaleString('de-DE')}</div><div class="as">${t.month}</div></div>
+</div>
+${s.calls>0?`<div class="wins-strip fi-anim">
+  <div class="win-tile"><div class="win-num acc">${qualCount}</div><div class="win-lbl">${t.qualified}</div></div>
+  <div class="win-tile"><div class="win-num acc">${hotCount}</div><div class="win-lbl">${t.hot}</div></div>
+  <div class="win-tile"><div class="win-num">${Math.round(s.used/60*10)/10}</div><div class="win-lbl">${t.hours}</div></div>
+  <div class="win-tile"><div class="win-num">${s.sr}%</div><div class="win-lbl">${t.sr}</div></div>
+</div>`:''}
+${hotCalls.length>0?`<div class="hot-card fi-anim">
+  <div class="hot-header"><span class="hot-title">${t.hotTitle}</span><span class="hot-count">${t.hotSub(hotCalls.length)}</span></div>
+  <div class="hot-body">${hotCalls.map(hc=>`<div class="hot-row"><span class="ls-h">${hc.score}</span><span class="hot-num">${hc.to}</span><span class="hot-sum">${hc.sum}</span></div>`).join('')}</div>
+</div>`:''}
+<div class="card fi-anim">
+  <div class="ch"><span class="ct">${t.calling}</span><span id="cal-status" style="font-family:var(--mono);font-size:10px;color:${calOn?'var(--green)':'var(--dim)'}">${calOn?'● '+t.calActive:'○ '+t.calInactive}</span></div>
+  <div class="calling-g">
+    <div class="fg">
+      <div class="toggle-row"><div><div class="tl">${t.calActive}</div><div class="tsub">${t.calDesc}</div></div><label class="toggle-sw"><input type="checkbox" ${calOn?'checked':''} onchange="calOn=this.checked;document.getElementById('cal-status').innerHTML=(calOn?'● ${t.calActive}':'○ ${t.calInactive}');document.getElementById('cal-status').style.color=(calOn?'var(--green)':'var(--dim)')"><span class="track"></span></label></div>
+      <div><div class="fl">${t.tz}</div><select class="fi"><option>Europe/Berlin</option><option>Europe/Vienna</option><option>Europe/Zurich</option></select></div>
+      <div><div class="fl">${t.from}</div><div style="display:flex;align-items:center;gap:6px"><input type="time" class="fi" value="09:00" style="flex:1"><span style="color:var(--dim);font-size:11px">—</span><input type="time" class="fi" value="17:00" style="flex:1"></div></div>
+    </div>
+    <div class="fg">
+      <div><div class="fl">${t.daysLbl}</div><div class="days-row">${daysHTML}</div></div>
+      <button class="save-btn" onclick="demoSave()">${t.save}</button>
+    </div>
+  </div>
+</div>
+<div class="card fi-anim"><div class="ch"><span class="ct">${t.numbers}</span></div>
+  <div class="number-row"><div><div class="number-val">${s.phone}</div><div class="number-type">${t.outbound}</div></div><span class="number-badge">OK</span></div>
+</div>
+<div class="card fi-anim">
+  <div class="ch"><span class="ct">${t.leadsTitle}</span><span class="leads-count-el" style="font-family:var(--mono);font-size:10px;color:var(--muted)">${t.lCount(pending,demoLeads.length)}</span></div>
+  <div class="leads-tabs">
+    <button class="leads-tab active" data-tab="m" onclick="switchTab('m')">${t.tabM}</button>
+    <button class="leads-tab" data-tab="c" onclick="switchTab('c')">${t.tabC}</button>
+  </div>
+  <div class="leads-tab-panel active" data-panel="m" style="padding:16px">
+    <div class="leads-input-row">
+      <input type="tel" class="fi" id="dp" placeholder="${t.phonePh}" style="flex:2;min-width:0" onkeydown="if(event.key==='Enter')addDemoLead()">
+      <input type="text" class="fi" id="dn" placeholder="${t.namePh}" style="flex:1;min-width:0" onkeydown="if(event.key==='Enter')addDemoLead()">
+      <button class="add-btn" onclick="addDemoLead()">${t.addBtn}</button>
+    </div>
+  </div>
+  <div class="leads-tab-panel" data-panel="c" style="padding:16px">
+    <div class="csv-drop" onclick="demoCSV()">
+      <div class="csv-drop-text"><strong>${t.csvDrop}</strong>${t.csvSub}</div>
+    </div>
+  </div>
+  <div class="leads-list" id="leads-list">${leadsHTML}</div>
+  <div class="leads-footer">
+    <span class="leads-count-el" style="font-family:var(--mono);font-size:10px;color:var(--muted)">${t.lCount(pending,demoLeads.length)}</span>
+    <button class="launch-btn" id="launch-btn" onclick="demoLaunch()" ${pending===0?'disabled':''}>${t.launch}</button>
+  </div>
+</div>
+${showOv?`<div class="upsell-card fi-anim"><div class="upsell-header">${t.upsell}</div><div class="upsell-body"><p class="upsell-stat">${t.upsellStat}</p><div class="up-pkgs"><div class="up-pkg"><div class="up-amt">+1.000 min</div><div class="up-desc">${t.once}</div><button class="btn btn-out" onclick="demoToast()">${t.buy}</button></div><div class="up-pkg feat"><div class="up-tag">${t.rec}</div><div class="up-amt">+5.000 min</div><div class="up-desc">${t.once}</div><button class="btn btn-org" onclick="demoToast()">${t.buy}</button></div></div></div>${s.tier==='starter'?`<div class="uu"><div class="uu-text"><strong>${t.upgradeText}</strong>${t.upgradeSub}</div><button class="uu-btn" onclick="demoToast()">${t.upgradeBtn}</button></div>`:''}</div>`:''}
+<div class="card fi-anim">
+  <div class="ch"><span class="ct">${t.calls}</span></div>
+  <table class="ctable"><thead><tr><th>${t.cDate}</th><th>${t.cTime}</th><th>${t.cTo}</th><th>${t.cDur}</th><th>${t.cStat}</th><th>${t.cScore}</th></tr></thead><tbody>${callRows}</tbody></table>
+</div>
+${isPro?`<div class="card fi-anim">
+  <div class="ch"><span class="ct">${t.sentLbl} <span class="pro-badge">${t.proOnly}</span></span></div>
+  <div class="an-row" style="grid-template-columns:repeat(3,1fr);margin:0 0 12px">
+    <div class="an"><div class="al">${t.positiv}</div><div class="av" style="color:var(--green)">${sentPos}</div><div class="as">${t.month}</div></div>
+    <div class="an"><div class="al">${t.neutral}</div><div class="av">${sentNeu}</div><div class="as">${t.month}</div></div>
+    <div class="an"><div class="al">${t.negativ}</div><div class="av" style="color:var(--red)">${sentNeg}</div><div class="as">${t.month}</div></div>
+  </div>
+  <div style="padding:0 16px 14px;display:flex;gap:3px;height:6px">
+    <div style="flex:${sentPos||1};background:var(--green);border-radius:2px 0 0 2px"></div>
+    <div style="flex:${sentNeu||1};background:var(--dim)"></div>
+    <div style="flex:${sentNeg||1};background:var(--red);border-radius:0 2px 2px 0"></div>
+  </div>
+</div>
+<div class="roi-card fi-anim">
+  <div class="roi-header"><span class="roi-title">${t.roiTitle}</span><span class="pro-badge">${t.proOnly}</span></div>
+  <div class="roi-body">
+    <div class="roi-figure">€${projRevenue.toLocaleString('de-DE')}</div>
+    <div class="roi-sub">${t.roiSub(s.calls,'1.5')}</div>
+    <div class="roi-inputs">
+      <div><div class="roi-input-label">${t.avgDeal}</div><input class="fi" type="number" value="2000" onclick="demoToast()" style="text-align:right"></div>
+      <div><div class="roi-input-label">${t.closeRateLabel}</div><input class="fi" type="number" value="1.5" onclick="demoToast()" style="text-align:right"></div>
+    </div>
+  </div>
+</div>
+<div class="integ-card fi-anim">
+  <div class="integ-header"><span class="integ-title">${t.integTitle}</span><span class="pro-badge">${t.proOnly}</span></div>
+  <div class="integ-body">
+    <div class="integ-grid">
+      <div class="integ-item"><span class="integ-dot"></span><span>${t.integCRM}</span></div>
+      <div class="integ-item"><span class="integ-dot"></span><span>${t.integSMS}</span></div>
+      <div class="integ-item"><span class="integ-dot"></span><span>${t.integSlack}</span></div>
+      <div class="integ-item"><span class="integ-dot"></span><span>${t.integCal}</span></div>
+      <div class="integ-item"><span class="integ-dot"></span><span>${t.integWebhook}</span></div>
+      <div class="integ-item"><span class="integ-dot"></span><span>${t.integCustom}</span></div>
+    </div>
+    <p class="integ-note">${t.integNote}</p>
+  </div>
+</div>`:''}
+<div class="card fi-anim">
+  <div class="ch"><span class="ct">${t.agentT}</span></div>
+  <div class="sg">
+    <div><div class="fl">${t.coN}</div><input class="fi" value="${s.company}" placeholder="${t.coNPh}"></div>
+    <div><div class="fl">${t.ind}</div><input class="fi" value="Immobilien" placeholder="${t.indPh}"></div>
+    <div><div class="fl">${t.role}</div><input class="fi" value="Geschäftsführer, Marketingleiter" placeholder="${t.rolePh}"></div>
+    ${!isPro
+      ?`<div><div class="fl">${t.useCase}</div><select class="fi"><option value="qualifying_leads" selected>${t.ucLeads}</option><option value="qualifying_employees">${t.ucEmployees}</option><option value="purchasing">${t.ucPurchasing}</option></select></div>
+      <div class="sg-full"><div class="fl">${t.companyCtx}</div><textarea class="fi" placeholder="${t.companyCtxPh}" rows="4" style="resize:vertical;line-height:1.6;font-size:13px">Wir sind ein Immobilienmakler in Wien und suchen nach Interessenten für Neubauprojekte. Der Agent soll freundlich, professionell und auf Deutsch kommunizieren. Ziel: Termin für eine Besichtigung vereinbaren.</textarea></div>`
+      :`<div><div class="fl">${t.personaName}</div><input class="fi" value="Lisa" placeholder="${t.personaNamePh}"></div>
+      <div class="sg-full"><div class="fl">${t.customInstr}</div><textarea class="fi" rows="5" style="resize:vertical;line-height:1.6;font-size:13px">Du bist Lisa, eine erfahrene Vertriebsassistentin von Vertrieb Nord GmbH. Dein Ziel: Entscheider in mittelständischen Immobilienunternehmen für ein Erstgespräch zu gewinnen. Sprich natürlich, professionell und zielgerichtet. Frage offen nach Herausforderungen im Vertrieb.</textarea></div>
+      <div class="sg-full"><div class="fl">${t.objHandling}</div><textarea class="fi" rows="3" style="resize:vertical;line-height:1.6;font-size:13px">„Kein Interesse": Frage konkret, ob das Thema Vertriebsautomatisierung grundsätzlich relevant ist — nicht ob sie gerade Zeit haben.\n„Zu teuer": Rechne kurz den ROI vor: 250 Anrufe/Monat, €499 — was kostet ein Termin beim Vertriebler?</textarea></div>
+      <div class="sg-full coming-soon-f"><div class="fl">${t.escalation} <span class="cs-badge">Coming soon</span></div><textarea class="fi" rows="2" style="resize:none;line-height:1.6;font-size:13px" placeholder="${t.escalationNote}"></textarea></div>`}
+    <div style="display:flex;flex-direction:column;justify-content:flex-end;gap:8px"><p style="font-size:11px;color:var(--dim);line-height:1.5">${t.agentNote}</p><button class="save-btn" onclick="demoSave()">${t.save}</button></div>
+  </div>
+</div>
+<div class="info-row fi-anim">
+  <div class="ic"><div class="icl">${t.plan}</div><div class="icv">${tier}</div><div class="ics">${s.total.toLocaleString('de-DE')} ${t.min} / Monat</div></div>
+  <div class="ic"><div class="icl">${t.renewal}</div><div class="icv">${s.renewal}</div><div class="ics">Digistore24</div></div>
+</div>`;
+}
+render();
+</script>
+</body>
+</html>

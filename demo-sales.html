@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>24/7 PROJECT — Sales Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0D0D0F;--s1:#141416;--s2:#1C1C1F;--s3:#242427;--b1:rgba(255,255,255,0.06);--b2:rgba(255,255,255,0.10);--b3:rgba(255,255,255,0.16);--white:#F5F5F6;--muted:#8A8A96;--dim:#5A5A66;--green:#3ECF8E;--gd:rgba(62,207,142,0.10);--orange:#F97316;--od:rgba(249,115,22,0.10);--red:#EF4444;--amber:#F59E0B;--blue:#60A5FA;--purple:#C084FC;--mono:'JetBrains Mono',monospace;--sans:'DM Sans',sans-serif;--r:10px}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:var(--bg);color:var(--white);font-family:var(--sans);min-height:100vh}
+::selection{background:var(--green);color:#000}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--s3);border-radius:2px}
+/* DEMO BAR */
+.demo-bar{background:linear-gradient(90deg,rgba(62,207,142,0.08),rgba(62,207,142,0.03));border-bottom:1px solid rgba(62,207,142,0.15);padding:10px 16px;position:sticky;top:0;z-index:100}
+.demo-bar-top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.demo-pill{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;background:var(--green);color:#000;padding:3px 9px;border-radius:20px;flex-shrink:0}
+.demo-note{font-size:11px;color:var(--muted)}
+.persona-row{display:flex;gap:4px;flex-wrap:wrap}
+.persona-btn{font-family:var(--mono);font-size:10px;font-weight:700;padding:5px 13px;border-radius:5px;border:1px solid var(--b2);background:transparent;color:var(--muted);cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:5px}
+.persona-btn:hover{border-color:var(--b3);color:var(--white)}
+.persona-btn.active-lg{color:#3ECF8E;background:rgba(62,207,142,0.08);border-color:rgba(62,207,142,0.3)}
+.persona-btn.active-hi{color:#60A5FA;background:rgba(96,165,250,0.08);border-color:rgba(96,165,250,0.3)}
+.persona-btn.active-se{color:#C084FC;background:rgba(192,132,252,0.08);border-color:rgba(192,132,252,0.3)}
+.dot-lg{width:6px;height:6px;border-radius:50%;background:#3ECF8E;flex-shrink:0}
+.dot-hi{width:6px;height:6px;border-radius:50%;background:#60A5FA;flex-shrink:0}
+.dot-se{width:6px;height:6px;border-radius:50%;background:#C084FC;flex-shrink:0}
+.sc-row{display:flex;gap:4px;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,0.05);padding-top:8px;margin-top:4px}
+.sc-label{font-family:var(--mono);font-size:8px;color:var(--dim);letter-spacing:1px;text-transform:uppercase;padding-top:6px;flex-shrink:0}
+.sc-btn{font-family:var(--mono);font-size:10px;font-weight:700;padding:4px 11px;border-radius:5px;border:1px solid var(--b2);background:transparent;color:var(--muted);cursor:pointer;transition:all .15s}
+.sc-btn:hover{border-color:var(--b3);color:var(--white)}
+.sc-btn.active{background:var(--s2);color:var(--green);border-color:rgba(62,207,142,0.3)}
+/* PERSONA BANNER */
+.persona-banner{display:flex;align-items:center;gap:14px;padding:11px 16px;border-radius:var(--r);margin-bottom:10px;border:1px solid;position:relative;overflow:hidden}
+.pb-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.pb-text{display:flex;flex-direction:column;gap:2px}
+.pb-name{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:700}
+.pb-desc{font-size:11px;color:var(--muted)}
+/* SHELL */
+.shell{max-width:920px;margin:0 auto;padding:0 20px 80px}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 0 22px;border-bottom:1px solid var(--b1);margin-bottom:20px;gap:12px;flex-wrap:wrap}
+.tb-left{display:flex;align-items:center;gap:10px}
+.brand-icon{width:28px;height:28px;background:var(--green);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.brand-icon span{font-family:var(--mono);font-size:8px;font-weight:700;color:#000}
+.brand-name{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:1.5px}
+.tb-right{display:flex;align-items:center;gap:10px}
+.co-name{font-size:13px;color:var(--muted);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.status-pill{font-family:var(--mono);font-size:9px;font-weight:700;padding:3px 8px;border-radius:20px}
+.sp-active{background:var(--gd);color:var(--green);border:1px solid rgba(62,207,142,0.2)}
+.sp-trial{background:rgba(251,191,36,0.1);color:var(--amber);border:1px solid rgba(251,191,36,0.2)}
+.sp-suspended{background:rgba(239,68,68,0.1);color:var(--red);border:1px solid rgba(239,68,68,0.2)}
+.lang-btn{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:1px;padding:4px 10px;border:1px solid var(--green);background:var(--green);color:#000;cursor:pointer;border-radius:4px;transition:all .2s}
+.lang-btn:hover{background:transparent;color:var(--green)}
+.card{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);margin-bottom:10px}
+.ch{padding:14px 18px;border-bottom:1px solid var(--b1);display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.ct{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--dim)}
+.sus{background:rgba(239,68,68,0.07);border:1px solid rgba(239,68,68,0.2);border-radius:var(--r);padding:14px 18px;margin-bottom:10px;display:flex;align-items:center;gap:14px}
+.sus-text{flex:1;font-size:13px;color:var(--red);line-height:1.5}
+.sus-text strong{display:block;font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;margin-bottom:2px}
+.gauge-inner{display:flex;align-items:center;gap:24px;flex-wrap:wrap;padding:20px}
+.gauge-wrap{position:relative;flex-shrink:0}
+.gauge-wrap svg{transform:rotate(-90deg);display:block}
+.gc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.gp{font-family:var(--mono);font-size:20px;font-weight:700;line-height:1}
+.gl{font-size:9px;color:var(--muted);margin-top:2px;text-transform:uppercase;letter-spacing:0.5px}
+.gr{flex:1;min-width:200px}
+.plan-badge{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:10px;color:var(--green);background:var(--gd);border:1px solid rgba(62,207,142,0.2);padding:3px 8px;border-radius:20px;margin-bottom:14px}
+.pd{width:5px;height:5px;border-radius:50%;background:var(--green)}
+.stats-row{display:flex}
+.stat-b{flex:1;padding:0 12px;border-right:1px solid var(--b1)}
+.stat-b:first-child{padding-left:0}.stat-b:last-child{border-right:none}
+.stat-l{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;font-family:var(--mono)}
+.stat-v{font-family:var(--mono);font-size:19px;font-weight:700;line-height:1}
+.stat-u{font-size:10px;font-weight:400;color:var(--muted);margin-left:2px}
+.prog-wrap{margin-top:16px}
+.prog-track{height:4px;background:var(--s2);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;border-radius:2px}
+.rn{margin-top:7px;font-size:11px;color:var(--dim);display:flex;align-items:center;gap:5px}
+.an-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px}
+.an{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);padding:14px}
+.al{font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);margin-bottom:6px}
+.av{font-family:var(--mono);font-size:19px;font-weight:700}
+.as{font-size:11px;color:var(--muted);margin-top:3px}
+.calling-g{display:grid;grid-template-columns:1fr 1fr;gap:18px;padding:18px}
+.fg{display:flex;flex-direction:column;gap:14px}
+.fl{font-family:var(--mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--dim);margin-bottom:4px}
+.fi{background:var(--s2);border:1px solid var(--b1);color:var(--white);font-family:var(--mono);font-size:11px;padding:8px 10px;border-radius:5px;width:100%;outline:none;transition:border-color .2s}
+.fi:focus{border-color:rgba(62,207,142,0.4)}.fi option{background:var(--s2)}
+.toggle-row{display:flex;align-items:center;justify-content:space-between}
+.tl{font-size:13px;font-weight:500}.tsub{font-size:11px;color:var(--muted);margin-top:2px}
+.toggle-sw{position:relative;width:40px;height:22px;flex-shrink:0}
+.toggle-sw input{opacity:0;width:0;height:0}
+.track{position:absolute;inset:0;background:var(--s3);border-radius:11px;cursor:pointer;transition:background .2s;border:1px solid var(--b2)}
+.track:after{content:'';position:absolute;left:3px;top:3px;width:14px;height:14px;background:var(--muted);border-radius:50%;transition:all .2s}
+.toggle-sw input:checked+.track{background:var(--green)}
+.toggle-sw input:checked+.track:after{transform:translateX(18px);background:#000}
+.days-row{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
+.day-btn{font-family:var(--mono);font-size:9px;font-weight:700;padding:4px 7px;border-radius:4px;border:1px solid var(--b2);background:transparent;color:var(--muted);cursor:pointer;transition:all .15s}
+.day-btn.on{background:var(--gd);color:var(--green);border-color:rgba(62,207,142,0.3)}
+.save-btn{font-family:var(--mono);font-size:10px;font-weight:700;padding:8px 16px;background:var(--green);color:#000;border:none;border-radius:6px;cursor:pointer;transition:all .2s}
+.save-btn:hover{background:#2db87b;transform:translateY(-1px)}
+.number-row{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--s2);border-radius:7px;border:1px solid var(--b1);margin:12px 16px}
+.number-val{font-family:var(--mono);font-size:14px;font-weight:700}
+.number-type{font-family:var(--mono);font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:2px}
+.number-badge{font-family:var(--mono);font-size:8px;padding:2px 6px;border-radius:3px;background:var(--gd);color:var(--green);border:1px solid rgba(62,207,142,0.2)}
+.leads-tabs{display:flex;gap:0;border-bottom:1px solid var(--b1);margin:0 16px}
+.leads-tab{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.5px;padding:10px 14px;background:transparent;border:none;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s;white-space:nowrap}
+.leads-tab.active{color:var(--green);border-bottom-color:var(--green)}
+.leads-tab-panel{padding:16px;display:none}
+.leads-tab-panel.active{display:block}
+.leads-input-row{display:flex;gap:8px;align-items:flex-start}
+.leads-input-row .fi{flex:1;min-width:0}
+.add-btn{font-family:var(--mono);font-size:10px;font-weight:700;padding:8px 14px;background:var(--green);color:#000;border:none;border-radius:5px;cursor:pointer;white-space:nowrap;flex-shrink:0}
+.add-btn:hover{background:#2db87b}
+.csv-drop{border:1px dashed var(--b2);border-radius:7px;padding:20px;text-align:center;cursor:pointer;transition:border-color .2s;margin-bottom:10px}
+.csv-drop:hover{border-color:var(--green)}
+.csv-drop-text{font-size:12px;color:var(--muted);line-height:1.6}
+.csv-drop-text strong{color:var(--white);display:block;margin-bottom:4px}
+.leads-list{max-height:260px;overflow-y:auto;display:flex;flex-direction:column;gap:4px;padding:0 16px 16px}
+.lead-row{display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--s2);border-radius:6px;border:1px solid var(--b1);min-width:0}
+.lead-num{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--white);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.lead-name{font-size:11px;color:var(--muted);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.lead-st{font-family:var(--mono);font-size:9px;font-weight:700;padding:2px 7px;border-radius:3px;flex-shrink:0;white-space:nowrap}
+.lst-pending{background:var(--s3);color:var(--muted);border:1px solid var(--b2)}
+.lst-calling{background:rgba(245,158,11,0.1);color:var(--amber);border:1px solid rgba(245,158,11,0.2)}
+.lst-called{background:var(--gd);color:var(--green);border:1px solid rgba(62,207,142,0.2)}
+.lst-failed{background:rgba(239,68,68,0.1);color:var(--red);border:1px solid rgba(239,68,68,0.2)}
+.del-btn{font-size:13px;color:var(--dim);background:none;border:none;cursor:pointer;padding:2px 4px;flex-shrink:0;transition:color .15s;line-height:1}
+.del-btn:hover{color:var(--red)}
+.leads-footer{padding:10px 16px;border-top:1px solid var(--b1);display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.launch-btn{font-family:var(--mono);font-size:10px;font-weight:700;padding:7px 14px;background:var(--green);color:#000;border:none;border-radius:5px;cursor:pointer;transition:all .2s;letter-spacing:0.5px}
+.launch-btn:hover{background:#2db87b;transform:translateY(-1px)}
+.launch-btn:disabled{opacity:0.4;cursor:not-allowed;transform:none}
+.no-leads{padding:24px 16px;text-align:center;font-size:12px;color:var(--dim)}
+.upsell-card{background:linear-gradient(135deg,var(--s1) 0%,rgba(249,115,22,0.04) 100%);border:1px solid rgba(249,115,22,0.15);border-radius:var(--r);margin-bottom:10px;overflow:hidden}
+.upsell-header{padding:13px 16px;border-bottom:1px solid rgba(249,115,22,0.1);font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--orange)}
+.upsell-body{padding:16px}
+.upsell-stat{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:14px}
+.up-pkgs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.up-pkg{background:var(--s2);border:1px solid var(--b1);border-radius:8px;padding:14px;transition:border-color .2s}
+.up-pkg:hover{border-color:var(--b2)}
+.up-pkg.feat{border-color:var(--orange);background:linear-gradient(135deg,var(--s2) 0%,var(--od) 100%)}
+.up-tag{font-family:var(--mono);font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--orange);margin-bottom:6px;font-weight:700}
+.up-amt{font-family:var(--mono);font-size:20px;font-weight:700;margin-bottom:3px}
+.up-desc{font-size:11px;color:var(--muted);margin-bottom:10px}
+.btn{display:block;width:100%;padding:8px;font-family:var(--mono);font-size:10px;font-weight:700;text-align:center;border-radius:5px;cursor:pointer;border:none;transition:all .2s}
+.btn-out{background:transparent;color:var(--white);border:1px solid var(--b2)}
+.btn-out:hover{border-color:var(--b3)}
+.btn-org{background:var(--orange);color:#fff}
+.btn-org:hover{background:#e06412;transform:translateY(-1px)}
+.uu{border-top:1px solid rgba(249,115,22,0.1);padding:13px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.uu-text{font-size:12px;color:var(--muted)}.uu-text strong{color:var(--white);display:block;margin-bottom:1px}
+.uu-btn{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--orange);text-decoration:none;border:1px solid rgba(249,115,22,0.3);padding:7px 12px;border-radius:5px;background:transparent;cursor:pointer;transition:background .2s;white-space:nowrap}
+.uu-btn:hover{background:var(--od)}
+.ctable{width:100%;border-collapse:collapse}
+.ctable th{padding:9px 14px;text-align:left;font-family:var(--mono);font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);border-bottom:1px solid var(--b1);font-weight:500}
+.ctable td{padding:10px 14px;font-size:11px;border-bottom:1px solid rgba(255,255,255,0.03)}
+.ctable tr.cr:hover td{background:rgba(255,255,255,0.015);cursor:pointer}
+.tm{font-family:var(--mono);font-size:10px;color:var(--muted)}
+.tn{font-family:var(--mono);font-size:10px;color:var(--white)}
+.st-ok{display:inline-block;padding:1px 6px;border-radius:3px;font-family:var(--mono);font-size:8px;font-weight:700;background:var(--gd);color:var(--green);border:1px solid rgba(62,207,142,0.2)}
+.st-fail{display:inline-block;padding:1px 6px;border-radius:3px;font-family:var(--mono);font-size:8px;font-weight:700;background:rgba(255,255,255,0.04);color:var(--dim);border:1px solid var(--b1)}
+.ls-h{display:inline-block;padding:1px 6px;border-radius:3px;font-family:var(--mono);font-size:8px;font-weight:700;background:var(--gd);color:var(--green);border:1px solid rgba(62,207,142,0.2)}
+.ls-m{display:inline-block;padding:1px 6px;border-radius:3px;font-family:var(--mono);font-size:8px;font-weight:700;background:rgba(245,158,11,0.1);color:var(--amber);border:1px solid rgba(245,158,11,0.2)}
+.exp-row td{padding:0}
+.exp-in{padding:12px 14px 14px;background:rgba(0,0,0,0.25);border-top:1px solid var(--b1)}
+.elbl{font-family:var(--mono);font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);margin-bottom:4px}
+.ebox{font-size:11px;color:var(--muted);line-height:1.6;background:var(--s2);border-radius:5px;padding:10px;margin-top:4px}
+.egrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.caret{font-size:9px;color:var(--dim);transition:transform .2s;display:inline-block;margin-left:4px}
+.caret.open{transform:rotate(90deg)}
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:16px}
+.sg-full{grid-column:1/-1}
+textarea.fi{padding:10px 12px;font-family:var(--sans)}
+.info-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.ic{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);padding:14px 16px}
+.icl{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:7px}
+.icv{font-size:13px;font-weight:600}
+.ics{font-size:11px;color:var(--muted);margin-top:2px}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--s3);border:1px solid var(--b2);padding:11px 16px;border-radius:8px;font-family:var(--mono);font-size:11px;color:var(--white);transform:translateY(16px);opacity:0;transition:all .3s;z-index:999;pointer-events:none;max-width:280px}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.success{border-color:rgba(62,207,142,0.3);color:var(--green)}
+.fi-anim{opacity:0;animation:fi .4s ease forwards}
+.fi-anim:nth-child(1){animation-delay:.03s}.fi-anim:nth-child(2){animation-delay:.08s}.fi-anim:nth-child(3){animation-delay:.13s}
+.fi-anim:nth-child(4){animation-delay:.18s}.fi-anim:nth-child(5){animation-delay:.23s}.fi-anim:nth-child(6){animation-delay:.28s}
+.fi-anim:nth-child(7){animation-delay:.33s}.fi-anim:nth-child(8){animation-delay:.38s}.fi-anim:nth-child(9){animation-delay:.43s}
+@keyframes fi{to{opacity:1}}
+.wins-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--b1);border:1px solid var(--b1);margin-bottom:10px}
+.win-tile{background:var(--s1);padding:14px 12px;text-align:center}
+.win-num{font-family:var(--mono);font-size:20px;font-weight:700;color:var(--white);line-height:1;margin-bottom:4px}
+.win-num.acc{color:var(--green)}
+.win-lbl{font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);line-height:1.4}
+.hot-card{background:linear-gradient(135deg,rgba(62,207,142,0.04) 0%,var(--s1) 100%);border:1px solid rgba(62,207,142,0.12);margin-bottom:10px}
+.hot-header{padding:12px 16px;border-bottom:1px solid rgba(62,207,142,0.1);display:flex;align-items:center;justify-content:space-between}
+.hot-title{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--green)}
+.hot-count{font-family:var(--mono);font-size:9px;color:var(--dim)}
+.hot-body{padding:10px 16px;display:flex;flex-direction:column;gap:6px}
+.hot-row{display:flex;align-items:center;gap:10px;padding:7px 10px;background:rgba(0,0,0,0.2);border-radius:3px}
+.hot-num{font-family:var(--mono);font-size:12px;color:var(--white);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hot-name{font-size:11px;color:var(--muted);flex:1;min-width:0}
+.hot-sum{font-size:11px;color:var(--dim);flex:2;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.roi-card{background:linear-gradient(135deg,rgba(96,165,250,0.04) 0%,var(--s1) 100%);border:1px solid rgba(96,165,250,0.12);margin-bottom:10px}
+.roi-header{padding:12px 16px;border-bottom:1px solid rgba(96,165,250,0.1);display:flex;align-items:center;justify-content:space-between}
+.roi-title{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#60A5FA}
+.roi-body{padding:16px}
+.roi-figure{font-family:var(--mono);font-size:26px;font-weight:700;color:var(--white);margin-bottom:4px}
+.roi-sub{font-size:11px;color:var(--dim);line-height:1.5;margin-bottom:12px}
+.roi-inputs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.roi-input-label{font-family:var(--mono);font-size:9px;color:var(--dim);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
+.pro-badge{display:inline-flex;align-items:center;font-family:var(--mono);font-size:8px;letter-spacing:1.5px;text-transform:uppercase;padding:2px 7px;background:rgba(96,165,250,0.08);color:#60A5FA;border:1px solid rgba(96,165,250,0.2);border-radius:2px;vertical-align:middle;margin-left:7px}
+.coming-soon-f{opacity:0.45;pointer-events:none}
+.cs-badge{font-family:var(--mono);font-size:8px;color:#FBBF24;background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.2);padding:2px 6px;border-radius:2px;margin-left:6px}
+.call-meta{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:7px}
+.cm-pill{font-family:var(--mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:2px}
+.cm-pos{background:rgba(62,207,142,0.12);color:var(--green);border:1px solid rgba(62,207,142,0.2)}
+.cm-neg{background:rgba(239,68,68,0.12);color:var(--red);border:1px solid rgba(239,68,68,0.2)}
+.cm-neu{background:rgba(255,255,255,0.06);color:var(--dim);border:1px solid rgba(255,255,255,0.1)}
+.cm-vm{background:rgba(251,191,36,0.1);color:#FBBF24;border:1px solid rgba(251,191,36,0.2)}
+.integ-card{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);margin-bottom:10px}
+.integ-header{padding:13px 16px;border-bottom:1px solid var(--b1);display:flex;align-items:center;justify-content:space-between}
+.integ-title{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--dim)}
+.integ-body{padding:16px}
+.integ-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;margin-bottom:12px}
+.integ-item{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted)}
+.integ-dot{width:5px;height:5px;border-radius:50%;background:var(--b3);flex-shrink:0}
+.integ-note{font-size:11px;color:var(--dim);line-height:1.6;border-top:1px solid var(--b1);padding-top:10px;margin-top:4px}
+@media(max-width:620px){.an-row,.calling-g,.sg,.egrid,.up-pkgs,.info-row{grid-template-columns:1fr 1fr}.calling-g,.sg,.egrid{grid-template-columns:1fr}.stats-row{flex-direction:column;gap:10px}.stat-b{padding:0;border-right:none;border-bottom:1px solid var(--b1);padding-bottom:10px}.stat-b:last-child{border-bottom:none}.gauge-inner{flex-direction:column;align-items:center;text-align:center}.gr{width:100%}.plan-badge{justify-content:center}.co-name{display:none}.leads-input-row{flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="demo-bar">
+  <div class="demo-bar-top">
+    <div style="display:flex;align-items:center;gap:10px">
+      <span class="demo-pill">SALES DEMO</span>
+      <span class="demo-note">Live-Vorschau · Interaktiv · Zum Teilen: URL + ?demo=leadgen / hiring / secretary</span>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
+    <div class="persona-row">
+      <button class="persona-btn" id="btn-leadgen" onclick="loadPersona('leadgen')"><span class="dot-lg"></span>Lead Gen & Closing</button>
+      <button class="persona-btn" id="btn-hiring" onclick="loadPersona('hiring')"><span class="dot-hi"></span>Hiring Agency</button>
+      <button class="persona-btn" id="btn-secretary" onclick="loadPersona('secretary')"><span class="dot-se"></span>KI-Rezeptionist</button>
+    </div>
+    <div class="sc-row">
+      <span class="sc-label">Ansicht:</span>
+      <button class="sc-btn active" id="sc-trial" onclick="loadSc('trial',this)">Trial</button>
+      <button class="sc-btn" id="sc-active" onclick="loadSc('active',this)">Aktiv</button>
+      <button class="sc-btn" id="sc-high" onclick="loadSc('high',this)">Hoch</button>
+      <button class="sc-btn" id="sc-suspended" onclick="loadSc('suspended',this)">Gesperrt</button>
+    </div>
+  </div>
+</div>
+<div id="dash" class="shell"></div>
+<div class="toast" id="toast"></div>
+<script>
+const CALLS_LEADGEN=[{"date": "09.04.2026", "time": "14:22", "to": "+49 171 555 1234", "name": "Klaus Hoffmann", "dur": "3m 07s", "score": 82, "cls": "ls-h", "sentiment": "positive", "vm": false, "sum": "Herr Hoffmann zeigte starkes Interesse. Termin KW16 vereinbart. Entscheider (GF).", "det": "Positiver Einstieg. Konkret nach Preisen und CRM-Integration gefragt. Termin Dienstag 10:00 best\u00e4tigt.", "tr": "Lisa: Guten Tag Herr Hoffmann, hier ist Lisa von SkyScale Software...\nHoffmann: Das klingt interessant. Wann k\u00f6nnen wir uns unterhalten?"}, {"date": "09.04.2026", "time": "10:47", "to": "+49 89 777 2345", "name": "Petra Schmidt", "dur": "43s", "score": 41, "cls": "ls-m", "sentiment": "neutral", "vm": false, "sum": "Frau Schmidt bat um R\u00fcckruf n\u00e4chste Woche.", "det": "Keine inhaltliche Ablehnung \u2014 zeitlicher Konflikt.", "tr": "Lisa: Guten Morgen...\nSchmidt: Ich bin gerade in einer Besprechung.\nLisa: Wann passt es Ihnen?\nSchmidt: N\u00e4chste Woche bitte."}, {"date": "08.04.2026", "time": "16:05", "to": "+49 40 999 3456", "name": "Markus Brandt", "dur": "5m 12s", "score": 94, "cls": "ls-h", "sentiment": "positive", "vm": false, "sum": "Q2-Budget \u20ac80K best\u00e4tigt. Folgegespr\u00e4ch mit Vorstand vereinbart.", "det": "Projektleiter mit Budgetverantwortung. Konkurrenz: Salesforce Dialer \u2014 zeitkritisch.", "tr": "Lisa: Guten Tag...\nBrandt: Was kostet das und wie lange dauert der Setup?"}, {"date": "08.04.2026", "time": "11:33", "to": "+49 211 111 4567", "name": "Unbekannt", "dur": "1m 35s", "score": 22, "cls": "", "sentiment": "negative", "vm": false, "sum": "Kein Interesse. DNC-Liste gesetzt.", "det": "Klare Ablehnung. Nicht mehr kontaktieren.", "tr": "Lisa: Guten Tag...\nKontakt: Nein danke, kein Interesse.\nKontakt: Bitte nicht mehr anrufen."}, {"date": "07.04.2026", "time": "09:18", "to": "+49 30 222 5678", "name": "Stefan Bauer", "dur": "3m 48s", "score": 77, "cls": "ls-h", "sentiment": "positive", "vm": false, "sum": "Interessiert \u2014 Budget erst Q3. Follow-up 15. Juni gesetzt.", "det": "Qualifizierter Lead. Budget-Freigabe Q3. Direktleitung zum Entscheider.", "tr": "Lisa: Guten Morgen...\nBauer: Spannend. Budget erst im n\u00e4chsten Quartal."}, {"date": "06.04.2026", "time": "15:30", "to": "+49 69 333 6789", "name": "Rolf Schneider", "dur": "2m 10s", "score": 55, "cls": "ls-m", "sentiment": "neutral", "vm": true, "sum": "Mailbox. Nachricht hinterlassen.", "det": "Zweiter Versuch: Dienstag 10-11 Uhr.", "tr": "[Mailbox] Lisa: Guten Tag, Nachricht f\u00fcr Herrn Schneider..."}];
+const CALLS_HIRING=[{"date": "09.04.2026", "time": "10:15", "to": "+49 171 555 8821", "name": "Thomas Richter", "dur": "7m 14s", "score": 92, "cls": "ls-h", "sentiment": "positive", "vm": false, "sum": "A-Kandidat. Java/Python/AWS best\u00e4tigt. Gehalt \u20ac65K passt. Interview KW17.", "det": "TU M\u00fcnchen Informatik 2022. 3 Jahre Erfahrung. K\u00fcndigungsfrist 4 Wochen. \u20ac65K \u2014 im Budget. Weitergeleitet an TechCorp.", "tr": "Max: Guten Morgen Herr Richter, ich bin Max von Talentwerk...\nRichter: Sehr interessiert an der Position!"}, {"date": "09.04.2026", "time": "09:30", "to": "+49 89 777 4432", "name": "Sabine Hofer", "dur": "2m 03s", "score": 28, "cls": "", "sentiment": "negative", "vm": false, "sum": "Gehaltswunsch \u20ac95K \u2014 \u00fcber Budget (max \u20ac70K). Freundlich abgelehnt.", "det": "Senior Level, 8 Jahre Erfahrung. Klare Nicht\u00fcbereinstimmung Budget.", "tr": "Max: Was sind Ihre Gehaltsvorstellungen?\nHofer: Mindestens \u20ac95.000 brutto.\nMax: Vielen Dank, wir melden uns."}, {"date": "08.04.2026", "time": "14:45", "to": "+49 30 999 7654", "name": "Felix Wagner", "dur": "8m 49s", "score": 91, "cls": "ls-h", "sentiment": "positive", "vm": false, "sum": "Top-Kandidat. Sofort verf\u00fcgbar, \u20ac58K. Direkt zum Kunden weitergeleitet.", "det": "5 Jahre B2B-Vertrieb DACH. DE/EN/FR. Sofort verf\u00fcgbar. \u20ac58K \u2014 unter Budget. Priorisiert.", "tr": "Max: Ich m\u00f6chte Ihren Vertriebshintergrund besprechen...\nWagner: 5 Jahre Erfahrung im B2B-Bereich..."}, {"date": "08.04.2026", "time": "11:00", "to": "+49 40 333 1199", "name": "Lars Bremer", "dur": "43s", "score": 45, "cls": "ls-m", "sentiment": "neutral", "vm": false, "sum": "Aktuell nicht wechselwillig. Follow-up Q3.", "det": "Fest angestellt, zufrieden. Offen f\u00fcr sp\u00e4teren Kontakt.", "tr": "Bremer: Ich bin gerade nicht aktiv auf der Suche.\nMax: Darf ich in einigen Monaten kontaktieren?\nBremer: Ja, das ist okay."}, {"date": "07.04.2026", "time": "16:20", "to": "+49 221 888 5544", "name": "Maria Zimmermann", "dur": "6m 31s", "score": 79, "cls": "ls-h", "sentiment": "positive", "vm": false, "sum": "B-Kandidat. HR-Erfahrung solid. Backup f\u00fcr Juniorstelle vorgemerkt.", "det": "4 Jahre HR, Workday/SAP. \u20ac52K. Zu schwach f\u00fcr Senior \u2014 B-Kandidat.", "tr": "Max: Erz\u00e4hlen Sie mir mehr \u00fcber Ihre HR-Erfahrung...\nZimmermann: 4 Jahre bei einem Mittelst\u00e4ndler."}, {"date": "06.04.2026", "time": "09:00", "to": "+49 69 444 3311", "name": "Jonas Becker", "dur": "1m 05s", "score": 55, "cls": "ls-m", "sentiment": "neutral", "vm": true, "sum": "Mailbox. Zweiter Versuch: Dienstag 11-12 Uhr.", "det": "Kein Erreichen.", "tr": "[Mailbox] Max: Guten Tag Herr Becker, R\u00fcckruf wegen Bewerbung..."}];
+const CALLS_SECRETARY=[{"date": "09.04.2026", "time": "08:42", "to": "+49 172 888 3321", "name": "Thomas Fischer", "dur": "1m 48s", "score": 95, "cls": "ls-h", "sentiment": "positive", "vm": false, "inbound": true, "sum": "Termin gebucht: Do. 14:30 \u2014 Routineuntersuchung. SMS-Erinnerung ausgel\u00f6st.", "det": "Bestandspatient seit 2019. Do 14:30 best\u00e4tigt. Erinnerungs-SMS ausgel\u00f6st.", "tr": "Lena: Zahnarztpraxis Dr. M\u00fcller, guten Morgen!\nFischer: Ich w\u00fcrde gern einen Termin machen.\nLena: Donnerstag 14:30 ist frei \u2014 passt das?\nFischer: Perfekt, danke!"}, {"date": "09.04.2026", "time": "10:05", "to": "+49 89 777 1122", "name": "Unbekannt", "dur": "58s", "score": 70, "cls": "ls-m", "sentiment": "neutral", "vm": false, "inbound": true, "sum": "FAQ: Bleaching kein Kassenleistung erkl\u00e4rt.", "det": "Korrekt beantwortet. Kein Termin gew\u00fcnscht.", "tr": "Patientin: Ist Bleaching Kassenleistung?\nLena: Bleaching ist Privatleistung. Soll ich die Kosten nennen?\nPatientin: Nein danke, nur zur Info."}, {"date": "08.04.2026", "time": "14:22", "to": "+49 30 555 9988", "name": "Hans Bauer", "dur": "2m 33s", "score": 98, "cls": "ls-h", "sentiment": "positive", "vm": false, "inbound": true, "sum": "NOTFALL: Zahnschmerzen. Soforttermin 16:00 org. Dr. M\u00fcller informiert.", "det": "Akute Zahnschmerzen. Soforttermin 16:00. Dr. M\u00fcller via WhatsApp informiert.", "tr": "Bauer: Ich habe starke Zahnschmerzen...\nLena: Dr. M\u00fcller hat heute um 16:00 noch Zeit f\u00fcr Sie."}, {"date": "08.04.2026", "time": "09:10", "to": "+49 211 333 7766", "name": "Andrea Weber", "dur": "1m 12s", "score": 88, "cls": "ls-h", "sentiment": "positive", "vm": false, "inbound": true, "sum": "Termin gebucht: Mo. 11:00 \u2014 Erstberatung Invisalign. Neupatientin.", "det": "Neupatientin. Invisalign-Beratung. Mo 11:00. Patientendaten-Formular per E-Mail.", "tr": "Weber: Ich w\u00fcrde gern wegen Invisalign anfragen.\nLena: Montag um 11:00 passt \u2014 ich trage Sie ein."}, {"date": "07.04.2026", "time": "16:50", "to": "+49 40 111 4455", "name": "Unbekannt", "dur": "45s", "score": 60, "cls": "ls-m", "sentiment": "neutral", "vm": false, "inbound": true, "sum": "Au\u00dferhalb \u00d6ffnungszeiten. R\u00fcckruf morgen 9:00.", "det": "Praxis geschlossen. Nachricht aufgenommen.", "tr": "Anrufer: Ich wollte einen Termin machen.\nLena: Ich nehme Ihre Nummer auf und wir rufen Sie morgen fr\u00fch zur\u00fcck."}, {"date": "06.04.2026", "time": "11:30", "to": "+49 69 222 8877", "name": "Claudia Schneider", "dur": "3m 05s", "score": 92, "cls": "ls-h", "sentiment": "positive", "vm": false, "inbound": true, "sum": "2 Termine gebucht: Mutter + Kind (Do/Fr). Erinnerungen gesetzt.", "det": "Termin f\u00fcr sich (Do 10:00) und Sohn Leon (Fr 14:00). Beide Erinnerungen versandt.", "tr": "Schneider: Ich br\u00e4uchte Termine f\u00fcr mich und meinen Sohn.\nLena: Beide Termine eingetragen \u2014 Best\u00e4tigung per SMS."}];
+
+const PERSONAS={
+  leadgen:{
+    nameDE:'Lead-Generierung & Abschluss',descDE:'KI qualifiziert B2B-Leads · Mensch schließt ab',
+    nameEN:'Lead Gen & Closing',descEN:'AI qualifies B2B leads · Human closes',
+    color:'#3ECF8E',dotClass:'dot-lg',btnActive:'active-lg',
+    calls:CALLS_LEADGEN,
+    scoreLabel:{de:'Lead',en:'Lead'},
+    callsHeader:{de:'Angerufen',en:'Called'},
+    leadsListTitle:{de:'ANRUFLISTE',en:'CALL LIST'},
+    launchBtn:{de:'Kampagne starten',en:'Launch campaign'},
+    campaignLabel:{de:'KAMPAGNE',en:'CAMPAIGN'},
+    scenarios:{
+      trial:{company:'SkyScale Software GmbH',tier:'starter',status:'trial',used:412,total:750,renewal:'01.05.2026',phone:'+49 89 420 8810',calls:28,avgDur:'2m 58s',sr:68},
+      active:{company:'SkyScale Software GmbH',tier:'starter',status:'active',used:220,total:750,renewal:'01.05.2026',phone:'+49 89 420 8810',calls:18,avgDur:'2m 44s',sr:74},
+      high:{company:'SkyScale Software GmbH',tier:'professional',status:'active',used:5280,total:6000,renewal:'01.05.2026',phone:'+49 89 420 8810',calls:102,avgDur:'3m 31s',sr:65},
+      suspended:{company:'SkyScale Software GmbH',tier:'starter',status:'suspended',used:750,total:750,renewal:'01.05.2026',phone:'+49 89 420 8810',calls:47,avgDur:'2m 58s',sr:60}
+    },
+    agent:{
+      company:'SkyScale Software GmbH',industry:'B2B SaaS / Software',role:'Geschäftsführer, Vertriebsleiter',
+      useCase:'qualifying_leads',personaName:'Lisa',
+      context:'Wir sind SkyScale Software und bieten KI-gestützte Automatisierungslösungen für den Mittelstand (20–500 MA, DACH). Ziel: Erstgespräch mit Entscheidern vereinbaren. Ton: professionell, direkt, lösungsorientiert.',
+      prompt:'Du bist Lisa, Vertriebsassistentin von SkyScale Software GmbH. Dein Ziel: Entscheider in mittelständischen Unternehmen für ein 20-minütiges Erstgespräch zu gewinnen. Sprich natürlich, professionell und zielgerichtet. Frage nach aktuellen Herausforderungen im Vertrieb. Vermeide Fachjargon. Ziel ist immer der Termin.',
+      obj:'„Kein Interesse": Frage konkret nach dem größten Vertriebsproblem — nicht ob sie Zeit haben.\n„Zu teuer": ROI vorrechnen: 250 qualifizierte Gespräche/Monat vs. interner SDR-Aufwand.\n„Schick mir was zu": Erst Termin vereinbaren, dann E-Mail bestätigen.'
+    }
+  },
+  hiring:{
+    nameDE:'Personalvermittlung / Recruiting',descDE:'KI screent Kandidaten 24/7 · Recruiter spricht nur mit Top 10%',
+    nameEN:'Hiring Agency',descEN:'AI screens candidates 24/7 · Recruiter meets only the top 10%',
+    color:'#60A5FA',dotClass:'dot-hi',btnActive:'active-hi',
+    calls:CALLS_HIRING,
+    scoreLabel:{de:'Eignung',en:'Fit'},
+    callsHeader:{de:'Kandidat',en:'Candidate'},
+    leadsListTitle:{de:'KANDIDATENLISTE',en:'CANDIDATE LIST'},
+    launchBtn:{de:'Screening starten',en:'Start screening'},
+    campaignLabel:{de:'SCREENING-KAMPAGNE',en:'SCREENING CAMPAIGN'},
+    scenarios:{
+      trial:{company:'Talentwerk Recruiting GmbH',tier:'starter',status:'trial',used:380,total:750,renewal:'01.05.2026',phone:'+49 30 780 0120',calls:24,avgDur:'6m 12s',sr:74},
+      active:{company:'Talentwerk Recruiting GmbH',tier:'professional',status:'active',used:2800,total:6000,renewal:'01.05.2026',phone:'+49 30 780 0120',calls:198,avgDur:'5m 47s',sr:72},
+      high:{company:'Talentwerk Recruiting GmbH',tier:'professional',status:'active',used:5580,total:6000,renewal:'01.05.2026',phone:'+49 30 780 0120',calls:387,avgDur:'5m 31s',sr:68},
+      suspended:{company:'Talentwerk Recruiting GmbH',tier:'starter',status:'suspended',used:750,total:750,renewal:'01.05.2026',phone:'+49 30 780 0120',calls:47,avgDur:'5m 02s',sr:60}
+    },
+    agent:{
+      company:'Talentwerk Recruiting GmbH',industry:'Personalvermittlung / Headhunting',role:'Bewerber (alle Positionen)',
+      useCase:'qualifying_employees',personaName:'Max',
+      context:'Talentwerk Recruiting vermittelt Fach- und Führungskräfte in DACH. Der Agent führt strukturierte Erstgespräche mit Bewerbern durch: Verfügbarkeit, Qualifikation, Gehalt, Motivation. A-Kandidaten werden direkt weitergeleitet, B als Backup, C freundlich abgelehnt.',
+      prompt:'Du bist Max, KI-Recruiter von Talentwerk Recruiting GmbH. Führe strukturierte Erstgespräche mit Stellenbewerbern (max 8 Min). Prüfe: (1) Verfügbarkeit/Kündigungsfrist (2) Berufserfahrung (3) Gehaltsvorstellung (4) Motivation. Sei freundlich, professionell und effizient.',
+      obj:'„Suche nicht aktiv": Erkläre Mehrwert passiver Kandidaten — exklusive Stellen, die nicht öffentlich sind.\n„Keine Zeit": Biete 5-Minuten-Kurzversion oder Rückruf zu Wunschzeit.\n„Woher haben Sie meine Nummer?": Profil auf [Plattform] — erkläre die Position kurz und frage nach Interesse.'
+    }
+  },
+  secretary:{
+    nameDE:'KI-Rezeptionist / Sekretariat',descDE:'24/7 Inbound · Terminbuchung · FAQ · Notfall-Eskalation',
+    nameEN:'AI Secretary / Receptionist',descEN:'24/7 inbound · Appointment booking · FAQ · Escalation',
+    color:'#C084FC',dotClass:'dot-se',btnActive:'active-se',
+    calls:CALLS_SECRETARY,
+    scoreLabel:{de:'Buchung',en:'Booking'},
+    callsHeader:{de:'Anrufer',en:'Caller'},
+    leadsListTitle:{de:'HEUTIGE ANRUFE',en:'TODAY\'S CALLS'},
+    launchBtn:{de:'Demo-Anruf simulieren',en:'Simulate demo call'},
+    campaignLabel:{de:'24/7 EMPFANG',en:'24/7 RECEPTION'},
+    scenarios:{
+      trial:{company:'Zahnarztpraxis Dr. Müller',tier:'starter',status:'trial',used:95,total:150,renewal:'01.05.2026',phone:'+49 89 452 8812',calls:44,avgDur:'1m 42s',sr:88},
+      active:{company:'Zahnarztpraxis Dr. Müller',tier:'starter',status:'active',used:68,total:150,renewal:'01.05.2026',phone:'+49 89 452 8812',calls:31,avgDur:'1m 38s',sr:91},
+      high:{company:'Zahnarztpraxis Dr. Müller',tier:'starter',status:'active',used:142,total:150,renewal:'01.05.2026',phone:'+49 89 452 8812',calls:67,avgDur:'1m 45s',sr:89},
+      suspended:{company:'Zahnarztpraxis Dr. Müller',tier:'starter',status:'suspended',used:150,total:150,renewal:'01.05.2026',phone:'+49 89 452 8812',calls:71,avgDur:'1m 39s',sr:86}
+    },
+    agent:{
+      company:'Zahnarztpraxis Dr. Müller',industry:'Medizin / Zahnarztpraxis',role:'Patienten (alle)',
+      useCase:'purchasing',personaName:'Lena',
+      context:'Lena beantwortet alle Anrufe der Zahnarztpraxis Dr. Müller (München) — rund um die Uhr. Aufgaben: Termine buchen (Cal.com), FAQs beantworten (Öffnungszeiten, Leistungen, Preise), Notfälle sofort eskalieren, Nachrichten aufnehmen wenn Praxis geschlossen.',
+      prompt:'Du bist Lena, KI-Rezeptionistin der Zahnarztpraxis Dr. Müller. Begrüße jeden Anrufer herzlich. Unterscheide: Bestandspatient oder Neupatientin? Terminwunsch, Frage oder Notfall? Buche direkt im Kalender. Bei Zahnschmerzen/Notfall: sofort Priorität setzen und Dr. Müller informieren.',
+      obj:'Notfall (Zahnschmerzen): Sofort Priorität — prüfe ob Notfalltermin heute möglich. Falls nicht, leite zu Notfallpraxis.\nGeschlossen: Öffnungszeiten nennen, Nachricht aufnehmen, Rückruf morgen 9:00 versprechen.\nVerärgerter Patient: Ruhig bleiben, entschuldigen, bei Bedarf direkt an Dr. Müller weiterleiten.'
+    }
+  }
+};
+
+const PERSONA_LEADS={
+  leadgen:[
+    {id:'1',phone:'+49 171 234 5678',name:'Max Müller (CEO)',status:'pending'},
+    {id:'2',phone:'+49 89 987 6543',name:'Anna Schmidt',status:'called'},
+    {id:'3',phone:'+49 40 111 2222',name:'',status:'calling'},
+    {id:'4',phone:'+49 30 333 4444',name:'Tom Bauer',status:'failed'},
+    {id:'5',phone:'+49 221 555 6666',name:'',status:'pending'}
+  ],
+  hiring:[
+    {id:'1',phone:'+49 171 888 1111',name:'Thomas Richter',status:'called'},
+    {id:'2',phone:'+49 89 777 2222',name:'Sabine Hofer',status:'failed'},
+    {id:'3',phone:'+49 30 666 3333',name:'Felix Wagner',status:'calling'},
+    {id:'4',phone:'+49 40 555 4444',name:'Lars Bremer',status:'pending'},
+    {id:'5',phone:'+49 221 444 5555',name:'Maria Zimmermann',status:'pending'}
+  ],
+  secretary:[
+    {id:'1',phone:'+49 172 888 3321',name:'Thomas Fischer',status:'called'},
+    {id:'2',phone:'+49 89 777 1122',name:'Unbekannt',status:'called'},
+    {id:'3',phone:'+49 30 555 9988',name:'Hans Bauer',status:'called'},
+    {id:'4',phone:'+49 211 333 7766',name:'Andrea Weber',status:'called'},
+    {id:'5',phone:'+49 40 111 4455',name:'Unbekannt',status:'called'}
+  ]
+};
+
+let lang='de', calOn=true, days=['Mo','Di','Mi','Do','Fr'];
+let sc='trial', persona='leadgen';
+let demoLeads=JSON.parse(JSON.stringify(PERSONA_LEADS.leadgen));
+let nextId=6;
+
+const T={
+  de:{used:'Verbraucht',rem:'Verbleibend',tot:'Gesamt',min:'min',
+    totalCalls:'Anrufe gesamt',avgDur:'Ø Dauer',sr:'Erfolgsrate',usedMin:'Minuten',month:'Diesen Monat',
+    calActive:'Agent aktiv',calInactive:'Agent pausiert',calDesc:'Startet automatische Anrufkampagnen',
+    tz:'Zeitzone',from:'Von / Bis',daysLbl:'Aktive Tage',save:'Gespeichert',
+    numbers:'RUFNUMMERN',outbound:'Ausgehend',inbound:'Eingehend',
+    tabM:'Manuell',tabC:'CSV',
+    phonePh:'+49 171 555 1234',namePh:'Name (optional)',addBtn:'Hinzufügen',
+    csvDrop:'CSV hier ablegen oder klicken',csvSub:'Automatische Spaltenerkennung',
+    stPending:'Ausstehend',stCalling:'Wird angerufen',stCalled:'Angerufen',stFailed:'Fehler',stDnc:'Nicht anrufen',
+    upsell:'KONTINGENT AUFSTOCKEN',rec:'Empfohlen',once:'Einmalzahlung · sofort verfügbar',buy:'→ Jetzt kaufen',
+    upgradeText:'Upgrade auf Professional',upgradeSub:'2.000 Anrufe/Monat · CRM · SMS',upgradeBtn:'Gespräch vereinbaren →',
+    calls:'LETZTE ANRUFE',cDate:'Datum',cTime:'Zeit',cDur:'Dauer',cStat:'Status',
+    sum:'Zusammenfassung',tr:'Transkript',detailSum:'KI-Analyse',
+    winsTitle:'DIESEN MONAT',
+    qualified:'Qualifizierte Leads',hot:'Kaufbereite Prospects',hours:'Stunden Akquise',
+    hotTitle:'TOP PROSPECTS',hotSub:(n)=>`${n} Leads mit hohem Interesse`,
+    sentLbl:'Sentiment',voicemailLbl:'Mailbox',positiv:'Positiv',negativ:'Negativ',neutral:'Neutral',
+    roiTitle:'ROI SCHÄTZUNG',roiSub:(n,r)=>`Basis: ${n} Anrufe · ${r}% Abschlussrate`,
+    avgDeal:'Ø Dealwert (€)',closeRateLabel:'Abschlussrate (%)',
+    integTitle:'ZUSÄTZLICHE INTEGRATIONEN AUF ANFRAGE',
+    integCRM:'CRM-Automatisierungen (10 Flows)',integSMS:'SMS-Nachverfolgung',integSlack:'Slack-Benachrichtigungen',
+    integCal:'Kalender-Buchung',integWebhook:'Webhook-Anbindung',integCustom:'Individuelle Skripte & Prompts',
+    integNote:'Alle Integrationen werden auf Anfrage eingerichtet. Kontaktiere uns nach dem Kauf.',
+    personaName:'Agentenname',agentT:'AGENT ANPASSEN',
+    coN:'Unternehmensname',ind:'Zielbranche / Branche',role:'Zielgruppe / Ansprechpartner',
+    useCase:'Anwendungsfall',ucLeads:'Leads qualifizieren',ucEmployees:'Bewerber vorqualifizieren',ucPurchasing:'Eingehende Anrufe / Sekretariat',
+    companyCtx:'Unternehmenskontext & Anweisungen',
+    customInstr:'Vollständige Anweisungen',objHandling:'Einwandbehandlung',
+    escalation:'Übergabe-Auslöser',escalationNote:'Coming soon — nächste Integrationsphase.',
+    proOnly:'Pro',plan:'Plan',renewal:'Verlängerung',lang:'EN',
+    status:{trial:'Trial',active:'Aktiv',suspended:'Gesperrt'},
+    renewMsg:(d)=>`Kontingent wird am ${d} zurückgesetzt.`,
+    upsellStat:`Bei deinem aktuellen Tempo reicht das Kontingent noch ca. <strong style='color:var(--white)'>5 Tage</strong>.`,
+    ds:['Mo','Di','Mi','Do','Fr','Sa','So'],dk:['Mo','Di','Mi','Do','Fr','Sa','So'],
+    susp:'AGENT PAUSIERT',suspSub:'Minutenkontingent erschöpft.',
+    inT:'Eingehend',outT:'Ausgehend',lCount:(p,t)=>`${p} ausstehend · ${t} gesamt`,noLeads:'Keine Einträge.'},
+  en:{used:'Used',rem:'Remaining',tot:'Total',min:'min',
+    totalCalls:'Total calls',avgDur:'Avg duration',sr:'Success rate',usedMin:'Minutes',month:'This month',
+    calActive:'Agent active',calInactive:'Agent paused',calDesc:'Start and stop automated calling campaigns',
+    tz:'Timezone',from:'From / To',daysLbl:'Active days',save:'Saved',
+    numbers:'PHONE NUMBERS',outbound:'Outbound',inbound:'Inbound',
+    tabM:'Manual',tabC:'CSV',
+    phonePh:'+49 171 555 1234',namePh:'Name (optional)',addBtn:'Add',
+    csvDrop:'Drop CSV here or click',csvSub:'Automatic column detection',
+    stPending:'Pending',stCalling:'Calling',stCalled:'Called',stFailed:'Failed',stDnc:'Do not call',
+    upsell:'TOP UP MINUTES',rec:'Recommended',once:'One-time · instant activation',buy:'→ Buy now',
+    upgradeText:'Upgrade to Professional',upgradeSub:'2,000 calls/mo · CRM · SMS',upgradeBtn:'Book a call →',
+    calls:'RECENT CALLS',cDate:'Date',cTime:'Time',cDur:'Duration',cStat:'Status',
+    sum:'Summary',tr:'Transcript',detailSum:'AI Analysis',
+    winsTitle:'THIS MONTH',
+    qualified:'Qualified leads',hot:'Hot prospects',hours:'Hours outreach',
+    hotTitle:'TOP PROSPECTS',hotSub:(n)=>`${n} high-intent leads`,
+    sentLbl:'Sentiment',voicemailLbl:'Voicemail',positiv:'Positive',negativ:'Negative',neutral:'Neutral',
+    roiTitle:'ROI ESTIMATE',roiSub:(n,r)=>`Based on ${n} calls · ${r}% close rate`,
+    avgDeal:'Avg deal value (€)',closeRateLabel:'Close rate (%)',
+    integTitle:'ADDITIONAL INTEGRATIONS ON DEMAND',
+    integCRM:'CRM automations (10 flows)',integSMS:'SMS follow-up',integSlack:'Slack notifications',
+    integCal:'Calendar booking',integWebhook:'Webhook connectivity',integCustom:'Custom scripts & prompts',
+    integNote:'All integrations are set up on request. Contact us after purchase.',
+    personaName:'Agent name',agentT:'CUSTOMISE AGENT',
+    coN:'Company name',ind:'Target industry',role:'Target audience / contact role',
+    useCase:'Use case',ucLeads:'Qualifying leads',ucEmployees:'Qualifying candidates',ucPurchasing:'Inbound calls / secretary',
+    companyCtx:'Company context & instructions',
+    customInstr:'Full instructions',objHandling:'Objection handling',
+    escalation:'Escalation trigger',escalationNote:'Coming soon — next integration phase.',
+    proOnly:'Pro',plan:'Plan',renewal:'Renewal',lang:'DE',
+    status:{trial:'Trial',active:'Active',suspended:'Suspended'},
+    renewMsg:(d)=>`Allocation resets on ${d}.`,
+    upsellStat:`At your current pace the allocation will last approx. <strong style='color:var(--white)'>5 more days</strong>.`,
+    ds:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],dk:['Mo','Di','Mi','Do','Fr','Sa','So'],
+    susp:'AGENT SUSPENDED',suspSub:'Minute allocation exhausted.',
+    inT:'Inbound',outT:'Outbound',lCount:(p,t)=>`${p} pending · ${t} total`,noLeads:'No entries.'}
+};
+const tr=()=>T[lang];
+
+function toast(msg,type='success'){const el=document.getElementById('toast');el.textContent=msg;el.className='toast '+type+' show';setTimeout(()=>el.className='toast',2600);}
+function gauge(pct){const r=48,c=2*Math.PI*r,fill=Math.min(pct/100,1)*c,col=pct>=100?'#EF4444':pct>=80?'#F59E0B':'#3ECF8E';return`<svg width="112" height="112" viewBox="0 0 112 112"><circle cx="56" cy="56" r="48" fill="none" stroke="#1C1C1F" stroke-width="8"/><circle cx="56" cy="56" r="48" fill="none" stroke="${col}" stroke-width="8" stroke-dasharray="${fill.toFixed(1)} ${c.toFixed(1)}" stroke-linecap="round"/></svg>`;}
+
+window.toggleDay=function(d,btn){const i=days.indexOf(d);if(i===-1){days.push(d);btn.classList.add('on');}else{days.splice(i,1);btn.classList.remove('on');}};
+window.toggleExp=function(id){const r=document.getElementById('ex'+id);const c=document.getElementById('ec'+id);if(!r)return;const o=r.style.display==='table-row';r.style.display=o?'none':'table-row';if(c)c.className='caret'+(o?'':' open');};
+window.switchTab=function(tab){document.querySelectorAll('.leads-tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));document.querySelectorAll('.leads-tab-panel').forEach(p=>p.classList.toggle('active',p.dataset.panel===tab));};
+window.addDemoLead=function(){const p=document.getElementById('dp');const n=document.getElementById('dn');if(!p||!p.value.trim())return;demoLeads.unshift({id:String(nextId++),phone:p.value.trim(),name:n?.value.trim()||'',status:'pending'});p.value='';if(n)n.value='';renderLeadsList();toast(lang==='de'?'Eintrag hinzugefügt':'Entry added');};
+window.delDemoLead=function(id){demoLeads=demoLeads.filter(l=>l.id!==id);renderLeadsList();};
+window.demoLaunch=function(){const pending=demoLeads.filter(l=>l.status==='pending');if(!pending.length)return;pending.forEach(l=>l.status='calling');renderLeadsList();const p=PERSONAS[persona];const btn=lang==='de'?p.launchBtn.de:p.launchBtn.en;toast(`${btn} — ${pending.length} ${lang==='de'?'Einträge':'entries'}`);setTimeout(()=>{demoLeads.filter(l=>l.status==='calling').forEach(l=>l.status='called');renderLeadsList();},3000);};
+window.demoSave=function(){toast(lang==='de'?'Gespeichert':'Saved');};
+window.demoToast=function(){toast(lang==='de'?'Demo-Modus aktiv':'Demo mode active');};
+window.toggleLang=function(){lang=lang==='de'?'en':'de';render();};
+window.loadSc=function(s,btn){sc=s;document.querySelectorAll('.sc-btn').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');else{const el=document.getElementById('sc-'+s);if(el)el.classList.add('active');}render();};
+window.loadPersona=function(p){
+  persona=p;demoLeads=JSON.parse(JSON.stringify(PERSONA_LEADS[p]));nextId=6;
+  document.querySelectorAll('.persona-btn').forEach(b=>{b.className='persona-btn';});
+  const pb=PERSONAS[p];document.getElementById('btn-'+p).classList.add(pb.btnActive);
+  render();
+};
+window.demoCSV=function(){
+  const mock=[
+    {id:String(nextId++),phone:'+49 171 999 0001',name:'Klaus Weber',status:'pending'},
+    {id:String(nextId++),phone:'+49 89 888 7777',name:'Lisa Braun',status:'pending'},
+    {id:String(nextId++),phone:'+49 30 777 6666',name:'',status:'pending'},
+    {id:String(nextId++),phone:'+49 221 555 4444',name:'Hans Gruber',status:'pending'},
+    {id:String(nextId++),phone:'+49 40 333 2222',name:'',status:'pending'}
+  ];demoLeads=mock.concat(demoLeads);renderLeadsList();toast(lang==='de'?'5 Einträge aus CSV importiert':'5 entries imported from CSV');
+};
+
+function renderLeadsList(){
+  const t=tr();const p=PERSONAS[persona];
+  const stL={pending:t.stPending,calling:t.stCalling,called:t.stCalled,failed:t.stFailed,do_not_call:t.stDnc};
+  const stC={pending:'lst-pending',calling:'lst-calling',called:'lst-called',failed:'lst-failed'};
+  const pending=demoLeads.filter(l=>l.status==='pending').length;
+  document.querySelectorAll('.leads-count-el').forEach(el=>el.textContent=t.lCount(pending,demoLeads.length));
+  const list=document.getElementById('leads-list');if(!list)return;
+  const btn=document.getElementById('launch-btn');if(btn)btn.disabled=pending===0;
+  if(!demoLeads.length){list.innerHTML=`<div class="no-leads">${t.noLeads}</div>`;return;}
+  list.innerHTML=demoLeads.map(l=>`<div class="lead-row"><span class="lead-num">${l.phone}</span>${l.name?`<span class="lead-name">${l.name}</span>`:''}<span class="lead-st ${stC[l.status]||'lst-pending'}">${stL[l.status]||l.status}</span>${l.status==='pending'?`<button class="del-btn" onclick="delDemoLead('${l.id}')">×</button>`:''}</div>`).join('');
+}
+
+function render(){
+  const t=tr();const p=PERSONAS[persona];const s=p.scenarios[sc];
+  const pct=Math.round(s.used/s.total*100);const rem=Math.max(0,s.total-s.used);
+  const gc=pct>=100?'#EF4444':pct>=80?'#F59E0B':'#3ECF8E';
+  const bc=pct>=100?'background:var(--red)':pct>=80?'background:var(--amber)':'background:var(--green)';
+  const tier={starter:'Starter',professional:'Professional'}[s.tier]||s.tier;
+  const isPro=s.tier==='professional';
+  const CALLS_DATA=p.calls;
+  const scoreLabel=lang==='de'?p.scoreLabel.de:p.scoreLabel.en;
+  const callsHeader=lang==='de'?p.callsHeader.de:p.callsHeader.en;
+  const leadsListTitle=lang==='de'?p.leadsListTitle.de:p.leadsListTitle.en;
+  const launchBtnTxt=lang==='de'?p.launchBtn.de:p.launchBtn.en;
+  const campaignLabel=lang==='de'?p.campaignLabel.de:p.campaignLabel.en;
+  const ag=p.agent;
+  const qualCount=CALLS_DATA.filter(c=>c.score>=60).length;
+  const hotCount=CALLS_DATA.filter(c=>c.score>=80).length;
+  const hotCalls=CALLS_DATA.filter(c=>c.score>=75).slice(0,3);
+  const sentPos=isPro?CALLS_DATA.filter(c=>c.sentiment==='positive').length:0;
+  const sentNeg=isPro?CALLS_DATA.filter(c=>c.sentiment==='negative').length:0;
+  const sentNeu=isPro?CALLS_DATA.filter(c=>c.sentiment==='neutral').length:0;
+  const projRevenue=isPro?Math.round(s.calls*0.015*2000):0;
+  const showOv=s.status!=='trial';
+  const pending=demoLeads.filter(l=>l.status==='pending').length;
+  const stL={pending:t.stPending,calling:t.stCalling,called:t.stCalled,failed:t.stFailed,do_not_call:t.stDnc};
+  const stC={pending:'lst-pending',calling:'lst-calling',called:'lst-called',failed:'lst-failed'};
+  const leadsHTML=demoLeads.length?demoLeads.map(l=>`<div class="lead-row"><span class="lead-num">${l.phone}</span>${l.name?`<span class="lead-name">${l.name}</span>`:''}<span class="lead-st ${stC[l.status]||'lst-pending'}">${stL[l.status]||l.status}</span>${l.status==='pending'?`<button class="del-btn" onclick="delDemoLead('${l.id}')">×</button>`:''}</div>`).join(''):`<div class="no-leads">${t.noLeads}</div>`;
+  const callRows=CALLS_DATA.map((c,i)=>`<tr class="cr" onclick="toggleExp(${i})"><td class="tm">${c.date}</td><td class="tm">${c.time}</td><td class="tn">${c.name||c.to}</td><td class="tn">${c.dur}</td><td><span class="${c.score>=60?'st-ok':'st-fail'}">${c.score>=1?'OK':'—'}</span></td><td style="display:flex;align-items:center;gap:5px">${c.cls?`<span class="${c.cls}">${c.score}</span>`:''}<span class="caret" id="ec${i}">▶</span></td></tr><tr class="exp-row" id="ex${i}" style="display:none"><td colspan="6"><div class="exp-in">${isPro&&(c.sentiment||c.vm)?`<div class="call-meta">${c.sentiment==='positive'?`<span class="cm-pill cm-pos">▲ ${t.positiv}</span>`:c.sentiment==='negative'?`<span class="cm-pill cm-neg">▼ ${t.negativ}</span>`:`<span class="cm-pill cm-neu">— ${t.neutral}</span>`}${c.vm?`<span class="cm-pill cm-vm">${t.voicemailLbl}</span>`:''}</div>`:''}<div class="egrid">${isPro&&c.det?`<div><div class="elbl">${t.detailSum}</div><div class="ebox">${c.det}</div></div>`:''}<div><div class="elbl">${t.sum}</div><div class="ebox">${c.sum}</div></div><div><div class="elbl">${t.tr}</div><div class="ebox" style="font-family:var(--mono);font-size:10px;max-height:110px;overflow-y:auto;white-space:pre-wrap">${c.tr}</div></div></div></div></td></tr>`).join('');
+  const daysHTML=t.ds.map((d,i)=>`<button class="day-btn ${days.includes(t.dk[i])?'on':''}" onclick="toggleDay('${t.dk[i]}',this)">${d}</button>`).join('');
+
+  // Persona banner colors
+  const pbStyle=`background:${p.color}14;border-color:${p.color}30`;
+  const pNameDE=lang==='de'?p.nameDE:p.nameEN;
+  const pDescDE=lang==='de'?p.descDE:p.descEN;
+
+  document.getElementById('dash').innerHTML=`
+<div class="persona-banner fi-anim" style="${pbStyle}">
+  <div class="pb-dot" style="background:${p.color}"></div>
+  <div class="pb-text">
+    <span class="pb-name" style="color:${p.color}">${pNameDE}</span>
+    <span class="pb-desc">${pDescDE}</span>
+  </div>
+</div>
+<div class="topbar fi-anim">
+  <div class="tb-left"><div class="brand-icon"><span>24/7</span></div><span class="brand-name">24/7 PROJECT</span></div>
+  <div class="tb-right"><span class="co-name">${s.company}</span><span class="status-pill sp-${s.status}">${t.status[s.status]||s.status}</span><button class="lang-btn" onclick="toggleLang()">${t.lang}</button></div>
+</div>
+${s.status==='suspended'?`<div class="sus fi-anim"><div class="sus-text"><strong>${t.susp}</strong>${t.suspSub}</div><button class="btn btn-org" style="width:auto;white-space:nowrap;padding:9px 16px" onclick="demoToast()">${t.buy}</button></div>`:''}
+<div class="card fi-anim"><div class="gauge-inner">
+  <div class="gauge-wrap" style="transform:rotate(-90deg) translateZ(0)">${gauge(pct)}<div class="gc" style="transform:rotate(90deg)"><span class="gp" style="color:${gc}">${pct}%</span><span class="gl">${t.used.toLowerCase()}</span></div></div>
+  <div class="gr">
+    <div class="plan-badge"><span class="pd"></span>${tier}</div>
+    <div class="stats-row">
+      <div class="stat-b"><div class="stat-l">${t.used}</div><div class="stat-v" style="color:var(--white)">${s.used.toLocaleString('de-DE')}<span class="stat-u">${t.min}</span></div></div>
+      <div class="stat-b"><div class="stat-l">${t.rem}</div><div class="stat-v" style="color:var(--green)">${rem.toLocaleString('de-DE')}<span class="stat-u">${t.min}</span></div></div>
+      <div class="stat-b"><div class="stat-l">${t.tot}</div><div class="stat-v" style="color:var(--white)">${s.total.toLocaleString('de-DE')}<span class="stat-u">${t.min}</span></div></div>
+    </div>
+    <div class="prog-wrap"><div class="prog-track"><div class="prog-fill" style="width:${pct}%;${bc}"></div></div><div class="rn"><span style="color:var(--green)">↻</span><span>${t.renewMsg(s.renewal)}</span></div></div>
+  </div>
+</div></div>
+<div class="an-row fi-anim">
+  <div class="an"><div class="al">${t.totalCalls}</div><div class="av">${s.calls}</div><div class="as">${t.month}</div></div>
+  <div class="an"><div class="al">${t.avgDur}</div><div class="av">${s.avgDur}</div><div class="as">${t.month}</div></div>
+  <div class="an"><div class="al">${t.sr}</div><div class="av" style="color:${s.sr>=60?'var(--green)':s.sr>=40?'var(--amber)':'var(--red)'}">${s.sr}%</div><div class="as">${t.month}</div></div>
+  <div class="an"><div class="al">${t.usedMin}</div><div class="av">${s.used.toLocaleString('de-DE')}</div><div class="as">${t.month}</div></div>
+</div>
+${s.calls>0?`<div class="wins-strip fi-anim">
+  <div class="win-tile"><div class="win-num acc">${qualCount}</div><div class="win-lbl">${t.qualified}</div></div>
+  <div class="win-tile"><div class="win-num acc">${hotCount}</div><div class="win-lbl">${t.hot}</div></div>
+  <div class="win-tile"><div class="win-num">${Math.round(s.used/60*10)/10}</div><div class="win-lbl">${t.hours}</div></div>
+  <div class="win-tile"><div class="win-num">${s.sr}%</div><div class="win-lbl">${t.sr}</div></div>
+</div>`:''}
+${hotCalls.length>0?`<div class="hot-card fi-anim">
+  <div class="hot-header"><span class="hot-title">${t.hotTitle}</span><span class="hot-count">${t.hotSub(hotCalls.length)}</span></div>
+  <div class="hot-body">${hotCalls.map(hc=>`<div class="hot-row"><span class="ls-h">${hc.score}</span><span class="hot-name">${hc.name||hc.to}</span><span class="hot-sum">${hc.sum}</span></div>`).join('')}</div>
+</div>`:''}
+<div class="card fi-anim">
+  <div class="ch"><span class="ct">${campaignLabel}</span><span id="cal-status" style="font-family:var(--mono);font-size:10px;color:${calOn?'var(--green)':'var(--dim)'}">${calOn?'● '+t.calActive:'○ '+t.calInactive}</span></div>
+  <div class="calling-g">
+    <div class="fg">
+      <div class="toggle-row"><div><div class="tl">${t.calActive}</div><div class="tsub">${t.calDesc}</div></div><label class="toggle-sw"><input type="checkbox" ${calOn?'checked':''} onchange="calOn=this.checked;document.getElementById('cal-status').innerHTML=(calOn?'● ${t.calActive}':'○ ${t.calInactive}');document.getElementById('cal-status').style.color=(calOn?'var(--green)':'var(--dim)')"><span class="track"></span></label></div>
+      <div><div class="fl">${t.tz}</div><select class="fi"><option>Europe/Berlin</option><option>Europe/Vienna</option><option>Europe/Zurich</option></select></div>
+      <div><div class="fl">${t.from}</div><div style="display:flex;align-items:center;gap:6px"><input type="time" class="fi" value="09:00" style="flex:1"><span style="color:var(--dim);font-size:11px">—</span><input type="time" class="fi" value="17:00" style="flex:1"></div></div>
+    </div>
+    <div class="fg">
+      <div><div class="fl">${t.daysLbl}</div><div class="days-row">${daysHTML}</div></div>
+      <button class="save-btn" onclick="demoSave()">${lang==='de'?'Speichern':'Save'}</button>
+    </div>
+  </div>
+</div>
+<div class="card fi-anim"><div class="ch"><span class="ct">${t.numbers}</span></div>
+  <div class="number-row"><div><div class="number-val">${s.phone}</div><div class="number-type">${persona==='secretary'?t.inbound:t.outbound}</div></div><span class="number-badge">OK</span></div>
+</div>
+<div class="card fi-anim">
+  <div class="ch"><span class="ct">${leadsListTitle}</span><span class="leads-count-el" style="font-family:var(--mono);font-size:10px;color:var(--muted)">${t.lCount(pending,demoLeads.length)}</span></div>
+  <div class="leads-tabs">
+    <button class="leads-tab active" data-tab="m" onclick="switchTab('m')">${t.tabM}</button>
+    <button class="leads-tab" data-tab="c" onclick="switchTab('c')">${t.tabC}</button>
+  </div>
+  <div class="leads-tab-panel active" data-panel="m" style="padding:16px">
+    <div class="leads-input-row">
+      <input type="tel" class="fi" id="dp" placeholder="${t.phonePh}" style="flex:2;min-width:0" onkeydown="if(event.key==='Enter')addDemoLead()">
+      <input type="text" class="fi" id="dn" placeholder="${t.namePh}" style="flex:1;min-width:0" onkeydown="if(event.key==='Enter')addDemoLead()">
+      <button class="add-btn" onclick="addDemoLead()">${t.addBtn}</button>
+    </div>
+  </div>
+  <div class="leads-tab-panel" data-panel="c" style="padding:16px">
+    <div class="csv-drop" onclick="demoCSV()">
+      <div class="csv-drop-text"><strong>${t.csvDrop}</strong>${t.csvSub}</div>
+    </div>
+  </div>
+  <div class="leads-list" id="leads-list">${leadsHTML}</div>
+  <div class="leads-footer">
+    <span class="leads-count-el" style="font-family:var(--mono);font-size:10px;color:var(--muted)">${t.lCount(pending,demoLeads.length)}</span>
+    <button class="launch-btn" id="launch-btn" onclick="demoLaunch()" ${pending===0?'disabled':''}>${launchBtnTxt}</button>
+  </div>
+</div>
+${showOv?`<div class="upsell-card fi-anim"><div class="upsell-header">${t.upsell}</div><div class="upsell-body"><p class="upsell-stat">${t.upsellStat}</p><div class="up-pkgs"><div class="up-pkg"><div class="up-amt">+1.000 min</div><div class="up-desc">${t.once}</div><button class="btn btn-out" onclick="demoToast()">${t.buy}</button></div><div class="up-pkg feat"><div class="up-tag">${t.rec}</div><div class="up-amt">+5.000 min</div><div class="up-desc">${t.once}</div><button class="btn btn-org" onclick="demoToast()">${t.buy}</button></div></div></div>${s.tier==='starter'?`<div class="uu"><div class="uu-text"><strong>${t.upgradeText}</strong>${t.upgradeSub}</div><button class="uu-btn" onclick="demoToast()">${t.upgradeBtn}</button></div>`:''}</div>`:''}
+<div class="card fi-anim">
+  <div class="ch"><span class="ct">${t.calls}</span></div>
+  <table class="ctable"><thead><tr><th>${t.cDate}</th><th>${t.cTime}</th><th>${callsHeader}</th><th>${t.cDur}</th><th>${t.cStat}</th><th>${scoreLabel}</th></tr></thead><tbody>${callRows}</tbody></table>
+</div>
+${isPro?`<div class="card fi-anim">
+  <div class="ch"><span class="ct">${t.sentLbl} <span class="pro-badge">${t.proOnly}</span></span></div>
+  <div class="an-row" style="grid-template-columns:repeat(3,1fr);margin:0 0 12px">
+    <div class="an"><div class="al">${t.positiv}</div><div class="av" style="color:var(--green)">${sentPos}</div><div class="as">${t.month}</div></div>
+    <div class="an"><div class="al">${t.neutral}</div><div class="av">${sentNeu}</div><div class="as">${t.month}</div></div>
+    <div class="an"><div class="al">${t.negativ}</div><div class="av" style="color:var(--red)">${sentNeg}</div><div class="as">${t.month}</div></div>
+  </div>
+  <div style="padding:0 16px 14px;display:flex;gap:3px;height:6px">
+    <div style="flex:${sentPos||1};background:var(--green);border-radius:2px 0 0 2px"></div>
+    <div style="flex:${sentNeu||1};background:var(--dim)"></div>
+    <div style="flex:${sentNeg||1};background:var(--red);border-radius:0 2px 2px 0"></div>
+  </div>
+</div>
+<div class="roi-card fi-anim">
+  <div class="roi-header"><span class="roi-title">${t.roiTitle}</span><span class="pro-badge">${t.proOnly}</span></div>
+  <div class="roi-body">
+    <div class="roi-figure">€${projRevenue.toLocaleString('de-DE')}</div>
+    <div class="roi-sub">${t.roiSub(s.calls,'1.5')}</div>
+    <div class="roi-inputs">
+      <div><div class="roi-input-label">${t.avgDeal}</div><input class="fi" type="number" value="2000" onclick="demoToast()" style="text-align:right"></div>
+      <div><div class="roi-input-label">${t.closeRateLabel}</div><input class="fi" type="number" value="1.5" onclick="demoToast()" style="text-align:right"></div>
+    </div>
+  </div>
+</div>
+<div class="integ-card fi-anim">
+  <div class="integ-header"><span class="integ-title">${t.integTitle}</span><span class="pro-badge">${t.proOnly}</span></div>
+  <div class="integ-body">
+    <div class="integ-grid">
+      <div class="integ-item"><span class="integ-dot"></span><span>${t.integCRM}</span></div>
+      <div class="integ-item"><span class="integ-dot"></span><span>${t.integSMS}</span></div>
+      <div class="integ-item"><span class="integ-dot"></span><span>${t.integSlack}</span></div>
+      <div class="integ-item"><span class="integ-dot"></span><span>${t.integCal}</span></div>
+      <div class="integ-item"><span class="integ-dot"></span><span>${t.integWebhook}</span></div>
+      <div class="integ-item"><span class="integ-dot"></span><span>${t.integCustom}</span></div>
+    </div>
+    <p class="integ-note">${t.integNote}</p>
+  </div>
+</div>`:``}
+<div class="card fi-anim">
+  <div class="ch"><span class="ct">${t.agentT}</span></div>
+  <div class="sg">
+    <div><div class="fl">${t.coN}</div><input class="fi" value="${ag.company}"></div>
+    <div><div class="fl">${t.ind}</div><input class="fi" value="${ag.industry}"></div>
+    <div><div class="fl">${t.role}</div><input class="fi" value="${ag.role}"></div>
+    ${!isPro
+      ?`<div><div class="fl">${t.useCase}</div><select class="fi"><option value="qualifying_leads" ${ag.useCase==='qualifying_leads'?'selected':''}>${t.ucLeads}</option><option value="qualifying_employees" ${ag.useCase==='qualifying_employees'?'selected':''}>${t.ucEmployees}</option><option value="purchasing" ${ag.useCase==='purchasing'?'selected':''}>${t.ucPurchasing}</option></select></div>
+      <div class="sg-full"><div class="fl">${t.companyCtx}</div><textarea class="fi" rows="4" style="resize:vertical;line-height:1.6;font-size:13px">${ag.context}</textarea></div>`
+      :`<div><div class="fl">${t.personaName}</div><input class="fi" value="${ag.personaName}"></div>
+      <div class="sg-full"><div class="fl">${t.customInstr}</div><textarea class="fi" rows="5" style="resize:vertical;line-height:1.6;font-size:13px">${ag.prompt}</textarea></div>
+      <div class="sg-full"><div class="fl">${t.objHandling}</div><textarea class="fi" rows="3" style="resize:vertical;line-height:1.6;font-size:13px">${ag.obj}</textarea></div>
+      <div class="sg-full coming-soon-f"><div class="fl">${t.escalation} <span class="cs-badge">Coming soon</span></div><textarea class="fi" rows="2" style="resize:none;line-height:1.6;font-size:13px" placeholder="${t.escalationNote}"></textarea></div>`}
+    <div style="display:flex;flex-direction:column;justify-content:flex-end;gap:8px"><button class="save-btn" onclick="demoSave()">${lang==='de'?'Speichern':'Save'}</button></div>
+  </div>
+</div>
+<div class="info-row fi-anim">
+  <div class="ic"><div class="icl">${t.plan}</div><div class="icv">${tier}</div><div class="ics">${s.total.toLocaleString('de-DE')} ${t.min} / Monat</div></div>
+  <div class="ic"><div class="icl">${t.renewal}</div><div class="icv">${s.renewal}</div><div class="ics">Digistore24 · Stripe</div></div>
+</div>`;
+}
+
+// Init from URL param
+const urlP=new URLSearchParams(window.location.search).get('demo');
+if(urlP&&PERSONAS[urlP])persona=urlP;
+document.getElementById('btn-'+persona).classList.add(PERSONAS[persona].btnActive);
+render();
+</script>
+</body>
+</html>

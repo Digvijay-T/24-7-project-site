@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top Up 5.000 Minuten | 24/7 PROJECT</title>
+    <meta name="description" content="Top Up 5.000 Minuten für deinen 24/7 Project Voice Agent. Sofortige Aktivierung. €1.100 Einmalzahlung.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root{--black:#09090B;--white:#FAFAFA;--gray-400:#A1A1AA;--gray-500:#71717A;--gray-600:#52525B;--gray-800:#27272A;--gray-900:#18181B;--accent:#60F0A0;--blue:#60A5FA;--font-display:'Dela Gothic One',sans-serif;--font-body:'DM Sans',sans-serif;--font-mono:'JetBrains Mono',monospace}
+        *{margin:0;padding:0;box-sizing:border-box}
+        html{background:var(--black);overflow-x:hidden}
+        body{font-family:var(--font-body);color:var(--white);background:var(--black);max-width:860px;margin:0 auto;padding:0 32px 80px}
+        ::selection{background:var(--accent);color:var(--black)}
+        .sp-nav{display:flex;align-items:center;justify-content:space-between;padding:28px 0 48px;border-bottom:1px solid var(--gray-800);margin-bottom:64px}
+        .sp-back{font-family:var(--font-mono);font-size:11px;letter-spacing:2px;color:var(--gray-500);text-decoration:none;transition:color .2s}
+        .sp-back:hover{color:var(--accent)}
+        .sp-logo{font-family:var(--font-mono);font-weight:700;font-size:14px;letter-spacing:2px;color:var(--accent)}
+        .sp-eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gray-500);margin-bottom:16px}
+        .sp-title{font-family:var(--font-display);font-size:clamp(32px,5vw,52px);line-height:1.1;margin-bottom:20px}
+        .accent{color:var(--accent)}
+        .sp-badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:5px 12px;border-radius:2px;margin-bottom:32px;background:rgba(96,165,250,0.1);color:var(--blue);border:1px solid rgba(96,165,250,0.2)}
+        .sp-price-block{margin-bottom:48px}
+        .sp-price-main{font-family:var(--font-display);font-size:clamp(42px,7vw,72px);color:var(--white);line-height:1}
+        .sp-price-period{font-family:var(--font-mono);font-size:13px;color:var(--gray-500);margin-top:8px}
+        .sp-price-saving{font-family:var(--font-mono);font-size:11px;color:var(--accent);margin-top:6px}
+        .sp-section-label{font-family:var(--font-mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gray-600);margin-bottom:16px;margin-top:48px}
+        .sp-includes{list-style:none;border:1px solid var(--gray-800)}
+        .sp-includes li{padding:16px 20px;border-bottom:1px solid var(--gray-800);font-size:15px;color:var(--gray-400);display:flex;align-items:flex-start;gap:12px;line-height:1.5}
+        .sp-includes li:last-child{border-bottom:none}
+        .sp-includes li::before{content:'✓';color:var(--accent);font-family:var(--font-mono);font-size:12px;flex-shrink:0;margin-top:2px}
+        .sp-includes li strong{color:var(--white)}
+        .sp-box{margin-top:24px;padding:20px;border:1px solid var(--gray-800);background:var(--gray-900)}
+        .sp-box-title{font-family:var(--font-mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gray-600);margin-bottom:12px}
+        .sp-box p{font-size:13px;color:var(--gray-500);line-height:1.7}
+        .sp-box p+p{margin-top:8px}
+        .sp-cta-wrap{margin-top:48px}
+        .sp-cta{display:inline-flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--black);background:var(--blue);padding:18px 40px;text-decoration:none;transition:all .3s}
+        .sp-cta:hover{background:var(--white);transform:translateY(-2px);box-shadow:0 12px 40px rgba(96,165,250,0.25)}
+        .sp-cta-sub{font-family:var(--font-mono);font-size:11px;color:var(--gray-600);margin-top:12px}
+        .sp-footer{margin-top:80px;padding-top:32px;border-top:1px solid var(--gray-800);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+        .sp-footer-copy{font-family:var(--font-mono);font-size:11px;color:var(--gray-600)}
+        .sp-footer-links{display:flex;gap:24px}
+        .sp-footer-links a{font-family:var(--font-mono);font-size:11px;color:var(--gray-600);text-decoration:none;transition:color .2s}
+        .sp-footer-links a:hover{color:var(--accent)}
+
+        .sp-delivery{margin-top:48px;padding:20px;border:1px solid rgba(96,240,160,0.15);background:rgba(96,240,160,0.04)}
+        .sp-delivery-title{font-family:var(--font-mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+        .sp-delivery p{font-size:13px;color:var(--gray-400);line-height:1.7}
+        .sp-delivery p+p{margin-top:8px}
+        @media(max-width:600px){body{padding:0 20px 60px}.sp-nav{padding:20px 0 32px;margin-bottom:40px}.sp-footer{flex-direction:column;align-items:flex-start}}
+    </style>
+  <link rel="canonical" href="https://24-7-project.com/topup-5000.html">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="shortcut icon" href="/favicon.svg">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://24-7-project.com/topup-5000.html">
+  <meta property="og:title" content="Top Up 5.000 Minuten | 24/7 PROJECT">
+  <meta property="og:description" content="Zusätzliche 5.000 Gesprächsminuten — günstigster Minutenpreis. Sofortige Aktivierung. €1.100 Einmalzahlung.">
+  <meta property="og:image" content="https://24-7-project.com/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Top Up 5.000 Minuten | 24/7 PROJECT">
+  <meta name="twitter:description" content="Zusätzliche 5.000 Gesprächsminuten — günstigster Minutenpreis. Sofortige Aktivierung. €1.100 Einmalzahlung.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Top Up 5.000 Minuten",
+  "description": "5.000 zusätzliche Gesprächsminuten für deinen Voice Agent. €0,22/min — günstigster Preis aller Top-Up-Pakete. Sofortige Gutschrift.",
+  "brand": {"@type": "Brand", "name": "24/7 PROJECT"},
+  "offers": {
+    "@type": "Offer",
+    "price": "1100",
+    "priceCurrency": "EUR",
+    "availability": "https://schema.org/InStock",
+    "seller": {"@type": "Organization", "name": "24/7 PROJECT"}
+  }
+}
+</script>
+</head>
+<body>
+    <nav class="sp-nav">
+        <a href="https://24-7-project.com" class="sp-back">← Zurück</a>
+        <div class="sp-logo">24/7 PROJECT</div>
+    </nav>
+
+    <div class="sp-eyebrow">Digitales Guthaben · Einmalzahlung</div>
+    <h1 class="sp-title">Top Up<br><span class="accent">5.000 Minuten</span></h1>
+    <div class="sp-badge">● Einmalzahlung</div>
+
+    <p style="font-size:15px;color:var(--gray-400);line-height:1.7;margin-bottom:40px">Zusätzliche Anrufminuten in großem Volumen für deinen bestehenden 24/7 Project Voice Agent. Das Guthaben wird sofort nach Zahlungseingang deinem Konto gutgeschrieben — günstigster Minutenpreis aller verfügbaren Pakete.</p>
+
+    <div class="sp-price-block">
+        <div class="sp-price-main"><span class="accent">€1.100</span></div>
+        <div class="sp-price-period">Einmalzahlung · sofortige Aktivierung</div>
+        <div class="sp-price-saving">€0,22 pro Minute — günstigster Preis aller Top-Up-Pakete</div>
+    </div>
+
+    <div class="sp-section-label">Was du bekommst</div>
+    <ul class="sp-includes">
+        <li><strong>+5.000 Minuten werden sofort deinem Guthaben gutgeschrieben</strong></li>
+        <li>Entspricht ca. 1.667 Anrufen bei einer durchschnittlichen Gesprächsdauer von 3 Minuten</li>
+        <li>Kompatibel mit allen Tarifen: Starter, Professional und Enterprise</li>
+        <li>Minuten verfallen nicht innerhalb des laufenden Abrechnungsmonats</li>
+        <li>Günstigster Preis pro Minute aller verfügbaren Top-Up-Pakete</li>
+        <li>Nahtlose Integration in dein bestehendes Dashboard und deine aktiven Kampagnen</li>
+    </ul>
+
+    <div class="sp-box" style="margin-top:48px">
+        <div class="sp-box-title">Lieferung &amp; Aktivierung</div>
+        <p>Dieses Produkt ist ein digitales Minutenguthaben. Nach Zahlungseingang werden die 5.000 Minuten <strong style="color:var(--white)">sofort und automatisch</strong> deinem bestehenden Account gutgeschrieben. Du erhältst eine Bestätigungs-E-Mail und kannst die aktualisierten Minuten unmittelbar in deinem Dashboard sehen.</p>
+        <p>Kein Eingriff durch unser Team erforderlich — die Aktivierung erfolgt vollautomatisch.</p>
+    </div>
+
+    <div class="sp-box">
+        <div class="sp-box-title">Widerrufsrecht</div>
+        <p>Dieses Produkt ist ein digitales Guthaben, das unmittelbar nach Zahlungseingang aktiviert wird. Mit dem Kauf bestätigst du (über die entsprechende Checkbox im Bestellformular), dass du der sofortigen Ausführung der Dienstleistung zustimmst und damit auf dein Widerrufsrecht verzichtest.</p>
+        <p>Bei Fragen wende dich an <a href="mailto:technicaldepartment@24-7-project.com" style="color:var(--accent)">technicaldepartment@24-7-project.com</a> oder den Digistore24-Kundendienst.</p>
+    </div>
+
+    <div class="sp-cta-wrap">
+        <a href="https://www.digistore24.com/product/675789" class="sp-cta">Jetzt kaufen →</a>
+        <div class="sp-cta-sub">Digistore24-Bestellformular · Sofortige Aktivierung</div>
+    </div>
+
+    <footer class="sp-footer">
+        <div class="sp-footer-copy">© 2026 24/7 PROJECT</div>
+        <div class="sp-footer-links">
+            <a href="https://24-7-project.com">Startseite</a>
+            <a href="https://24-7-project.com/impressum.html">Impressum</a>
+        </div>
+    </footer>
+</body>
+</html>

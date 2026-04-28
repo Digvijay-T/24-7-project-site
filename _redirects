@@ -1,0 +1,16 @@
+# Fix www double redirect — one hop instead of two
+http://www.24-7-project.com/*  https://24-7-project.com/:splat  301!
+https://www.24-7-project.com/* https://24-7-project.com/:splat  301!
+
+# Extensionless URL support (so /impressum works same as /impressum.html)
+/impressum          /impressum.html     200
+/datenschutz        /datenschutz.html   200
+/eu-ai-act          /eu-ai-act.html     200
+/starter            /starter.html       200
+/professional       /professional.html  200
+/enterprise         /enterprise.html    200
+/receptionist       /receptionist.html  200
+/ki-kaltakquise     /ki-kaltakquise.html    200
+/ai-vertrieb-kosten /ai-vertrieb-kosten.html 200
+/ki-telefonagent    /ki-telefonagent.html   200
+/voice-ai-dsgvo     /voice-ai-dsgvo.html    200
