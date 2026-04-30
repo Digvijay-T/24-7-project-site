@@ -1,7 +1,4 @@
 # 24/7 PROJECT — robots.txt
-# Deploy this file AFTER disabling Cloudflare's managed AI bot blocking
-# (Security → Bots → AI Scrapers and Crawlers → Off)
-
 User-agent: *
 Allow: /
 Disallow: /dashboard/
