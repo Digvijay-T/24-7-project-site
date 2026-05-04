@@ -50,7 +50,7 @@ Build time: ~60 seconds after push
 - All pages have canonical tags, meta descriptions, OG/Twitter cards
 - SEO content pages have Article schema + FAQ schema where applicable
 - Product/checkout pages are `noindex, follow` — excluded from sitemap
-- AI crawlers (GPTBot, ClaudeBot, PerplexityBot, Google-Extended) explicitly allowed in robots.txt
+- AI crawlers (GPTBot, ClaudeBot, PerplexityBot, Google-Extended) explicitly allowed in robots.txt (not that it matters tbh)
 
 ---
 
