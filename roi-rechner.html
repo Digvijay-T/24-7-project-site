@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>24/7 PROJECT — ROI Calculator · Liane Schumann</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --black: #000000;
+    --surface: #0a0a0a;
+    --surface2: #111111;
+    --border: #1c1c1c;
+    --border2: #2a2a2a;
+    --green: #00e676;
+    --green-dim: rgba(0,230,118,0.08);
+    --green-mid: rgba(0,230,118,0.15);
+    --white: #f5f5f5;
+    --gray: #888888;
+    --gray2: #444444;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--sans);
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    height: 60px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: var(--white);
+    text-transform: uppercase;
+  }
+
+  .nav-right {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--gray);
+    letter-spacing: 1px;
+  }
+
+  .nav-right span { color: var(--green); }
+
+  /* HERO */
+  .hero {
+    padding: 80px 40px 60px;
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .hero-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--green);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  .hero h1 {
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--white);
+    margin-bottom: 16px;
+  }
+
+  .hero h1 em {
+    color: var(--green);
+    font-style: normal;
+  }
+
+  .hero-sub {
+    font-size: 16px;
+    color: var(--gray);
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* CALC WRAPPER */
+  .calc-wrapper {
+    max-width: 900px;
+    margin: 0 auto 80px;
+    padding: 0 40px;
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  /* INPUT PANEL */
+  .input-panel {
+    background: var(--surface);
+    padding: 40px;
+  }
+
+  .output-panel {
+    background: var(--surface2);
+    padding: 40px;
+  }
+
+  .panel-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--gray2);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+
+  /* INPUT GROUP */
+  .input-group {
+    margin-bottom: 28px;
+  }
+
+  .input-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 10px;
+  }
+
+  .input-name {
+    font-size: 13px;
+    color: var(--gray);
+  }
+
+  .input-name small {
+    display: block;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--gray2);
+    margin-top: 2px;
+  }
+
+  .input-val {
+    font-family: var(--mono);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green);
+  }
+
+  /* SLIDER */
+  input[type="range"] {
+    width: 100%;
+    height: 2px;
+    background: var(--border2);
+    outline: none;
+    border: none;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: 0;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    background: var(--green);
+    cursor: pointer;
+    border-radius: 0;
+    border: none;
+  }
+
+  input[type="range"]::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    background: var(--green);
+    cursor: pointer;
+    border-radius: 0;
+    border: none;
+  }
+
+  .slider-track {
+    position: relative;
+    padding: 8px 0;
+  }
+
+  .slider-range {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 4px;
+  }
+
+  .slider-min, .slider-max {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--gray2);
+  }
+
+  /* OUTPUT METRICS */
+  .metric {
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .metric:last-child { border-bottom: none; }
+
+  .metric-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--gray);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .metric-label small {
+    display: block;
+    font-size: 9px;
+    color: var(--gray2);
+    letter-spacing: 1px;
+    margin-top: 2px;
+  }
+
+  .metric-value {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--green);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .metric-value.white { color: var(--white); }
+  .metric-value.large { font-size: 48px; }
+
+  .metric-sub {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--gray2);
+    margin-top: 4px;
+  }
+
+  /* PLAN RECOMMENDATION */
+  .plan-rec {
+    background: var(--black);
+    border: 1px solid var(--border);
+    padding: 0;
+    margin-top: 1px;
+  }
+
+  .plan-rec-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+  }
+
+  .plan-col {
+    background: var(--surface);
+    padding: 28px 24px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .plan-col:hover { background: var(--surface2); }
+  .plan-col.recommended { background: var(--green-dim); }
+
+  .plan-col-name {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--gray);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .plan-col.recommended .plan-col-name { color: var(--green); }
+
+  .plan-price {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+
+  .plan-col.recommended .plan-price { color: var(--green); }
+
+  .plan-calls {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--gray2);
+    margin-bottom: 16px;
+  }
+
+  .plan-roi {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--gray);
+  }
+
+  .plan-col.recommended .plan-roi { color: var(--green); }
+
+  .plan-tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: var(--black);
+    background: var(--green);
+    padding: 2px 8px;
+    margin-bottom: 10px;
+  }
+
+  /* FUNNEL VIZ */
+  .funnel-section {
+    max-width: 900px;
+    margin: 0 auto 80px;
+    padding: 0 40px;
+  }
+
+  .section-title {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--gray2);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .funnel-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: 1px;
+  }
+
+  .funnel-step {
+    background: var(--surface);
+    padding: 24px 16px;
+    text-align: center;
+    position: relative;
+  }
+
+  .funnel-num {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--green);
+    font-variant-numeric: tabular-nums;
+    margin-bottom: 6px;
+  }
+
+  .funnel-label-text {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: var(--gray);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .funnel-sub {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--gray2);
+  }
+
+  .funnel-arrow {
+    background: var(--black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: var(--gray2);
+    padding: 0 8px;
+    width: 1px;
+    /* not a real column, handled by gaps */
+  }
+
+  /* SAVINGS BAR */
+  .savings-section {
+    max-width: 900px;
+    margin: 0 auto 80px;
+    padding: 0 40px;
+  }
+
+  .savings-bar-wrap {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    padding: 32px 40px;
+  }
+
+  .savings-compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 32px;
+  }
+
+  .compare-col-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--gray2);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .compare-big {
+    font-size: 42px;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 8px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .compare-big.green { color: var(--green); }
+
+  .compare-sub {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--gray2);
+  }
+
+  .vs-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .vs-line { flex: 1; height: 1px; background: var(--border); }
+
+  .vs-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--gray2);
+    letter-spacing: 2px;
+  }
+
+  /* BAR VIZ */
+  .bar-viz {
+    margin-bottom: 24px;
+  }
+
+  .bar-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 10px;
+  }
+
+  .bar-name {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--gray);
+    width: 160px;
+    flex-shrink: 0;
+  }
+
+  .bar-track {
+    flex: 1;
+    height: 24px;
+    background: var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .bar-fill {
+    height: 100%;
+    background: var(--gray2);
+    transition: width 0.4s ease;
+    position: relative;
+  }
+
+  .bar-fill.green { background: var(--green); }
+
+  .bar-amount {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--white);
+    min-width: 80px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* CTA */
+  .cta-section {
+    max-width: 900px;
+    margin: 0 auto 80px;
+    padding: 0 40px;
+  }
+
+  .cta-box {
+    border: 1px solid var(--green);
+    background: var(--green-dim);
+    padding: 48px 40px;
+    text-align: center;
+  }
+
+  .cta-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--green);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .cta-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 12px;
+    line-height: 1.2;
+  }
+
+  .cta-sub {
+    font-size: 14px;
+    color: var(--gray);
+    margin-bottom: 32px;
+  }
+
+  .cta-btn {
+    display: inline-block;
+    background: var(--green);
+    color: var(--black);
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 2px;
+    font-weight: 500;
+    text-transform: uppercase;
+    padding: 16px 40px;
+    text-decoration: none;
+    transition: opacity 0.15s;
+  }
+
+  .cta-btn:hover { opacity: 0.85; }
+
+  .cta-note {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--gray2);
+    margin-top: 16px;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 700px) {
+    .calc-grid { grid-template-columns: 1fr; }
+    .plan-rec-inner { grid-template-columns: 1fr; }
+    .funnel-grid { grid-template-columns: 1fr 1fr; }
+    .savings-compare { grid-template-columns: 1fr; gap: 24px; }
+    nav { padding: 0 20px; }
+    .hero { padding: 48px 20px 40px; }
+    .calc-wrapper, .funnel-section, .savings-section, .cta-section { padding: 0 20px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">24/7 Project</div>
+  <div class="nav-right">ROI Calculator · <span>Liane Schumann</span></div>
+</nav>
+
+<div class="hero">
+  <div class="hero-label">Deine Zahlen · Your Numbers</div>
+  <h1>Was bringt dir<br><em>KI-Qualifizierung</em><br>wirklich?</h1>
+  <p class="hero-sub">Gib deine echten Zahlen ein. Sieh genau, was automatisierte Lead-Qualifizierung für dein Closing-Geschäft bedeutet.<br><small style="color:var(--gray2);font-family:var(--mono);font-size:11px;margin-top:8px;display:block;">Enter your real numbers. See exactly what AI qualification means for your closing business.</small></p>
+</div>
+
+<div class="calc-wrapper">
+  <div class="calc-grid">
+
+    <!-- INPUTS -->
+    <div class="input-panel">
+      <div class="panel-label">Eingaben · Inputs</div>
+
+      <div class="input-group">
+        <div class="input-label">
+          <div class="input-name">Leads pro Monat<small>Leads per month (total inbound)</small></div>
+          <div class="input-val" id="val-leads">200</div>
+        </div>
+        <div class="slider-track">
+          <input type="range" id="sl-leads" min="50" max="1000" step="10" value="200" oninput="update()">
+        </div>
+        <div class="slider-range"><span class="slider-min">50</span><span class="slider-max">1.000</span></div>
+      </div>
+
+      <div class="input-group">
+        <div class="input-label">
+          <div class="input-name">Ø Auftragswert (€)<small>Avg. deal value per close</small></div>
+          <div class="input-val" id="val-deal">3000</div>
+        </div>
+        <div class="slider-track">
+          <input type="range" id="sl-deal" min="500" max="25000" step="500" value="3000" oninput="update()">
+        </div>
+        <div class="slider-range"><span class="slider-min">€500</span><span class="slider-max">€25.000</span></div>
+      </div>
+
+      <div class="input-group">
+        <div class="input-label">
+          <div class="input-name">Aktuelle Close-Rate (%)<small>Current close rate on qualified leads</small></div>
+          <div class="input-val" id="val-close">30</div>
+        </div>
+        <div class="slider-track">
+          <input type="range" id="sl-close" min="5" max="80" step="1" value="30" oninput="update()">
+        </div>
+        <div class="slider-range"><span class="slider-min">5%</span><span class="slider-max">80%</span></div>
+      </div>
+
+      <div class="input-group">
+        <div class="input-label">
+          <div class="input-name">% Leads aktuell unqualifiziert<small>% of leads wasting your closers' time</small></div>
+          <div class="input-val" id="val-unqual">65</div>
+        </div>
+        <div class="slider-track">
+          <input type="range" id="sl-unqual" min="20" max="90" step="5" value="65" oninput="update()">
+        </div>
+        <div class="slider-range"><span class="slider-min">20%</span><span class="slider-max">90%</span></div>
+      </div>
+
+      <div class="input-group">
+        <div class="input-label">
+          <div class="input-name">Closer-Kosten (€/Monat)<small>Cost of your closer team / month</small></div>
+          <div class="input-val" id="val-closer">5000</div>
+        </div>
+        <div class="slider-track">
+          <input type="range" id="sl-closer" min="1000" max="30000" step="500" value="5000" oninput="update()">
+        </div>
+        <div class="slider-range"><span class="slider-min">€1.000</span><span class="slider-max">€30.000</span></div>
+      </div>
+
+    </div>
+
+    <!-- OUTPUTS -->
+    <div class="output-panel">
+      <div class="panel-label">Ergebnisse · Results</div>
+
+      <div class="metric">
+        <div class="metric-label">Qualifizierte Leads / Monat<small>After AI filters unqualified contacts</small></div>
+        <div class="metric-value large" id="out-qualified">70</div>
+        <div class="metric-sub" id="out-qualified-sub">von 200 Leads · from 200 leads</div>
+      </div>
+
+      <div class="metric">
+        <div class="metric-label">Projected Revenue / Monat<small>Qualified leads × close rate × deal value</small></div>
+        <div class="metric-value large" id="out-revenue">€63.000</div>
+        <div class="metric-sub" id="out-revenue-sub">21 Abschlüsse × €3.000</div>
+      </div>
+
+      <div class="metric">
+        <div class="metric-label">Zeit gespart / Monat<small>Closer hours freed from unqualified calls</small></div>
+        <div class="metric-value" id="out-time">130 Std.</div>
+        <div class="metric-sub">∅ 30 Min. pro unqualifiziertem Lead</div>
+      </div>
+
+      <div class="metric">
+        <div class="metric-label">Monatliche Ersparnis<small>vs. handling unqualified leads manually</small></div>
+        <div class="metric-value" id="out-savings">€3.250</div>
+        <div class="metric-sub" id="out-savings-sub">Closer-Kosten für Zeit mit unqual. Leads</div>
+      </div>
+
+      <div class="metric">
+        <div class="metric-label">ROI mit 24/7 PROJECT<small>Revenue uplift vs Professional plan cost</small></div>
+        <div class="metric-value white" id="out-roi">14x</div>
+        <div class="metric-sub" id="out-roi-sub">€63.000 Umsatz · €4.499 KI-Kosten</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PLAN RECOMMENDATION -->
+  <div class="plan-rec">
+    <div class="plan-rec-inner">
+      <div class="plan-col" id="plan-starter">
+        <div class="plan-col-name">Starter</div>
+        <div class="plan-price">€699<span style="font-size:14px;font-weight:400;color:var(--gray)">/mo</span></div>
+        <div class="plan-calls">250 Anrufe / Monat</div>
+        <div class="plan-roi" id="roi-starter">ROI: —</div>
+      </div>
+      <div class="plan-col recommended" id="plan-professional">
+        <div class="plan-tag">EMPFOHLEN · RECOMMENDED</div>
+        <div class="plan-col-name">Professional</div>
+        <div class="plan-price">€4.499<span style="font-size:14px;font-weight:400;color:var(--green);opacity:0.6">/mo</span></div>
+        <div class="plan-calls">2.000 Anrufe / Monat</div>
+        <div class="plan-roi" id="roi-professional">ROI: —</div>
+      </div>
+      <div class="plan-col" id="plan-enterprise">
+        <div class="plan-col-name">Enterprise</div>
+        <div class="plan-price">€24.999<span style="font-size:14px;font-weight:400;color:var(--gray)">/mo</span></div>
+        <div class="plan-calls">5.000+ Anrufe / Monat</div>
+        <div class="plan-roi" id="roi-enterprise">ROI: —</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FUNNEL VISUALIZATION -->
+<div class="funnel-section">
+  <div class="section-title">Dein qualifizierter Funnel · Your qualified funnel</div>
+  <div class="funnel-grid">
+    <div class="funnel-step">
+      <div class="funnel-num" id="f1">200</div>
+      <div class="funnel-label-text">Leads rein</div>
+      <div class="funnel-sub">Total eingehend</div>
+    </div>
+    <div class="funnel-step" style="background:var(--surface2)">
+      <div class="funnel-num" id="f2" style="color:var(--gray)">130</div>
+      <div class="funnel-label-text">KI filtert aus</div>
+      <div class="funnel-sub">Unqualifiziert</div>
+    </div>
+    <div class="funnel-step">
+      <div class="funnel-num" id="f3">70</div>
+      <div class="funnel-label-text">Qualifiziert</div>
+      <div class="funnel-sub">Deine Closer sehen</div>
+    </div>
+    <div class="funnel-step" style="background:var(--surface2)">
+      <div class="funnel-num" id="f4">21</div>
+      <div class="funnel-label-text">Abschlüsse</div>
+      <div class="funnel-sub">Bei deiner Close-Rate</div>
+    </div>
+    <div class="funnel-step" style="border-left:2px solid var(--green)">
+      <div class="funnel-num" id="f5">€63K</div>
+      <div class="funnel-label-text">Umsatz</div>
+      <div class="funnel-sub">Pro Monat</div>
+    </div>
+  </div>
+</div>
+
+<!-- SAVINGS COMPARISON -->
+<div class="savings-section">
+  <div class="section-title">Was du heute verlierst · What you lose today</div>
+  <div class="savings-bar-wrap">
+    <div class="savings-compare">
+      <div>
+        <div class="compare-col-label">Ohne KI · Without AI</div>
+        <div class="compare-big" id="comp-without">€3.250</div>
+        <div class="compare-sub">Closer-Kosten für unqualifizierte Leads / Monat</div>
+      </div>
+      <div>
+        <div class="compare-col-label">Mit 24/7 PROJECT · With AI</div>
+        <div class="compare-big green" id="comp-with">€4.499</div>
+        <div class="compare-sub" id="comp-with-sub">Professional · 2.000 Anrufe qualifiziert</div>
+      </div>
+    </div>
+
+    <div class="vs-divider">
+      <div class="vs-line"></div>
+      <div class="vs-label">VERGLEICH · COMPARISON</div>
+      <div class="vs-line"></div>
+    </div>
+
+    <div class="bar-viz">
+      <div class="bar-row">
+        <div class="bar-name">Closer-Zeit verschwendet</div>
+        <div class="bar-track">
+          <div class="bar-fill" id="bar-waste" style="width:65%"></div>
+        </div>
+        <div class="bar-amount" id="bar-waste-val">130 Std.</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-name">Entgangener Umsatz</div>
+        <div class="bar-track">
+          <div class="bar-fill" id="bar-lost" style="width:40%"></div>
+        </div>
+        <div class="bar-amount" id="bar-lost-val">€63K Potenzial</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-name">Mit KI: Qualifiziert</div>
+        <div class="bar-track">
+          <div class="bar-fill green" id="bar-qual" style="width:35%"></div>
+        </div>
+        <div class="bar-amount" id="bar-qual-val">70 Leads</div>
+      </div>
+    </div>
+
+    <div style="font-family:var(--mono);font-size:11px;color:var(--gray);border-top:1px solid var(--border);padding-top:20px;">
+      → Jeder Monat ohne KI-Qualifizierung: <span style="color:var(--green)" id="monthly-cost-delay">€3.250</span> verschwendete Closer-Zeit + entgangene Umsätze.<br>
+      <span style="color:var(--gray2)">Every month without AI qualification: wasted closer time + missed revenue.</span>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-section">
+  <div class="cta-box">
+    <div class="cta-eyebrow">Nächster Schritt · Next Step</div>
+    <div class="cta-title">Starte deinen Professional Trial.<br><span style="color:var(--green)">Deine Closer sprechen nur noch mit Kaufinteressenten.</span></div>
+    <div class="cta-sub">Keine langen Vertragslaufzeiten. Live in wenigen Tagen. DSGVO-konform.<br>No long-term contract. Live within days. GDPR compliant. EU data residency.</div>
+    <a href="https://calendly.com/wodrichtermin/strategy-call" class="cta-btn">Strategy Call buchen →</a>
+    <div class="cta-note">Oder starte direkt mit dem €1-Trial · Or start directly with the €1 trial</div>
+  </div>
+</div>
+
+<script>
+function fmt(n) {
+  return n >= 1000 ? '€' + (n/1000).toFixed(n%1000===0?0:1).replace('.',',') + 'K' : '€' + Math.round(n).toLocaleString('de-DE');
+}
+
+function fmtNum(n) {
+  return Math.round(n).toLocaleString('de-DE');
+}
+
+function update() {
+  const leads    = +document.getElementById('sl-leads').value;
+  const deal     = +document.getElementById('sl-deal').value;
+  const closeR   = +document.getElementById('sl-close').value / 100;
+  const unqual   = +document.getElementById('sl-unqual').value / 100;
+  const closerCost = +document.getElementById('sl-closer').value;
+
+  // Display input values
+  document.getElementById('val-leads').textContent  = fmtNum(leads);
+  document.getElementById('val-deal').textContent   = '€' + fmtNum(deal);
+  document.getElementById('val-close').textContent  = Math.round(+document.getElementById('sl-close').value) + '%';
+  document.getElementById('val-unqual').textContent = Math.round(+document.getElementById('sl-unqual').value) + '%';
+  document.getElementById('val-closer').textContent = '€' + fmtNum(closerCost);
+
+  // Calculations
+  const qualLeads  = Math.round(leads * (1 - unqual));
+  const closes     = Math.round(qualLeads * closeR);
+  const revenue    = closes * deal;
+  const hoursWasted = Math.round(leads * unqual * 0.5); // 30 min avg per unqualified lead
+  const closerWaste = Math.round(closerCost * unqual);  // % of closer cost wasted on unqual
+  const roiStarter = revenue > 0 ? (revenue / 699).toFixed(1) + 'x' : '—';
+  const roiPro     = revenue > 0 ? (revenue / 4499).toFixed(1) + 'x' : '—';
+  const roiEnt     = revenue > 0 ? (revenue / 24999).toFixed(1) + 'x' : '—';
+
+  // Outputs
+  document.getElementById('out-qualified').textContent = fmtNum(qualLeads);
+  document.getElementById('out-qualified-sub').textContent = 'von ' + fmtNum(leads) + ' Leads · from ' + fmtNum(leads) + ' leads';
+  document.getElementById('out-revenue').textContent = fmt(revenue);
+  document.getElementById('out-revenue-sub').textContent = fmtNum(closes) + ' Abschlüsse × €' + fmtNum(deal);
+  document.getElementById('out-time').textContent = fmtNum(hoursWasted) + ' Std.';
+  document.getElementById('out-savings').textContent = fmt(closerWaste);
+  document.getElementById('out-savings-sub').textContent = Math.round(unqual*100) + '% Closer-Kosten verschwendet';
+  document.getElementById('out-roi').textContent = roiPro;
+  document.getElementById('out-roi-sub').textContent = fmt(revenue) + ' Umsatz · €4.499 KI-Kosten';
+
+  // Plan ROI
+  document.getElementById('roi-starter').textContent = 'ROI: ' + roiStarter;
+  document.getElementById('roi-professional').textContent = 'ROI: ' + roiPro;
+  document.getElementById('roi-enterprise').textContent = 'ROI: ' + roiEnt;
+
+  // Funnel
+  document.getElementById('f1').textContent = fmtNum(leads);
+  document.getElementById('f2').textContent = fmtNum(Math.round(leads * unqual));
+  document.getElementById('f3').textContent = fmtNum(qualLeads);
+  document.getElementById('f4').textContent = fmtNum(closes);
+  document.getElementById('f5').textContent = revenue >= 1000 ? '€' + Math.round(revenue/1000) + 'K' : fmt(revenue);
+
+  // Comparison
+  document.getElementById('comp-without').textContent = fmt(closerWaste);
+  document.getElementById('comp-with').textContent = '€4.499';
+  document.getElementById('bar-waste-val').textContent = fmtNum(hoursWasted) + ' Std.';
+  document.getElementById('bar-lost-val').textContent = fmt(revenue) + ' Potenzial';
+  document.getElementById('bar-qual-val').textContent = fmtNum(qualLeads) + ' Leads';
+  document.getElementById('monthly-cost-delay').textContent = fmt(closerWaste);
+
+  // Bar widths
+  const maxRevenue = leads * deal * closeR;
+  document.getElementById('bar-waste').style.width = Math.min(95, (unqual * 100)) + '%';
+  document.getElementById('bar-lost').style.width = Math.min(95, (revenue / (maxRevenue || 1)) * 80 + 15) + '%';
+  document.getElementById('bar-qual').style.width = Math.min(95, ((1-unqual) * 100)) + '%';
+
+  // Plan recommendation
+  document.querySelectorAll('.plan-col').forEach(c => c.classList.remove('recommended'));
+  document.querySelector('.plan-col .plan-tag') && document.querySelector('.plan-tag').remove();
+
+  let recommended = 'plan-professional';
+  if (leads <= 100) recommended = 'plan-starter';
+  if (leads >= 500) recommended = 'plan-enterprise';
+
+  const rec = document.getElementById(recommended);
+  rec.classList.add('recommended');
+  if (!rec.querySelector('.plan-tag')) {
+    const tag = document.createElement('div');
+    tag.className = 'plan-tag';
+    tag.textContent = 'EMPFOHLEN · RECOMMENDED';
+    rec.insertBefore(tag, rec.firstChild);
+  }
+}
+
+update();
+</script>
+</body>
+</html>
