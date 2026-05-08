@@ -597,7 +597,7 @@
                 <span class="de">KI-Agenten, die f&uuml;r dich telefonieren, Leads qualifizieren und Termine buchen. F&uuml;r Unternehmen, die Umsatz skalieren wollen &mdash; ohne mehr Personal.</span>
             </p>
             <div class="hero-cta-area vy">
-                <a href="https://www.digistore24.com/product/674912" class="trial-badge">
+                <a href="https://www.digistore24.com/product/514981" class="trial-badge">
                     <span class="en"><span class="euro">&euro;1</span> &mdash; Try 14 days, cancel anytime</span>
                     <span class="de"><span class="euro">&euro;1</span> &mdash; 14 Tage testen, jederzeit k&uuml;ndbar</span>
                 </a>
@@ -1033,7 +1033,7 @@
                     <li><span class="en">No setup fee</span><span class="de">Keine Einrichtungsgeb&uuml;hr</span></li>
                     <li style="color:var(--accent)"><span class="en">+ &euro;99/mo: Never miss an inbound call either</span><span class="de">+ &euro;99/Mo.: Auch eingehende Anrufe nie verpassen</span></li>
                 </ul>
-                <a href="https://www.digistore24.com/product/674912" class="pricing-card-cta cta-trial">
+                <a href="https://www.digistore24.com/product/514981" class="pricing-card-cta cta-trial">
                     <span class="en">&euro;1 Trial &mdash; 14 days &rarr;</span>
                     <span class="de">&euro;1 Trial &mdash; 14 Tage &rarr;</span>
                 </a>
@@ -1093,7 +1093,7 @@
             <span class="en">Including unrealized revenue from deals your AI agent would close. That number compounds.</span>
             <span class="de">Inklusive entgangener Ums&auml;tze durch Deals, die dein KI-Agent abschlie&szlig;en w&uuml;rde. Die Zahl summiert sich.</span>
         </p>
-        <a href="https://www.digistore24.com/product/674912" class="cta-button">
+        <a href="https://www.digistore24.com/product/514981" class="cta-button">
             <span class="en">Start for &euro;1 &rarr;</span>
             <span class="de">F&uuml;r &euro;1 starten &rarr;</span>
         </a>
@@ -1209,7 +1209,7 @@
             var tier, aiCalls, aiCost, tierCTA;
             if (humanCalls <= 250) {
                 tier = 'Starter'; aiCalls = 250; aiCost = 699;
-                tierCTA = '<a href="https://www.digistore24.com/product/674912" class="trial-badge" style="font-size:12px;padding:14px 28px"><span class="en">\u20AC1 Trial \u2014 14 days \u2192</span><span class="de">F\u00FCr \u20AC1 starten \u2192</span></a>';
+                tierCTA = '<a href="https://www.digistore24.com/product/514981" class="trial-badge" style="font-size:12px;padding:14px 28px"><span class="en">\u20AC1 Trial \u2014 14 days \u2192</span><span class="de">F\u00FCr \u20AC1 starten \u2192</span></a>';
             } else if (humanCalls <= 2000) {
                 tier = 'Professional'; aiCalls = 2000; aiCost = 4499;
                 tierCTA = '<a href="https://calendly.com/wodrichtermin/strategy-call" class="trial-badge" style="font-size:12px;padding:14px 28px"><span class="en">Book strategy call \u2192</span><span class="de">Strategy Call buchen \u2192</span></a>';
@@ -1298,6 +1298,63 @@
         }, { threshold: 0.15 });
         for (var i = 0; i < cards.length; i++) cardObs.observe(cards[i]);
 
+    })();
+    </script>
+
+    <!-- COOKIE BANNER -->
+    <div id="cookie-banner" style="
+        display: none;
+        position: fixed;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 9999;
+        width: calc(100% - 48px);
+        max-width: 680px;
+        background: #18181B;
+        border: 1px solid #27272A;
+        padding: 18px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    ">
+        <div style="display:flex;align-items:center;gap:12px;flex:1;min-width:0;">
+            <svg style="flex-shrink:0;width:20px;height:20px;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L4 5v6c0 5.25 3.5 10.15 8 11.35C16.5 21.15 20 16.25 20 11V5l-8-3z" fill="#60F0A0" fill-opacity="0.12" stroke="#60F0A0" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="#60F0A0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <p style="font-family:'DM Sans',sans-serif;font-size:13px;color:#A1A1AA;line-height:1.5;margin:0;">
+                <strong style="color:#FAFAFA;font-weight:500;">Keine Tracking-Cookies.</strong>
+                Diese Seite verwendet keine Analyse- oder Werbe-Cookies. Nur technisch notwendige Anfragen (z.B. Schriftarten).
+                <a href="/datenschutz" style="color:#60F0A0;text-decoration:none;white-space:nowrap;">Datenschutz →</a>
+            </p>
+        </div>
+        <button id="cookie-dismiss" style="
+            flex-shrink:0;
+            background: #60F0A0;
+            color: #09090B;
+            border: none;
+            padding: 8px 18px;
+            font-family:'JetBrains Mono',monospace;
+            font-size:11px;
+            letter-spacing:1px;
+            text-transform:uppercase;
+            cursor:pointer;
+            font-weight:700;
+            white-space:nowrap;
+        ">OK</button>
+    </div>
+
+    <script>
+    (function() {
+        var banner = document.getElementById('cookie-banner');
+        var btn = document.getElementById('cookie-dismiss');
+        if (!localStorage.getItem('cookie_acknowledged')) {
+            banner.style.display = 'flex';
+        }
+        btn.addEventListener('click', function() {
+            localStorage.setItem('cookie_acknowledged', '1');
+            banner.style.display = 'none';
+        });
     })();
     </script>
 </body>
